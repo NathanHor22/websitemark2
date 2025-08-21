@@ -8,34 +8,50 @@
 }
 
 /* Intro styling */
+
+/* To move the entire intro container EXCLUDE IMAGE */
+.intro {
+    position: absolute;
+    top: 190px;
+    left: 500px;
+    max-width: 900px;
+}
+/* To move the image */
+.profile-img {
+    position: absolute;
+    top: 100px;
+    left: -80px;
+    width: 700px;
+    height: 650px;
+}
+
 .first-section {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    background: url('img/intro-bg.png') no-repeat center center;
-    background-size: cover;
 }
+
+body {
+    background: url('img/intro-bg.png') repeat;
+    background-size: auto;
+}
+
 .first-section-content {
     display: flex;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 1rem;
 }
 
-.profile-img {
-    position: absolute;
-    top: 60px;
-    left: -70px;
-    width: 700px;
-    height: 650px;
+
+
+
+hr {
+    width: 900px; /* Set to your desired length */
+    margin: 1em auto; /* Optional: center the line */
+    border: 1px solid #000; /* Optional: set line thickness and color */
 }
 
-.intro {
-    position: absolute;
-    top: 120px;
-    left: 550px;
-    max-width: 700px;
-}
 .name {
     font-family: 'Anthony Gilford',sans-serif;
     font-size: 4em;
@@ -44,11 +60,20 @@
     left: 90px;
 }
 
-.Founder {
-    position: absolute;
+#Dev {
+    position: relative;
+    left: 50px;
+}
+#intro-text {
+    position: relative;
+    left: -80px;
     top: 0px;
-    left: 90px;
-    font-size: 1em;
+    font-size: 1.3em;
+}
+
+#Photo {
+    position: relative;
+    left: 100px;
 }
 
 .description {
@@ -66,13 +91,13 @@
 }
 .social-icons {
     display: flex;
-    flex-direction: column;
-    gap: 1em;
-    position: absolute;
-    right: 2em;
-    top: 2em;
+    flex-direction: row;
+    gap: 0.3em; /* Adds space between icons */
+    position: relative;
+    left: 780px;
+    top: -180px;
 }
 .social-icons img {
-    width: 22px;
-    height: 22px;
+    width: 36px;
+    height: 30px;
 }
