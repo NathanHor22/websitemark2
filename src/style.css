@@ -25,11 +25,17 @@
     height: 650px;
 }
 
-.first-section {
-    display: flex;
+.intro-section {
+    display: none;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
+    transform: translateY(100px);
+    transition: transform 1.2s;
+}
+
+.intro-section.visible {
+    transform: translateY(0);
 }
 
 body {
@@ -37,13 +43,11 @@ body {
     background-size: auto;
 }
 
-.first-section-content {
+.intro-section-content {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
 }
-
-
 
 
 hr {
