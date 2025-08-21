@@ -47,8 +47,9 @@ body {
 
 
 hr {
-    width: 900px; /* Set to your desired length */
-    margin: 1em auto; /* Optional: center the line */
+    position: relative;
+    left: -90px;
+    width: 1000px; /* Set to your desired length */
     border: 1px solid #000; /* Optional: set line thickness and color */
 }
 
