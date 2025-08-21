@@ -1,5 +1,78 @@
-.title {
-    font-size: 2em;
-    color: darkblue;
-    text-align: center;
+
+/* Fonts */
+@font-face {
+    font-family: 'Anthony Gilford';
+    src: url('fonts/AnthonyGilford.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Intro styling */
+.first-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: url('img/intro-bg.png') no-repeat center center;
+    background-size: cover;
+}
+.first-section-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.profile-img {
+    position: absolute;
+    top: 60px;
+    left: -70px;
+    width: 700px;
+    height: 650px;
+}
+
+.intro {
+    position: absolute;
+    top: 120px;
+    left: 550px;
+    max-width: 700px;
+}
+.name {
+    font-family: 'Anthony Gilford',sans-serif;
+    font-size: 4em;
+    position: absolute;
+    top: -50px;
+    left: 90px;
+}
+
+.Founder {
+    position: absolute;
+    top: 0px;
+    left: 90px;
+    font-size: 1em;
+}
+
+.description {
+    margin: 1em 0;
+}
+.buttons button {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5em 1.5em;
+    margin: 0.5em;
+    cursor: pointer;
+    font-size: 1em;
+}
+.social-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position: absolute;
+    right: 2em;
+    top: 2em;
+}
+.social-icons img {
+    width: 22px;
+    height: 22px;
 }
