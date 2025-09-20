@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Import AnthonyGilford font */
+@font-face {
+  font-family: 'AnthonyGilford';
+  src: url('fonts/AnthonyGilford.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Import SergioUI font */
+@font-face {
+  font-family: 'SergioUI';
+  src: url('fonts/SergioUI.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+    --font-sans: 'AnthonyGilford', sans-serif;
+    --font-serif: 'SergioUI', serif;
+}
