@@ -1,15 +1,11 @@
 /*! tailwindcss v4.1.13 | MIT License | https://tailwindcss.com */
-@layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: 'AnthonyGilford', sans-serif;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-gray-900: oklch(21% 0.034 264.665);
-    --text-9xl: 8rem;
-    --text-9xl--line-height: 1;
-    --tracking-tight: -0.025em;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -178,38 +174,24 @@
   .flex-row {
     flex-direction: row;
   }
-  .text-9xl {
-    font-size: var(--text-9xl);
-    line-height: var(--tw-leading, var(--text-9xl--line-height));
-  }
-  .tracking-tight {
-    --tw-tracking: var(--tracking-tight);
-    letter-spacing: var(--tracking-tight);
-  }
-  .text-gray-900 {
-    color: var(--color-gray-900);
-  }
 }
 @font-face {
-  font-family: 'AnthonyGilford';
-  src: url('fonts/AnthonyGilford.otf') format('opentype');
+  font-family: "SergioUI";
+  src: url("./fonts/SergioUI.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'SergioUI';
-  src: url('fonts/SergioUI.ttf') format('truetype');
+  font-family: "AnthonyGilford";
+  src: url("./fonts/AnthonyGilford.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
-@property --tw-tracking {
-  syntax: "*";
-  inherits: false;
-}
-@layer properties {
-  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
-    *, ::before, ::after, ::backdrop {
-      --tw-tracking: initial;
-    }
+@layer utilities {
+  .font-SergioUI {
+    font-family: "SergioUI", sans-serif;
+  }
+  .font-AnthonyGilford {
+    font-family: "AnthonyGilford", sans-serif;
   }
 }
