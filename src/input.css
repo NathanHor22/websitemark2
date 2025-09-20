@@ -14,6 +14,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "RobotoMono";
+  src: url("./fonts/RobotoMono.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer utilities {
   .font-SergioUI {
     font-family: "SergioUI", sans-serif;
@@ -21,4 +28,16 @@
   .font-AnthonyGilford {
     font-family: "AnthonyGilford", sans-serif;
   }
+  .font-RobotoMono {
+    font-family: "RobotoMono", sans-serif;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in;
+  }
+
 }
