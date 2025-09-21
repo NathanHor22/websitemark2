@@ -9,7 +9,7 @@
     <link href="./output.css" rel="stylesheet">
 </head>
 <body>
-  <section class ="pt-8 flex flex-col md:flex-row items-center animate-fadeIn " id="1stsection">
+  <section class ="pt-15 flex flex-col md:flex-row items-center animate-fadeIn" id="1stsection">
       <!-- Left column: Profile picture (desktop only) -->
       <div class="hidden md:flex justify-center items-center md:w-1/2">
         <img class="rounded-full h-auto w-196 object-cover" src="img/hor.png" alt="" />
@@ -25,7 +25,7 @@
           <!-- Profile image: visible only on mobile -->
           <img class="rounded-full h-auto w-196 object-cover my-8 md:hidden" src="img/hor.png" alt="" />
         <div class ="flex flex-row ml-5 mt-5 columns-4 justify-center " id="labels">
-            <span class="font-RobotoMono text-center text-3m md:text-left md:text-8m">
+            <span class="font-RobotoMono text-center text-3m md:text-left md:text-lg">
               Founder of Syntech Solution
               <br>Java & Unity Developer
               <br>Photographer & Videographer
@@ -47,36 +47,46 @@
               </a> 
           </div>
           <hr class="w-7/8 mx-auto border-grey-900 mt-4">
-          <p><span class = "font-RobotoMono block mt-5 ml-7 font-SergioUI text-2xl" > About me </span> <br><span class = "font-RobotoMono block mr-8 ml-5 font-SergioUI text-sm md:text-3m md:mr-12"> BSc Computer Science (Game Development & Multimedia) graduate from the University of Sussex with a strong Java foundation and a growing portfolio of projects. Currently undertaking the TechNative Digital Software Development Bootcamp and McKinsey Forward program, while actively engaging in Brighton’s tech ecosystem. As founder of Syntech Solutions, I am developing a VR training platform with custom haptic gloves, reflecting my drive for continuous learning and impactful tech innovation.</span></p>
+          <p><span class = "font-RobotoMono block mt-5 ml-7 font-SergioUI text-2xl" > About me </span> <br><span class = "font-RobotoMono text-justify block mr-8 ml-5 font-SergioUI text-sm md:text-lg md:mr-12"> BSc Computer Science (Game Development & Multimedia) graduate from the University of Sussex with a strong Java foundation and a growing portfolio of projects. Currently undertaking the TechNative Digital Software Development Bootcamp and McKinsey Forward program, while actively engaging in Brighton’s tech ecosystem. As founder of Syntech Solutions, I am developing a VR training platform with custom haptic gloves, reflecting my drive for continuous learning and impactful tech innovation.</span></p>
     </div>
   </section>
-  <section class="animate-fadeIn flex flex-col justify-center items-center mt-10" id="2ndsection">
-    <div id="headings">
+<section class="animate-fadeIn pt-10 flex flex-col md:flex-row justify-center items-start md:pt-40" id="2ndsection">
+  <!-- Who we are (left on desktop, below VR model on mobile) -->
+  <div id="who-we-are" class="order-2 md:order-1 md:w-1/3 flex flex-col items-center md:items-start px-7 md:pt-60">
+    <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl md:pl-8">Who we are</h3>
+    <p>
+      <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg md:px-7">
+        Syntech Solutions delivers cost-effective, sustainable VR solutions that transform education. By combining VR with haptic glove technology, we create immersive, hands-on training, especially for medical students practicing skills like suturing in safe, engaging digital environments.
+      </span>
+    </p>
+  </div>
+  <!-- VR Model (center on desktop, above Who we are on mobile) -->
+  <div id="vrmodel" class="order-1 md:order-2 md:w-1/3 flex flex-col items-center px-4">
+    <div id="headings" class="mb-4">
       <h2>
-        <span class="font-RobotoMono text-3xl ml-2 text-center md:text-7xl ">Syntech Solutions</span>
-        <br><span class="font-RobotoMono text-sm flex text-center justify-center">Redefining the learning experience <br>with VR</span>
+        <span class="font-RobotoMono text-3xl ml-2 text-center block md:inline md:text-5xl">Syntech Solutions</span>
+        <span class="font-RobotoMono text-sm text-center block mt-2">Redefining the learning experience <br>with VR</span>
       </h2>
     </div>
-    <div id="vrmodel" class="w-full flex justify-center items-center">      
-        <model-viewer
-          auto-rotate
-          loading="eager"
-          reveal="auto"
-          field-of-view="30deg"
-          src="models/vrheadset.glb"
-          style="width: 640px; height: 480px;">
-        </model-viewer>
-    </div>
-    <div id="who we are">
-      <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl ">Who we are</h3>
-      <p><span class="font-RobotoMono text-m px-7 md:px-16 text-justify block">Syntech Solutions delivers cost-effective, sustainable VR solutions that transform education. By combining VR with haptic glove technology, we create immersive, hands-on training, especially for medical students practicing skills like suturing in safe, engaging digital environments.</span></p>
-    </div>
-    <div id="what we do">
-      <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl">What we do</h3>
-      <p><span class="font-RobotoMono text-m px-7 md:px-16 text-justify block">Syntech Solutions is currently developing Synthmed, a VR platform built for medical career fairs that transforms them into hands-on recruitment labs. Using affordable ESP32-powered haptic gloves, Synthmed delivers realistic, 5–12 minute simulations with instant feedback and micro-credentials for students, while providing recruiters with real-time performance insights. This scalable, gamified approach redefines medical recruitment by shifting from resumes to proof of skill.</span></p>
-    </div>
-    <h2 class="mt-3 text-3xl text-center">Partner with us</h2>
-  </section>
+    <model-viewer
+      auto-rotate
+      loading="eager"
+      reveal="auto"
+      field-of-view="30deg"
+      src="models/vrheadset.glb"
+      class="w-[340px] h-[260px] md:w-[820px] md:h-[700px]">
+    </model-viewer>
+  </div>
+  <!-- What we do (right) -->
+  <div id="what-we-do" class="order-3 md:order-3 md:w-1/3 flex flex-col items-center md:items-start md:px-7 md:pt-60">
+    <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl md:pl-8">What we do</h3>
+    <p>
+      <span class="font-RobotoMono text-sm px-9 text-justify block md:text-lg md:px-7">
+        Syntech Solutions is currently developing Synthmed, a VR platform built for medical career fairs that transforms them into hands-on recruitment labs. Using affordable ESP32-powered haptic gloves, Synthmed delivers realistic, 5–12 minute simulations with instant feedback and micro-credentials for students, while providing recruiters with real-time performance insights. This scalable, gamified approach redefines medical recruitment by shifting from resumes to proof of skill.
+      </span>
+    </p>
+  </div>
+</section>
   <script src="app.js"></script>
 </body>
 </html>
