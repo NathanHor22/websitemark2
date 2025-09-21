@@ -40,4 +40,8 @@
     animation: fadeIn 0.3s ease-in;
   }
 
+  html {
+  scroll-behavior: smooth;
+  }
+
 }
