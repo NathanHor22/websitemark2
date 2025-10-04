@@ -62,34 +62,34 @@
     </div>
 
     <!-- Main Content Row -->
-    <div class="flex flex-col md:flex-row justify-center items-start w-full max-w-7xl">
+    <div class="flex flex-col md:flex-row md:justify-between items-start w-full md:w-screen md:-mx-8">
       <!-- VR Model (first on mobile, center on desktop) -->
-      <div id="vrmodel" class="w-full md:w-1/3 md:order-2 flex justify-center items-center mb-8 md:mb-0 overflow-hidden">
+      <div id="vrmodel" class="w-full md:w-2/5 md:order-2 flex justify-center items-center mb-8 md:mb-0">
         <model-viewer
           auto-rotate
           loading="eager"
           reveal="auto"
           field-of-view="30deg"
           src="models/vrheadset.glb"
-          class="w-[340px] h-[260px] md:w-[820px] md:h-[700px]">
+          class="w-[340px] h-[260px] md:w-[800px] md:h-[700px]">
         </model-viewer>
-    </div>
+      </div>
 
       <!-- Who we are (second on mobile, left on desktop) -->
-      <div id="who-we-are" class="md:w-1/3 md:order-1 flex flex-col items-center md:items-start px-7 mb-8 md:mb-0 md:pt-60">
-        <h3 class="font-RobotoMono text-2xl mb-3 text-center md:text-3xl">Who we are</h3>
+      <div id="who-we-are" class="w-full md:w-1/4 md:order-1 flex flex-col items-center md:items-start px-7 mb-8 md:mb-0 md:pt-60 md:pl-8 md:ml-10">
+        <h3 class="font-RobotoMono text-2xl mb-3 text-center md:text-left md:text-3xl">Who we are</h3>
         <p>
-          <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg">
+          <span class="font-RobotoMono text-sm text-justify block md:text-lg">
             Syntech Solutions delivers cost-effective, sustainable VR solutions that transform education. By combining VR with haptic glove technology, we create immersive, hands-on training, especially for medical students practicing skills like suturing in safe, engaging digital environments.
           </span>
         </p>
       </div>
 
       <!-- What we do (third on mobile, right on desktop) -->
-      <div id="what-we-do" class="md:w-1/3 md:order-3 flex flex-col items-center md:items-start px-7 md:pt-60">
-        <h3 class="font-RobotoMono text-2xl mt-2 mb-3 text-center md:text-3xl">What we do</h3>
+      <div id="what-we-do" class="w-full md:w-1/4 md:order-3 flex flex-col items-center md:items-start px-7 mb-8 md:mb-0 md:pt-60 md:pr-8 md:mr-10">
+        <h3 class="font-RobotoMono text-2xl mt-2 mb-3 text-center md:text-left md:text-3xl">What we do</h3>
         <p>
-          <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg">
+          <span class="font-RobotoMono text-sm text-justify block md:text-lg">
             Syntech Solutions is currently developing Synthmed, a VR platform built for medical career fairs that transforms them into hands-on recruitment labs. Using affordable ESP32-powered haptic gloves, Synthmed delivers realistic, 5–12 minute simulations with instant feedback and micro-credentials for students, while providing recruiters with real-time performance insights. This scalable, gamified approach redefines medical recruitment by shifting from resumes to proof of skill.
           </span>
         </p>
@@ -108,7 +108,7 @@
   </div>
   <!-- Right: Projects grid -->
   <div id="projects" class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 px-4">
-      <div id="personal website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 ">
+      <div id="personal website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
           <span class="font-RobotoMono text-center">This website! 😁 </span>
         <a href="https://github.com/NathanHor22/websitemark2" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -127,7 +127,7 @@
               </p>
           </div>
       </div>
-      <div id="Cheap game search website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 ">
+      <div id="Cheap game search website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
           <span class="font-RobotoMono text-center">CheapShark API Deals Tracker</span>
         <a href="https://nathanhor22.github.io/TechNative-Javascript-tutorial/" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -146,7 +146,7 @@
               </p>
           </div>
       </div>
-      <div id="Pure css website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 ">
+      <div id="Pure css website" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-5 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
           <span class="font-RobotoMono text-center">Company Portfolio Website (HTML & CSS)</span>
         <a href="https://nathanhor22.github.io/TechNative-Javascript-tutorial/" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -165,7 +165,7 @@
               </p>
           </div>
       </div>
-      <div id="hangmangame" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-2">
+      <div id="hangmangame" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-2 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
           <span class="font-RobotoMono text-center">Hangman game-Java</span>
         <a href="https://github.com/NathanHor22/FYP-NH" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -184,7 +184,7 @@
               </p>
           </div>
       </div>
-      <div id="weatherapp" class="box border rounded-md w-96 h-65 flex flex-col justify-start pt-2">
+      <div id="weatherapp" class="box border rounded-md w-96 h-65 flex flex-col justify-start pt-2 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
         <span class="font-RobotoMono text-center">Weather App-Java</span>
       <a href="https://github.com/NathanHor22/Java-weather-app" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -203,7 +203,7 @@
                   </p>
               </div>
       </div>
-      <div id="3DHorrorgame" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-2">
+      <div id="3DHorrorgame" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-2 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
           <span class="font-RobotoMono text-center">3D Survival Horror Game-Unity</span>
         <a href="https://github.com/NathanHor22/FYP-NH" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -225,6 +225,6 @@
 
     </div>
   </section>
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
