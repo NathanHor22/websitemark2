@@ -40,6 +40,32 @@
     animation: fadeIn 0.3s ease-in;
   }
 
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .typewriter-cursor {
+    animation: blink 1s infinite;
+  }
+
+  /* Typewriter text styling - removed animation from here */
+  .txt {
+    border-right: 0.2rem solid #777;
+  }
+
+  /* Separate cursor that blinks */
+  .txt::after {
+    content: '';
+    border-right: 0.2rem solid #777;
+    animation: blink 1s infinite;
+  }
+
+  /* Remove spacing between typewriter elements */
+  #typewriter-text {
+    display: inline;
+  }
+
   html {
   scroll-behavior: smooth;
   }
