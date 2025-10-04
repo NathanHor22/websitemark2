@@ -29,7 +29,7 @@
             <a href="#2ndsection" class="text-blue-600 underline cursor-pointer">
               Founder of Syntech Solution
             </a>
-              <br>Java & Unity Developer
+              <br>Software Developer
               <br>Photographer & Videographer
             </span>
           </div>
@@ -52,53 +52,64 @@
           <p><span class = "font-RobotoMono block mt-5 ml-7 font-SergioUI text-2xl" > About me </span> <br><span class = "font-RobotoMono text-justify block mr-8 ml-5 font-SergioUI text-sm md:text-lg md:mr-12"> BSc Computer Science (Game Development & Multimedia) graduate from the University of Sussex with a strong Java foundation and a growing portfolio of projects. Currently undertaking the TechNative Digital Software Development Bootcamp and McKinsey Forward program, while actively engaging in Brighton’s tech ecosystem. As founder of Syntech Solutions, I am developing a VR training platform with custom haptic gloves, reflecting my drive for continuous learning and impactful tech innovation.</span></p>
     </div>
   </section>
-  <section id="headings" class=" mt-32 flex flex-col items-center justify-center w-full">
+  <section id="2ndsection" class="animate-fadeIn flex flex-col items-center mt-32 mb-32">
+    <!-- Section Header -->
+    <div id="headings" class="flex flex-col items-center justify-center w-full mt-5">
       <h2>
         <span class="font-RobotoMono text-3xl text-center block md:inline md:text-5xl">Syntech Solutions</span>
         <span class="font-RobotoMono text-sm text-center block mt-2">Redefining the learning experience <br>with VR</span>
       </h2>
-  </section>
-  <section id="2ndsection" class="animate-fadeIn flex flex-col md:flex-row justify-center items-start" >
-  <!-- Who we are (left on desktop, below VR model on mobile) -->
-  <div id="who-we-are" class="order-2 md:order-1 md:w-1/3 flex flex-col items-center md:items-start px-7 md:pt-60">
-    <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl md:pl-8">Who we are</h3>
-    <p>
-      <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg md:px-7">
-        Syntech Solutions delivers cost-effective, sustainable VR solutions that transform education. By combining VR with haptic glove technology, we create immersive, hands-on training, especially for medical students practicing skills like suturing in safe, engaging digital environments.
-      </span>
-    </p>
-  </div>
-  <!-- VR Model (center on desktop, above Who we are on mobile) -->
-  <div id="vrmodel" class="order-1 md:order-2 md:w-1/3 flex justify-center items-center px-4">
+    </div>
 
-    <model-viewer
-      auto-rotate
-      loading="eager"
-      reveal="auto"
-      field-of-view="30deg"
-      src="models/vrheadset.glb"
-      class="w-[340px] h-[260px] md:w-[820px] md:h-[700px]">
-    </model-viewer>
-  </div>
-  <!-- What we do (right) -->
-  <div id="what-we-do" class="order-3 md:order-3 md:w-1/3 flex flex-col items-center md:items-start md:px-7 md:pt-60">
-    <h3 class="font-RobotoMono text-2xl mt-5 mb-3 text-center md:text-5xl md:pl-8">What we do</h3>
-    <p>
-      <span class="font-RobotoMono text-sm px-9 text-justify block md:text-lg md:px-7">
-        Syntech Solutions is currently developing Synthmed, a VR platform built for medical career fairs that transforms them into hands-on recruitment labs. Using affordable ESP32-powered haptic gloves, Synthmed delivers realistic, 5–12 minute simulations with instant feedback and micro-credentials for students, while providing recruiters with real-time performance insights. This scalable, gamified approach redefines medical recruitment by shifting from resumes to proof of skill.
-      </span>
-    </p>
-  </div>
+    <!-- Main Content Row -->
+    <div class="flex flex-col md:flex-row justify-center items-start w-full max-w-7xl">
+      <!-- VR Model (first on mobile, center on desktop) -->
+      <div id="vrmodel" class="w-full md:w-1/3 md:order-2 flex justify-center items-center mb-8 md:mb-0">
+        <model-viewer
+          auto-rotate
+          loading="eager"
+          reveal="auto"
+          field-of-view="30deg"
+          src="models/vrheadset.glb"
+          class="w-[340px] h-[260px] md:w-[820px] md:h-[700px]">
+        </model-viewer>
+      </div>
+
+      <!-- Who we are (second on mobile, left on desktop) -->
+      <div id="who-we-are" class="md:w-1/3 md:order-1 flex flex-col items-center md:items-start px-7 mb-8 md:mb-0 md:pt-60">
+        <h3 class="font-RobotoMono text-2xl mb-3 text-center md:text-3xl">Who we are</h3>
+        <p>
+          <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg">
+            Syntech Solutions delivers cost-effective, sustainable VR solutions that transform education. By combining VR with haptic glove technology, we create immersive, hands-on training, especially for medical students practicing skills like suturing in safe, engaging digital environments.
+          </span>
+        </p>
+      </div>
+
+      <!-- What we do (third on mobile, right on desktop) -->
+      <div id="what-we-do" class="md:w-1/3 md:order-3 flex flex-col items-center md:items-start px-7 md:pt-60">
+        <h3 class="font-RobotoMono text-2xl mb-3 text-center md:text-3xl">What we do</h3>
+        <p>
+          <span class="font-RobotoMono text-sm px-2 text-justify block md:text-lg">
+            Syntech Solutions is currently developing Synthmed, a VR platform built for medical career fairs that transforms them into hands-on recruitment labs. Using affordable ESP32-powered haptic gloves, Synthmed delivers realistic, 5–12 minute simulations with instant feedback and micro-credentials for students, while providing recruiters with real-time performance insights. This scalable, gamified approach redefines medical recruitment by shifting from resumes to proof of skill.
+          </span>
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <!-- Partner with Us -->
+    <div class="mt-10 text-center md:mt-3">
+      <h2 class="font-RobotoMono text-3xl md:text-6xl">Partner with Us</h2>
+    </div>
   </section>
-  <section class="justify-center mt-5 md:mt-24" id="Partner">
-  <div>
-    <p class="RobotoMono text-center text-3xl md:text-6xl">Partner with Us</p>
+<section id="3rdsection" class="animate-fadeIn flex flex-col md:flex-row items-stretch justify-center mt-10 mb-32 w-full">
+  <!-- Left: Project text -->
+  <div id="projecttext" class="flex items-center justify-center md:w-1/3 bg-transparent px-6">
+    <h2 class="font-RobotoMono text-3xl text-center md:text-5xl">My Projects</h2>
   </div>
-  </section>
-  <section id="3rdsection" class="animate-fadeIn flex flex-col items-center justify-center mt-10 mb-32">
-    <h2 class ="font-RobotoMono text-3xl text-center block md:inline md:text-5xl ">My Projects</h2>
-    <div id="projects" class="grid grid-cols-1 md:grid-cols-2 content-center gap-2 mt-5 md:gap-6">
-      <div id="weatherapp" class="box border rounded-md w-95 h-55 mx-auto flex flex-col justify-start pt-2 ">
+  <!-- Right: Projects grid -->
+  <div id="projects" class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 px-4">
+      <div id="weatherapp" class="box border rounded-md w-96 h-56 flex flex-col justify-start pt-2">
         <span class="font-RobotoMono text-center">Weather App-Java</span>
       <a href="https://github.com/NathanHor22/Java-weather-app" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -117,7 +128,7 @@
                   </p>
               </div>
       </div>
-      <div id="3DHorrorgame" class="box border rounded-md w-95 h-60 mx-auto flex flex-col justify-start pt-2">
+      <div id="3DHorrorgame" class="box border rounded-md shadow w-96 h-60 flex flex-col justify-start pt-2">
           <span class="font-RobotoMono text-center">3D Survival Horror Game-Unity</span>
         <a href="https://github.com/NathanHor22/FYP-NH" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -136,7 +147,7 @@
               </p>
           </div>
       </div>
-      <div id="hangmangame" class="box border rounded-md w-95 h-60 mx-auto flex flex-col justify-start pt-2">
+      <div id="hangmangame" class="box border rounded-md shadow w-96 h-65 flex flex-col justify-start pt-2">
           <span class="font-RobotoMono text-center">Hangman game-Java</span>
         <a href="https://github.com/NathanHor22/FYP-NH" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
@@ -155,7 +166,7 @@
               </p>
           </div>
       </div>
-      <div id="personal website" class="box border rounded-md w-95 h-60 mx-auto flex flex-col justify-start pt-2">
+      <div id="personal website" class="box border rounded-md shadow w-96 h-72 flex flex-col justify-start pt-5 ">
           <span class="font-RobotoMono text-center">This website! 😁 </span>
         <a href="https://github.com/NathanHor22/websitemark2" target="_blank" rel="noopener noreferrer" class="block">
         <div id="1githublink" class="border bg-black rounded-3xl w-30 h-10 mt-1 mx-auto flex flex-col justify-center hover:bg-gray-600 transition-colors">
