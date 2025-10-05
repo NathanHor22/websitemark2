@@ -1,3 +1,5 @@
+
+//Typewriter effect
 class TypeWriter {
   constructor(txtElement, words, wait = 3000) {
     this.txtElement = txtElement;
@@ -63,5 +65,61 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       new TypeWriter(txtElement, words, wait);
     }, 500);
+  }
+});
+
+// Generic carousel functionality
+function showSlide(index, carouselId) {
+  const carousel = document.getElementById(carouselId);
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  
+  // Hide all slides in this carousel
+  slides.forEach(slide => {
+    slide.classList.remove('active');
+    slide.style.opacity = '0';
+  });
+  
+  // Show current slide in this carousel
+  slides[index].classList.add('active');
+  slides[index].style.opacity = '1';
+  
+  // Update the current slide data attribute
+  carousel.setAttribute('data-current-slide', index);
+}
+
+function changeSlide(direction, carouselId) {
+  const carousel = document.getElementById(carouselId);
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const totalSlides = slides.length;
+  
+  // Get current slide for this specific carousel
+  let currentSlide = parseInt(carousel.getAttribute('data-current-slide'));
+  
+  // Calculate new slide index
+  currentSlide += direction;
+  
+  // Loop around
+  if (currentSlide >= totalSlides) {
+    currentSlide = 0;
+  } else if (currentSlide < 0) {
+    currentSlide = totalSlides - 1;
+  }
+  
+  // Show the new slide
+  showSlide(currentSlide, carouselId);
+}
+
+// Initialize both carousels when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize sports carousel
+  const sportsCarousel = document.getElementById('sports-carousel');
+  if (sportsCarousel) {
+    showSlide(0, 'sports-carousel');
+  }
+  
+  // Initialize posters carousel
+  const postersCarousel = document.getElementById('posters-carousel');
+  if (postersCarousel) {
+    showSlide(0, 'posters-carousel');
   }
 });
