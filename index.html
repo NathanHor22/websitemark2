@@ -235,12 +235,12 @@
       </div>
       
       <!-- Top row: 3 carousels in a grid on desktop -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-[20rem] w-full max-w-8xl px-16 mb-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-[20rem] w-full max-w-sm md:max-w-8xl px-4 md:px-16 mb-10 justify-items-center">
         
         <!-- Sports -->
         <div id ="Sports" class="flex flex-col items-center md:justify-self-start ">
           <h3 class="font-RobotoMono text-2xl text-center mb-3">Sports</h3>
-          <div id="sports-carousel" class="relative w-75 h-[28rem] md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
+          <div id="sports-carousel" class="relative w-65 h-96 md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
             <!-- All slides positioned absolutely, only one visible at a time -->
             <div class="carousel-slide active absolute inset-0 w-full h-full">
               <img src="./img/Sports/sports1.jpg" class="w-full h-full object-contain bg-gray-100" />
@@ -269,7 +269,7 @@
       <!-- Graphic Posters - Center aligned -->
       <div id ="Posters" class="flex flex-col items-center md:justify-self-center ">
         <h3 class="font-RobotoMono text-2xl text-center mb-3">Graphic Posters</h3>
-        <div id="posters-carousel" class="relative w-75 h-[28rem] md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
+        <div id="posters-carousel" class="relative w-65 h-96 md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
             <!-- All slides positioned absolutely, only one visible at a time -->
             <div class="carousel-slide active absolute inset-0 w-full h-full">
               <img src="./img/Posters/poster1.png" class="w-full h-full object-contain bg-gray-100" />
@@ -299,7 +299,7 @@
         <!-- Streets - Right aligned -->
         <div id ="Street" class="flex flex-col items-center md:justify-self-end ">
           <h3 class="font-RobotoMono text-2xl text-center mb-3">Streets</h3>
-          <div id="street-carousel" class="relative w-75 h-[28rem] md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
+          <div id="street-carousel" class="relative w-65 h-96 md:w-[25rem] md:h-[38rem] overflow:hidden mx-auto" data-current-slide="0">
             <!-- All slides positioned absolutely, only one visible at a time -->
             <div class="carousel-slide active absolute inset-0 w-full h-full">
               <img src="./img/Street/street1.jpg" class="w-full h-full object-contain bg-gray-100" />
@@ -329,12 +329,12 @@
       </div>
 
       <!-- Bottom row: Events + More Info -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-32 w-full max-w-7xl px-4 mb-1">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-32 w-full max-w-sm md:max-w-7xl px-4 mb-1 justify-items-center">
         
         <!-- Events -->
         <div id ="Events" class="flex flex-col items-center md:justify-self-start">
           <h3 class="font-RobotoMono text-2xl text-center mb-3">Events</h3>
-          <div id="event-carousel" class="relative w-96 h-64 md:w-[45rem] md:h-[30rem] mx-auto overflow-hidden" data-current-slide="0">
+          <div id="event-carousel" class="relative w-80 h-50 md:w-[45rem] md:h-[30rem] mx-auto overflow-hidden" data-current-slide="0">
             <!-- All slides positioned absolutely, only one visible at a time -->
             <div class="carousel-slide active absolute inset-0 w-full h-full">
               <img src="./img/Events/events1.jpg" class="w-full h-full object-contain bg-gray-100" />
@@ -385,6 +385,7 @@
     <div id="footer" class="text-center">
       <p class="font-RobotoMono text-sm md:text-lg">© 2024 Nathan Hor. All rights reserved.</p>
     </div>
+  </section>
   <script src="./app.js"></script>
 </body>
 </html>
