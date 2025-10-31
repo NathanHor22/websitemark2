@@ -34,7 +34,7 @@ The goal was to enhance a static HTML/CSS site with **immersive 3D visuals**, cl
 ---
 
 ## 🚀 Live Demo  
-🔗 [https://your-live-link.com](https://your-live-link.com)
+🔗 [https://nathanhor.com/](https://nathanhor.com/)
 
 ---
 
