@@ -12,9 +12,18 @@
   <section id="1stsection" class ="pt-15 flex flex-col md:flex-row items-center animate-fadeIn mb-32" >
 
       <!-- Left column: Profile picture (desktop only) -->
-      <div class="hidden md:flex justify-center items-center md:w-1/2 relative z-10">
-        <img class="rounded-full h-auto w-196 object-cover" src="./img/hor.png" alt="" />
+    <div class="hidden md:flex justify-center items-center md:w-1/2 relative z-10">
+      <div class="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
+        <!-- Profile image - bottom layer -->
+        <img class="absolute inset-0 w-full h-full object-cover rounded-full z-[3]" src="./img/hor.png" alt="Nathan Hor" />
+        
+        <!-- White background overlay - middle layer (covers most of the blob) -->
+        <div class="absolute inset-[3px] bg-white/95 backdrop-blur-md rounded-full border-2 border-white z-[2]"></div>
+        
+        <!-- Animated blob background - top layer (only edges show through) -->
+        <div class="absolute top-1/2 left-1/2 w-[150px] h-[150px] md:w-[500px] md:h-[500px] rounded-full bg-red-500 blur-xl blob-animate z-[1]"></div>
       </div>
+    </div>
       <!-- Right column: greetings, image (mobile), labels, socials, etc. -->
       <div class ="pt-3 md:w-1/2 flex flex-col items-center md:items-start" id="introtext">
         <div class = "ml-5" id ="greeting">
@@ -24,18 +33,41 @@
             </h1>
           </div>
           <!-- Profile image: visible only on mobile -->
-          <img class="rounded-full h-auto w-196 object-cover my-8 md:hidden" src="./img/hor.png" alt="" />
-        <div class ="flex flex-row ml-5 mt-5 columns-4 justify-center " id="labels">
-            <span class="font-RobotoMono text-center text-3m md:text-left md:text-lg">
-            <a href="#2ndsection" class="text-blue-600 underline cursor-pointer">
-              Founder of Syntech Solution
-            </a>
-              <br><a href="#3rdsection" class="text-blue-600 underline cursor-pointer">
-              Software Developer
-            </a>
-              <br>Photographer & Videographer
-            </span>
+        <div class="flex justify-center md:hidden my-4">
+          <div class="relative w-[300px] h-[300px] rounded-full overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
+            <!-- Profile image - bottom layer -->
+            <img class="absolute inset-0 w-full h-full object-cover rounded-full z-[3]" src="./img/hor.png" alt="Nathan Hor" />
+            
+            <!-- White background overlay - middle layer -->
+            <div class="absolute inset-[2px] bg-white/95 backdrop-blur-md rounded-full border-2 border-white z-[2]"></div>
+            
+            <!-- Animated blob background - top layer -->
+            <div class="absolute top-1/2 left-1/2 w-[250px] h-[250px] rounded-full bg-red-500 blur-xl blob-animate z-[1]"></div>
           </div>
+        </div>
+        <div class ="flex flex-row md:ml-5 mt-5 columns-4 justify-center  md:justify-start" id="labels">
+          <span class="font-RobotoMono text-center text-3m md:text-left md:text-lg">
+            <a href="#2ndsection" class="text-black no-underline cursor-pointer group inline-flex items-center">
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&gt;</span>
+              <span class="mx-2"> Founder of Syntech Solution </span>
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&lt;</span>
+            </a>
+            <br>
+            <a href="#3rdsection" class="text-black no-underline cursor-pointer group inline-flex items-center">
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&gt;</span>
+              <span class="mx-2"> Software Developer </span>
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&lt;</span>
+            </a>
+            <br>
+            <span class="text-black group inline-flex items-center">
+            <a href="#4thsection" class="text-black no-underline cursor-pointer group inline-flex items-center">
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&gt;</span>
+              <span class="mx-2"> Photographer & Videographer </span>
+              <span class="arrow-bracket transition-transform duration-300 group-hover:scale-150">&lt;</span>
+            </a>
+            </span>
+          </span>
+        </div>
           <span class="font-RobotoMono block pt-5 text-2xl text-center md:justify-center w-full"><strong>Follow my socials here!</strong></span>
         <div class="flex flex-row space-x-6 justify-center md:justify-center md:space-x-8 mt-3 w-full" id = "links">
               <a href="https://github.com/NathanHor22" target="_blank" rel="noopener noreferrer">

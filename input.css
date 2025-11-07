@@ -45,11 +45,36 @@
     51%, 100% { opacity: 0; }
   }
 
+  /* Blob bounce animation for profile picture */
+@keyframes blob-circle {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(80px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(80px) rotate(-360deg);
+  }
+}
+
+.blob-animate {
+  animation: blob-circle 4s infinite linear;
+  will-change: transform;
+}
+
+/* TArrow bracket anim */
+  .arrow-bracket {
+    display: inline-block;
+    transition: transform 0.6s ease;
+  }
+  
+  .group:hover .arrow-bracket {
+    transform: scale(1.5);
+  }
+
+  /* Typewriter text styling*/
   .typewriter-cursor {
     animation: blink 1s infinite;
   }
 
-  /* Typewriter text styling - removed animation from here */
   .txt {
     border-right: 0.2rem solid #777;
   }
