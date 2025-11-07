@@ -1011,6 +1011,11 @@
       padding-inline: calc(var(--spacing) * 16);
     }
   }
+  .md\:pt-10 {
+    @media (width >= 48rem) {
+      padding-top: calc(var(--spacing) * 10);
+    }
+  }
   .md\:pt-60 {
     @media (width >= 48rem) {
       padding-top: calc(var(--spacing) * 60);
