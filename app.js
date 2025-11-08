@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+
 // Generic carousel functionality
 function showSlide(index, carouselId) {
   const carousel = document.getElementById(carouselId);
@@ -122,6 +124,37 @@ document.addEventListener('DOMContentLoaded', function() {
   if (postersCarousel) {
     showSlide(0, 'posters-carousel');
   }
+});
+
+// Animate on Scroll
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const animationType = entry.target.getAttribute('data-animate') || 'fadeIn';
+      entry.target.classList.add(`animate-${animationType}`);
+      entry.target.classList.remove('opacity-0');
+    }
+  });
+}, observerOptions);
+
+// Observe elements with data-animate attribute
+document.addEventListener('DOMContentLoaded', () => {
+  const animatableElements = document.querySelectorAll('[data-animate]');
+  animatableElements.forEach((element, index) => {
+    if (index === 0) {
+      // First element (first section content) fades in immediately
+      element.classList.add('animate-fadeIn');
+    } else {
+      // Other elements start hidden
+      element.classList.add('opacity-0');
+      observer.observe(element);
+    }
+  });
 });
 
 
