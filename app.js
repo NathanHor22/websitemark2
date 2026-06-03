@@ -57,8 +57,8 @@ class TypeWriter {
 // Initialize typewriter effect when page loads
 document.addEventListener('DOMContentLoaded', function() {
   const txtElement = document.getElementById('typewriter-text');
-  const words = ['My Projects'];
-  const wait = 6000;
+  const words = ['Creative Technologist.', 'AR Developer.', 'Agentic AI Builder.', 'Full-Stack Developer.', 'Photographer.'];
+  const wait = 2500;
   
   if (txtElement) {
     // Add a delay before starting the typing effect
@@ -72,19 +72,19 @@ document.addEventListener('DOMContentLoaded', function() {
 function showSlide(index, carouselId) {
   const carousel = document.getElementById(carouselId);
   const slides = carousel.querySelectorAll('.carousel-slide');
-  
-  // Hide all slides in this carousel
+
   slides.forEach(slide => {
     slide.classList.remove('active');
     slide.style.opacity = '0';
   });
-  
-  // Show current slide in this carousel
+
   slides[index].classList.add('active');
   slides[index].style.opacity = '1';
-  
-  // Update the current slide data attribute
   carousel.setAttribute('data-current-slide', index);
+
+  // Update the "1 / 5" counter chip if present
+  const counter = document.getElementById(carouselId + '-counter');
+  if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
 }
 
 function changeSlide(direction, carouselId) {
@@ -109,17 +109,51 @@ function changeSlide(direction, carouselId) {
   showSlide(currentSlide, carouselId);
 }
 
-// Initialize both carousels when page loads
+// Initialize photo carousels when page loads
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize sports carousel
   const sportsCarousel = document.getElementById('sports-carousel');
-  if (sportsCarousel) {
-    showSlide(0, 'sports-carousel');
-  }
-  
-  // Initialize posters carousel
+  if (sportsCarousel) showSlide(0, 'sports-carousel');
+
   const postersCarousel = document.getElementById('posters-carousel');
-  if (postersCarousel) {
-    showSlide(0, 'posters-carousel');
+  if (postersCarousel) showSlide(0, 'posters-carousel');
+});
+
+// ── Project carousel ──────────────────────────────────────────────
+const PROJECT_TOTAL = 7;
+let projectCurrentSlide = 0;
+let projectAutoPlayTimer = null;
+
+function goToProjectSlide(index) {
+  projectCurrentSlide = index;
+  const wrapper = document.getElementById('projects-carousel-wrapper');
+  const track   = document.getElementById('projects-track');
+  if (track && wrapper) {
+    track.style.transform = `translateX(-${index * wrapper.offsetWidth}px)`;
   }
+  document.querySelectorAll('.project-dot').forEach((dot, i) => {
+    dot.classList.toggle('active-dot', i === index);
+  });
+}
+
+function changeProjectSlide(direction) {
+  goToProjectSlide((projectCurrentSlide + direction + PROJECT_TOTAL) % PROJECT_TOTAL);
+}
+
+function startProjectAutoPlay() {
+  if (projectAutoPlayTimer) return;
+  projectAutoPlayTimer = setInterval(() => changeProjectSlide(1), 5000);
+}
+
+function stopProjectAutoPlay() {
+  clearInterval(projectAutoPlayTimer);
+  projectAutoPlayTimer = null;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const wrapper = document.getElementById('projects-carousel-wrapper');
+  if (!wrapper) return;
+  goToProjectSlide(0);
+  startProjectAutoPlay();
+  // Re-snap on resize so the translate stays correct
+  window.addEventListener('resize', () => goToProjectSlide(projectCurrentSlide));
 });

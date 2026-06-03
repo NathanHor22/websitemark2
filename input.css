@@ -33,90 +33,261 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .animate-fadeIn {
-    animation: fadeIn 0.3s ease-in;
+    animation: fadeIn 0.8s ease-out forwards;
   }
 
   @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
   }
-
   .typewriter-cursor {
     animation: blink 1s infinite;
   }
-
-  /* Typewriter text styling - removed animation from here */
-  .txt {
-    border-right: 0.2rem solid #777;
-  }
-
-  /* Separate cursor that blinks */
-  .txt::after {
-    content: '';
-    border-right: 0.2rem solid #777;
-    animation: blink 1s infinite;
-  }
-
-  /* Remove spacing between typewriter elements */
   #typewriter-text {
     display: inline;
   }
 
-
   /* Carousel */
-
   .carousel {
     display: flex;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    height: 24rem; /* h-96 equivalent */
+    height: 24rem;
   }
-
   .carousel-item {
     min-width: 100%;
     flex-shrink: 0;
     scroll-snap-align: start;
   }
-
   .btn {
     padding: 0.5rem;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.45);
     color: white;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    transition: background-color 0.3s ease;
+    width: 2.5rem;
+    height: 2.5rem;
+    transition: background-color 0.2s ease;
   }
-
   .btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.65);
   }
-
   .btn-circle {
     border-radius: 50%;
   }
-
-  /* Static carousel styles */
-.carousel-slide {
-  transition: opacity 0.3s ease-in-out;
-}
-
-.carousel-slide.active {
-  opacity: 1 !important;
-}
-
-  html {
-  scroll-behavior: smooth;
+  .carousel-slide {
+    transition: opacity 0.3s ease-in-out;
+  }
+  .carousel-slide.active {
+    opacity: 1 !important;
   }
 
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
+  body {
+    background-color: rgb(143, 141, 121);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.5) 10%, transparent 13%);
+    background-size: 11px 11px;
+  }
+
+  /* Glassmorphism card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+  }
+
+  /* Sticky nav glass */
+  .nav-glass {
+    background: rgba(143, 141, 121, 0.8);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  /* Tech stack tag pill */
+  .tech-tag {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.14);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.65rem;
+    font-family: "RobotoMono", sans-serif;
+  }
+
+  /* Award badge — gold tint */
+  .award-tag {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.28);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.65rem;
+    font-family: "RobotoMono", sans-serif;
+    color: #5a4000;
+  }
+
+  /* In-progress badge — blue tint */
+  .in-progress-tag {
+    display: inline-block;
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.45);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.65rem;
+    font-family: "RobotoMono", sans-serif;
+    color: #1e3a5f;
+  }
+
+  /* Project link button */
+  .project-btn {
+    display: block;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.7rem;
+    font-family: "RobotoMono", sans-serif;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease;
+  }
+  .project-btn:hover {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  /* Portrait photo carousel background — fills letterbox areas with a warm dark tone */
+  .portrait-carousel-bg {
+    background-color: rgba(38, 36, 26, 0.72);
+  }
+
+  /* Slim glass nav button for photo carousels */
+  .carousel-nav-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .carousel-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.58);
+  }
+
+  /* Category label chip overlaid on photo */
+  .category-chip {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-size: 0.6rem;
+    font-family: "RobotoMono", sans-serif;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Slide counter chip e.g. "2 / 5" */
+  .slide-counter {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-size: 0.6rem;
+    font-family: "RobotoMono", sans-serif;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.06em;
+  }
+
+  /* Project carousel track */
+  .projects-track {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Project image placeholder */
+  .project-img-placeholder {
+    background: linear-gradient(135deg, rgba(195, 193, 170, 0.7) 0%, rgba(155, 153, 130, 0.55) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .project-img-placeholder::after {
+    content: 'add screenshot';
+    font-family: "RobotoMono", sans-serif;
+    font-size: 0.65rem;
+    opacity: 0.3;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    position: absolute;
+  }
+
+  /* Progress dot nav */
+  .project-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.22);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.35s ease;
+  }
+  .project-dot.active-dot {
+    width: 24px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Outline button variant */
+  .project-btn-outline {
+    display: block;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.7rem;
+    font-family: "RobotoMono", sans-serif;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease;
+  }
+  .project-btn-outline:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
+}
