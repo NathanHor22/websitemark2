@@ -176,6 +176,101 @@
     background: rgba(0, 0, 0, 0.35);
   }
 
+  /* ── LinkedIn-style activity cards ─────────────────────────── */
+  .linkedin-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .linkedin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  }
+  .linkedin-card * {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .li-meta {
+    color: rgba(0, 0, 0, 0.42);
+  }
+  .li-badge {
+    width: 26px;
+    height: 26px;
+    background: #0a66c2;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.75rem;
+    font-family: "RobotoMono", sans-serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .post-text-container {
+    max-height: 4.6em;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .post-text-container.expanded {
+    max-height: 600px;
+  }
+  .li-post-text {
+    color: rgba(0, 0, 0, 0.75);
+  }
+  .li-see-more-btn {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.45);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 0 0 0;
+    display: inline-block;
+    transition: color 0.2s;
+  }
+  .li-see-more-btn:hover {
+    color: rgba(0, 0, 0, 0.75);
+  }
+  .li-post-image {
+    background: linear-gradient(135deg, #f3f2ef 0%, #e5e3dc 100%);
+    border-radius: 6px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .li-post-image:empty::after {
+    content: 'add image';
+    font-family: "RobotoMono", sans-serif;
+    font-size: 0.6rem;
+    opacity: 0.28;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .li-post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .li-card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 10px 16px;
+  }
+  .li-link-btn {
+    font-size: 0.68rem;
+    font-family: "RobotoMono", sans-serif;
+    color: rgba(0, 0, 0, 0.38);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .li-link-btn:hover {
+    color: #0a66c2;
+  }
+
   /* Portrait photo carousel background — fills letterbox areas with a warm dark tone */
   .portrait-carousel-bg {
     background-color: rgba(38, 36, 26, 0.72);
@@ -245,15 +340,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-  }
-  .project-img-placeholder::after {
-    content: 'add screenshot';
-    font-family: "RobotoMono", sans-serif;
-    font-size: 0.65rem;
-    opacity: 0.3;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    position: absolute;
   }
 
   /* Progress dot nav */

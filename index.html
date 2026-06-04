@@ -12,9 +12,7 @@
   <nav id="navbar" class="nav-glass fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12">
     <a href="#hero" class="font-AnthonyGilford text-2xl">NH</a>
     <div class="hidden md:flex gap-8 font-RobotoMono text-sm">
-      <a href="#hero" class="hover:opacity-60 transition-opacity">About</a>
       <a href="#projects" class="hover:opacity-60 transition-opacity">Projects</a>
-      <a href="#achievements" class="hover:opacity-60 transition-opacity">Achievements</a>
       <a href="#activity" class="hover:opacity-60 transition-opacity">Activity</a>
       <a href="#creative" class="hover:opacity-60 transition-opacity">Creative</a>
       <a href="#contact" class="hover:opacity-60 transition-opacity">Contact</a>
@@ -24,7 +22,6 @@
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden fixed top-[68px] left-0 right-0 z-40 nav-glass flex-col gap-4 px-6 py-5 font-RobotoMono text-sm">
-    <a href="#hero" onclick="closeMobileMenu()" class="hover:opacity-60">About</a>
     <a href="#projects" onclick="closeMobileMenu()" class="hover:opacity-60">Projects</a>
     <a href="#activity" onclick="closeMobileMenu()" class="hover:opacity-60">Activity</a>
     <a href="#creative" onclick="closeMobileMenu()" class="hover:opacity-60">Creative</a>
@@ -78,170 +75,119 @@
 
         <!-- 1. PostcardAR -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/postcardAR.jpg" class="w-full h-full object-cover" alt="PostcardAR"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <div class="flex flex-col gap-1">
+              <h3 class="font-RobotoMono font-bold text-base">PostcardAR</h3>
+              <span class="award-tag self-start">AR Track Winner · Pacific Portal XR</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <div class="flex flex-col gap-2">
-                  <h3 class="font-RobotoMono font-bold text-base">PostcardAR</h3>
-                  <span class="award-tag self-start">🏆 AR Track Winner · Pacific Portal XR</span>
-                </div>
-                <span class="text-3xl flex-shrink-0">🏅</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">Scan a physical postcard to trigger an immersive AR digital overlay — blending print and augmented reality.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">Unity</span>
-                <span class="tech-tag">AR / XR</span>
-                <span class="tech-tag">C#</span>
-              </div>
-              <a href="https://github.com/NathanHor22/postcardAR" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Won the AR track at Pacific Portal XR, deploying a WebAR experience where scanning a postcard triggers a live 3D digital overlay</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Blended physical print media with augmented reality, making the experience feel seamless rather than technical</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">Unity</span>
+              <span class="tech-tag">AR / XR</span>
+              <span class="tech-tag">C#</span>
             </div>
+            <a href="https://github.com/NathanHor22/postcardAR" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
           </div>
         </div>
 
         <!-- 2. Purrmit -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/purrmit.jpg" class="w-full h-full object-cover" alt="Purrmit"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <div class="flex flex-col gap-1">
+              <h3 class="font-RobotoMono font-bold text-base">Purrmit — Your GL Copilot</h3>
+              <span class="award-tag self-start">Top 3 Finalist · Healthcare Ops</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <div class="flex flex-col gap-2">
-                  <h3 class="font-RobotoMono font-bold text-base">Purrmit — Your GL Copilot</h3>
-                  <span class="award-tag self-start">🥉 Top 3 Finalist · Healthcare Ops</span>
-                </div>
-                <span class="text-3xl flex-shrink-0">🏆</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">AI copilot that automates general ledger reconciliation in healthcare finance, winning top 3 at a healthcare ops hackathon.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">AI / ML</span>
-                <span class="tech-tag">Healthcare</span>
-                <span class="tech-tag">Automation</span>
-              </div>
-              <a href="https://github.com/NathanHor22/Purrmit_Your-GL-Copilot" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Top 3 finalist in the Healthcare Operations Automation hackathon, built and demoed within a single day</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Developed an AI copilot that automates GL reconciliation for healthcare finance teams, cutting manual paperwork</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">AI / ML</span>
+              <span class="tech-tag">Healthcare</span>
+              <span class="tech-tag">Automation</span>
             </div>
+            <a href="https://github.com/NathanHor22/Purrmit_Your-GL-Copilot" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
           </div>
         </div>
 
         <!-- 3. EmployableDashboard -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/employable.jpg" class="w-full h-full object-cover" alt="EmployableDashboard"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <h3 class="font-RobotoMono font-bold text-base">EmployableDashboard</h3>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Built a full-stack Next.js dashboard with Supabase auth, Google OAuth, resume uploads, assessments, and an admin panel</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Architected DB schema with Row Level Security and a middleware proxy for protected multi-role route guarding</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Supabase</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Tailwind</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="font-RobotoMono font-bold text-base">EmployableDashboard</h3>
-                <span class="text-3xl flex-shrink-0">📊</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">Full-stack employment support dashboard with Supabase auth, resume uploads, assessments, and an admin panel.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">Supabase</span>
-                <span class="tech-tag">TypeScript</span>
-                <span class="tech-tag">Tailwind</span>
-              </div>
-              <a href="https://github.com/NathanHor22/employabledashboard" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
-            </div>
+            <a href="https://github.com/NathanHor22/employabledashboard" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
           </div>
         </div>
 
         <!-- 4. GameUX Summit FAQ Bot -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/gameuxfaq.jpg" class="w-full h-full object-cover" alt="GameUX FAQ Bot"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <h3 class="font-RobotoMono font-bold text-base">GameUX Summit FAQ Bot</h3>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Deployed an agentic AI chatbot at GameUX Summit that autonomously answered attendee FAQs with no human in the loop</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Used multi-step reasoning and context retrieval to deliver accurate, on-topic responses across hundreds of queries</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Agentic AI</span>
+              <span class="tech-tag">LLM</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="font-RobotoMono font-bold text-base">GameUX Summit FAQ Bot</h3>
-                <span class="text-3xl flex-shrink-0">🤖</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">Agentic AI chatbot that autonomously answers conference attendee FAQs using multi-step reasoning — no human in the loop.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Agentic AI</span>
-                <span class="tech-tag">LLM</span>
-              </div>
-              <a href="https://github.com/NathanHor22/gameUXsummitagenticFAQ" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
-            </div>
+            <a href="https://github.com/NathanHor22/gameUXsummitagenticFAQ" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
           </div>
         </div>
 
         <!-- 5. Tenun -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/tenun.jpg" class="w-full h-full object-cover" alt="Tenun"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <div class="flex flex-col gap-1">
+              <h3 class="font-RobotoMono font-bold text-base">Tenun — TalentBank CareerOS</h3>
+              <span class="in-progress-tag self-start">In Progress</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <div class="flex flex-col gap-2">
-                  <h3 class="font-RobotoMono font-bold text-base">Tenun — TalentBank CareerOS</h3>
-                  <span class="in-progress-tag self-start">In Progress</span>
-                </div>
-                <span class="text-3xl flex-shrink-0">🚀</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">Full-stack career platform for TalentBank — candidate profiles, job matching, and employer dashboards in pre-production.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">Full-Stack</span>
-                <span class="tech-tag">TypeScript</span>
-                <span class="tech-tag">CareerOS</span>
-              </div>
-              <a href="https://github.com/NathanHor22/tenun-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Building a career platform for TalentBank with candidate profiles, job matching logic, and employer-facing dashboards</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Pre-production TypeScript application built for scalability, focused on clean UX and robust data handling</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">Full-Stack</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">CareerOS</span>
             </div>
+            <a href="https://github.com/NathanHor22/tenun-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
           </div>
         </div>
 
         <!-- 6. Synapze Website -->
         <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/synapze.jpg" class="w-full h-full object-cover" alt="Synapze Website"> -->
+          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
+            <h3 class="font-RobotoMono font-bold text-base">Synapze Website Rebuild</h3>
+            <ul class="flex flex-col gap-2">
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Rebuilt the company site with AEO (Answer Engine Optimisation) so content surfaces correctly in AI-powered search</span></li>
+              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Integrated Waze and Google Maps APIs for location features alongside a full modern design overhaul</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag">HTML/CSS/JS</span>
+              <span class="tech-tag">Maps API</span>
+              <span class="tech-tag">AEO</span>
             </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="font-RobotoMono font-bold text-base">Synapze Website Rebuild</h3>
-                <span class="text-3xl flex-shrink-0">🌐</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">Rebuilt Synapze's site with a modern design, AEO for AI search visibility, and Waze & Google Maps API integrations.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">HTML/CSS/JS</span>
-                <span class="tech-tag">Maps API</span>
-                <span class="tech-tag">AEO</span>
-              </div>
-              <div class="flex gap-2">
-                <a href="https://www.synapzemy.com/" target="_blank" rel="noopener noreferrer" class="project-btn flex-1">Live Site →</a>
-                <a href="https://github.com/NathanHor22/Synapze-testing-site-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn-outline flex-1 text-center">GitHub</a>
-              </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="https://www.synapzemy.com/" target="_blank" rel="noopener noreferrer" class="project-btn flex-1">Live Site →</a>
+              <a href="https://github.com/NathanHor22/Synapze-testing-site-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn-outline flex-1 text-center">GitHub</a>
             </div>
           </div>
         </div>
 
-        <!-- 7. This Portfolio -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card overflow-hidden w-full max-w-2xl">
-            <div class="project-img-placeholder h-56">
-              <!-- Replace with: <img src="./img/projects/portfolio.jpg" class="w-full h-full object-cover" alt="Portfolio"> -->
-            </div>
-            <div class="p-6 flex flex-col gap-4">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="font-RobotoMono font-bold text-base">This Portfolio</h3>
-                <span class="text-3xl flex-shrink-0">✨</span>
-              </div>
-              <p class="font-RobotoMono text-sm opacity-70">You're looking at it — built with Tailwind v4, vanilla JS, glassmorphism cards, and a custom olive dotted background.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="tech-tag">Tailwind v4</span>
-                <span class="tech-tag">JavaScript</span>
-                <span class="tech-tag">Node.js</span>
-              </div>
-              <a href="https://github.com/NathanHor22/websitemark2" target="_blank" rel="noopener noreferrer" class="project-btn">View on GitHub →</a>
-            </div>
-          </div>
-        </div>
 
       </div><!-- /projects-track -->
 
@@ -258,64 +204,84 @@
       <button onclick="goToProjectSlide(3)" class="project-dot"></button>
       <button onclick="goToProjectSlide(4)" class="project-dot"></button>
       <button onclick="goToProjectSlide(5)" class="project-dot"></button>
-      <button onclick="goToProjectSlide(6)" class="project-dot"></button>
     </div>
-
-  </section>
 
   </section>
 
   <!-- LINKEDIN ACTIVITY -->
   <section id="activity" class="py-20 px-6 md:px-16 animate-fadeIn">
     <div class="mb-10">
-      <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-1">What I'm up to</p>
-      <h2 class="font-AnthonyGilford text-5xl md:text-7xl">Activity</h2>
-      <p class="font-RobotoMono text-xs opacity-50 mt-2">Featured posts from <a href="https://www.linkedin.com/in/nathan-hor-99a27a205/" target="_blank" rel="noopener noreferrer" class="underline">LinkedIn</a></p>
+      <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-5">What I'm up to</p>
+      <h2 class="font-AnthonyGilford text-5xl md:text-7xl mb-5">Activity</h2>
+      <p class="font-RobotoMono text-xs opacity-50 mt-5">Featured posts from <a href="https://www.linkedin.com/in/nathan-hor-99a27a205/" target="_blank" rel="noopener noreferrer" class="underline">LinkedIn</a></p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- Replace the href and text with your actual LinkedIn post URLs and content -->
-      <a href="https://www.linkedin.com/in/nathan-hor-99a27a205/" target="_blank" rel="noopener noreferrer" class="glass-card p-6 flex flex-col gap-4 hover:scale-[1.02] transition-transform duration-300 no-underline">
-        <div class="flex items-center gap-3">
-          <img class="h-10 w-10 rounded-full object-cover ring-2 ring-white/30" src="./img/hor.png" alt="Nathan Hor">
-          <div>
-            <p class="font-RobotoMono font-bold text-xs">Nathan Hor</p>
-            <p class="font-RobotoMono text-xs opacity-50">Creative Technologist · Synapze</p>
+      <!-- Card 1 — AWS / Lovable Vibeathon KL -->
+      <div class="linkedin-card">
+        <div class="flex items-center gap-3 px-4 pt-4 pb-3">
+          <img class="h-11 w-11 rounded-full object-cover flex-shrink-0" src="./img/hor.png" alt="Nathan Hor">
+          <div class="flex-1 min-w-0">
+            <p class="font-RobotoMono font-bold text-sm leading-tight">Nathan Hor</p>
+            <p class="font-RobotoMono text-xs li-meta leading-snug">Creative Technologist @ Synapze</p>
+          </div>
+          <div class="li-badge flex-shrink-0">in</div>
+        </div>
+        <div class="px-4 pb-3">
+          <p class="font-RobotoMono font-bold text-sm li-post-text mb-1">Top 3 finalist. 47 teams. Built and pitched in one day.</p>
+          <p class="post-text-container font-RobotoMono text-sm li-post-text leading-relaxed">Over the weekend, I attended the Lovable Vibeathon KL at the Amazon Web Services (AWS) Malaysia Office, we did something that changed how I think about building: an agentic AI that autonomously clears hospital guarantee letters so patients stop waiting and clerks stop chasing paperwork. One click. Tabby does the rest.</p>
+          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7464598969957068800/" target="_blank" rel="noopener noreferrer" class="li-see-more-btn">...see more</a>
+        </div>
+        <div class="px-4 pb-4">
+          <div class="li-post-image">
+            <img src="./img/aws.jpeg" alt="AWS Lovable Vibeathon KL">
           </div>
         </div>
-        <p class="font-RobotoMono text-xs opacity-80 leading-relaxed flex-1">
-          🏆 Stoked to share that our team won the AR track at Pacific Portal XR with PostcardAR! The idea of scanning a physical postcard to trigger an AR experience was so fun to build...
-        </p>
-        <span class="font-RobotoMono text-xs opacity-40">View on LinkedIn →</span>
-      </a>
+      </div>
 
-      <a href="https://www.linkedin.com/in/nathan-hor-99a27a205/" target="_blank" rel="noopener noreferrer" class="glass-card p-6 flex flex-col gap-4 hover:scale-[1.02] transition-transform duration-300 no-underline">
-        <div class="flex items-center gap-3">
-          <img class="h-10 w-10 rounded-full object-cover ring-2 ring-white/30" src="./img/hor.png" alt="Nathan Hor">
-          <div>
-            <p class="font-RobotoMono font-bold text-xs">Nathan Hor</p>
-            <p class="font-RobotoMono text-xs opacity-50">Creative Technologist · Synapze</p>
+      <!-- Card 2 — AR / Freedom 250 Penang -->
+      <div class="linkedin-card">
+        <div class="flex items-center gap-3 px-4 pt-4 pb-3">
+          <img class="h-11 w-11 rounded-full object-cover flex-shrink-0" src="./img/hor.png" alt="Nathan Hor">
+          <div class="flex-1 min-w-0">
+            <p class="font-RobotoMono font-bold text-sm leading-tight">Nathan Hor</p>
+            <p class="font-RobotoMono text-xs li-meta leading-snug">Creative Technologist @ Synapze</p>
+          </div>
+          <div class="li-badge flex-shrink-0">in</div>
+        </div>
+        <div class="px-4 pb-3">
+          <p class="font-RobotoMono font-bold text-sm li-post-text mb-1">The best AR experiences don't feel like technology, they feel like magic hiding in plain sight.</p>
+          <p class="post-text-container font-RobotoMono text-sm li-post-text leading-relaxed">On the 15-16th of May at Penang Science Cluster, we deployed a WebAR postcard activation for Freedom 250 Penang last week, turning print collateral into interactive 3D viewers for U.S. state history.</p>
+          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7462019153814720512/" target="_blank" rel="noopener noreferrer" class="li-see-more-btn">...see more</a>
+        </div>
+        <div class="px-4 pb-4">
+          <div class="li-post-image">
+            <img src="./img/AR.gif" alt="AR WebAR postcard activation">
           </div>
         </div>
-        <p class="font-RobotoMono text-xs opacity-80 leading-relaxed flex-1">
-          🥉 Top 3 Finalist! Just wrapped the Healthcare Operations Automation hackathon — our team built Purrmit, an AI copilot for GL workflows in healthcare finance...
-        </p>
-        <span class="font-RobotoMono text-xs opacity-40">View on LinkedIn →</span>
-      </a>
+      </div>
 
-      <a href="https://www.linkedin.com/in/nathan-hor-99a27a205/" target="_blank" rel="noopener noreferrer" class="glass-card p-6 flex flex-col gap-4 hover:scale-[1.02] transition-transform duration-300 no-underline">
-        <div class="flex items-center gap-3">
-          <img class="h-10 w-10 rounded-full object-cover ring-2 ring-white/30" src="./img/hor.png" alt="Nathan Hor">
-          <div>
-            <p class="font-RobotoMono font-bold text-xs">Nathan Hor</p>
-            <p class="font-RobotoMono text-xs opacity-50">Creative Technologist · Synapze</p>
+      <!-- Card 3 — Carousell / AI.SEA $1 Sprint -->
+      <div class="linkedin-card">
+        <div class="flex items-center gap-3 px-4 pt-4 pb-3">
+          <img class="h-11 w-11 rounded-full object-cover flex-shrink-0" src="./img/hor.png" alt="Nathan Hor">
+          <div class="flex-1 min-w-0">
+            <p class="font-RobotoMono font-bold text-sm leading-tight">Nathan Hor</p>
+            <p class="font-RobotoMono text-xs li-meta leading-snug">Creative Technologist @ Synapze</p>
+          </div>
+          <div class="li-badge flex-shrink-0">in</div>
+        </div>
+        <div class="px-4 pb-3">
+          <p class="font-RobotoMono font-bold text-sm li-post-text mb-1">RM100 (SGD33) in 9 hours. Built it, shipped it, closed the sale, all before dinner.</p>
+          <p class="post-text-container font-RobotoMono text-sm li-post-text leading-relaxed">Over the weekend we were at AI.SEA $1 Sprint in Carousell Group's Regional HQ in Singapore, we did something we'd never done before: turned an idea into paying revenue in a single day.</p>
+          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7451796790137344000/" target="_blank" rel="noopener noreferrer" class="li-see-more-btn">...see more</a>
+        </div>
+        <div class="px-4 pb-4">
+          <div class="li-post-image">
+            <img src="./img/carousel.jpeg" alt="AI.SEA Sprint at Carousell Singapore">
           </div>
         </div>
-        <p class="font-RobotoMono text-xs opacity-80 leading-relaxed flex-1">
-          🌐 The new Synapze website is live! Rebuilt from the ground up with AEO, Waze & Google Maps APIs, and a much more modern design. Check it out at synapzemy.com...
-        </p>
-        <span class="font-RobotoMono text-xs opacity-40">View on LinkedIn →</span>
-      </a>
+      </div>
 
     </div>
   </section>
@@ -331,6 +297,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
 
       <!-- Sports -->
+      <div class="px-[5px]">
       <div id="sports-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
         <div class="carousel-slide active absolute inset-0"><img src="./img/Sports/sports1.jpg" class="w-full h-full object-contain" alt="Sports 1"/></div>
         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Sports/sports2.jpg" class="w-full h-full object-contain" alt="Sports 2"/></div>
@@ -342,8 +309,10 @@
         <button onclick="changeSlide(-1,'sports-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
         <button onclick="changeSlide(1,'sports-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
       </div>
+      </div>
 
       <!-- Graphic Posters -->
+      <div class="px-[5px]">
       <div id="posters-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
         <div class="carousel-slide active absolute inset-0"><img src="./img/Posters/poster1.png" class="w-full h-full object-contain" alt="Poster 1"/></div>
         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Posters/posters2.png" class="w-full h-full object-contain" alt="Poster 2"/></div>
@@ -355,8 +324,10 @@
         <button onclick="changeSlide(-1,'posters-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
         <button onclick="changeSlide(1,'posters-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
       </div>
+      </div>
 
       <!-- Streets -->
+      <div class="px-[5px]">
       <div id="street-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
         <div class="carousel-slide active absolute inset-0"><img src="./img/Street/street1.jpg" class="w-full h-full object-contain" alt="Street 1"/></div>
         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Street/street2.jpg" class="w-full h-full object-contain" alt="Street 2"/></div>
@@ -367,6 +338,7 @@
         <div class="absolute bottom-3 right-3 z-10 slide-counter" id="street-carousel-counter">1 / 5</div>
         <button onclick="changeSlide(-1,'street-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
         <button onclick="changeSlide(1,'street-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
+      </div>
       </div>
 
     </div>

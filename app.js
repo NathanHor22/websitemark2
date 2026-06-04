@@ -120,8 +120,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (postersCarousel) showSlide(0, 'posters-carousel');
 });
 
+// ── LinkedIn post "see more / see less" toggle ────────────────────
+function togglePost(containerId, btn) {
+  const container = document.getElementById(containerId);
+  const isExpanded = container.classList.contains('expanded');
+  container.classList.toggle('expanded', !isExpanded);
+  btn.textContent = isExpanded ? '...see more' : 'see less';
+}
+
 // ── Project carousel ──────────────────────────────────────────────
-const PROJECT_TOTAL = 7;
+const PROJECT_TOTAL = 6;
 let projectCurrentSlide = 0;
 let projectAutoPlayTimer = null;
 
