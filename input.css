@@ -328,35 +328,286 @@
     letter-spacing: 0.06em;
   }
 
-  /* Project carousel track */
-  .projects-track {
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* ─── 3D Project Card Stack ─── */
+  .projects-stack-outer {
+    position: relative;
+    width: 100%;
+    padding: 0 52px;
   }
 
-  /* Project image placeholder */
-  .project-img-placeholder {
-    background: linear-gradient(135deg, rgba(195, 193, 170, 0.7) 0%, rgba(155, 153, 130, 0.55) 100%);
+  @media (max-width: 767px) {
+    .projects-stack-outer {
+      padding: 0 40px;
+    }
+    /* Restore card padding on mobile since desktop zeros it */
+    .project-3d-card {
+      padding: 22px 18px;
+      gap: 16px;
+    }
+    .project-card-left {
+      gap: 16px;
+    }
+  }
+
+  .projects-perspective {
+    perspective: 1400px;
+    perspective-origin: 50% 30%;
+    width: 100%;
+    max-width: 1014px;
+    margin: 0 auto;
+  }
+
+  .projects-stack-grid {
+    display: grid;
+    grid-template-areas: "stack";
+    padding-bottom: 52px;
+  }
+
+  .project-3d-card {
+    grid-area: stack;
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 24px;
+    padding: 22px 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    will-change: transform, opacity;
+    transform-origin: center bottom;
+    transition: transform 0.55s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.45s ease, filter 0.55s ease;
+  }
+
+  /* Left column: text content */
+  .project-card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  /* Right column: media */
+  .project-card-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Desktop two-column layout */
+  @media (min-width: 768px) {
+    .project-3d-card {
+      flex-direction: row;
+      padding: 0;
+      gap: 0;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .project-card-left {
+      flex: 0 0 30%;
+      padding: 22px 20px 22px 20px;
+      justify-content: center;
+    }
+
+    .project-card-right {
+      flex: 0 0 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .project-card-right .project-video-area,
+    .project-card-right .project-video-placeholder {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      margin: 0;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
+    .project-card-right .project-video-area video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-card-right .project-arch-block {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      margin: 0;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .project-card-title {
+      font-size: 1.3rem;
+    }
+  }
+
+  .project-3d-card:not([data-stack-pos]) {
+    opacity: 0;
+  }
+
+  .project-3d-card[data-stack-pos="0"] {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    z-index: 10;
+    pointer-events: auto;
+  }
+
+  .project-3d-card[data-stack-pos="1"] {
+    transform: translateY(18px) scale(0.965);
+    opacity: 1;
+    z-index: 9;
+    pointer-events: none;
+    filter: brightness(0.97);
+  }
+
+  .project-3d-card[data-stack-pos="2"] {
+    transform: translateY(36px) scale(0.93);
+    opacity: 0.7;
+    z-index: 8;
+    pointer-events: none;
+    filter: brightness(0.94);
+  }
+
+  .project-3d-card[data-stack-pos="3"],
+  .project-3d-card[data-stack-pos="4"],
+  .project-3d-card[data-stack-pos="5"] {
+    transform: translateY(54px) scale(0.895);
+    opacity: 0;
+    z-index: 7;
+    pointer-events: none;
+  }
+
+  @keyframes cardExitRight {
+    to { transform: translateX(115%) rotateZ(16deg) scale(0.9); opacity: 0; }
+  }
+  @keyframes cardExitLeft {
+    to { transform: translateX(-115%) rotateZ(-16deg) scale(0.9); opacity: 0; }
+  }
+
+  .card-exit-right {
+    animation: cardExitRight 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
+    pointer-events: none !important;
+    z-index: 20 !important;
+    transition: none !important;
+  }
+
+  .card-exit-left {
+    animation: cardExitLeft 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
+    pointer-events: none !important;
+    z-index: 20 !important;
+    transition: none !important;
+  }
+
+  .project-card-title {
+    font-family: "SergioUI", sans-serif;
+    font-size: 1.8rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .project-card-title {
+      font-size: 1.3rem;
+    }
+  }
+
+  .project-video-area {
+    width: 70%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+  }
+
+  .project-video-area video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+
+  .project-video-placeholder {
+    width: 70%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1.5px dashed rgba(0, 0, 0, 0.14);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    flex-shrink: 0;
   }
 
-  /* Progress dot nav */
-  .project-dot {
-    width: 8px;
-    height: 8px;
+  .project-arch-block {
+    width: 100%;
+    border-radius: 14px;
+    background: rgba(12, 12, 10, 0.86);
+    padding: 18px 22px;
+    font-family: "RobotoMono", monospace;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.85;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+  }
+
+  .project-nav-3d {
+    position: absolute;
+    top: calc(50% - 26px);
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.22);
+    border: 1.5px solid rgba(0, 0, 0, 0.16);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+  }
+
+  .project-nav-3d:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .project-nav-3d-prev { left: 4px; }
+  .project-nav-3d-next { right: 4px; }
+
+  .project-dot-3d {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: all 0.35s ease;
+    transition: all 0.3s ease;
   }
-  .project-dot.active-dot {
-    width: 24px;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.6);
+
+  .project-dot-3d.active {
+    width: 22px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.65);
   }
 
   /* Outline button variant */

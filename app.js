@@ -128,44 +128,100 @@ function togglePost(containerId, btn) {
   btn.textContent = isExpanded ? '...see more' : 'see less';
 }
 
-// ── Project carousel ──────────────────────────────────────────────
-const PROJECT_TOTAL = 6;
-let projectCurrentSlide = 0;
-let projectAutoPlayTimer = null;
+// ── 3D Project Stack ──────────────────────────────────────────────
+const PROJECT_COUNT = 6;
+let projectIdx = 0;
+let projectTransitioning = false;
 
-function goToProjectSlide(index) {
-  projectCurrentSlide = index;
-  const wrapper = document.getElementById('projects-carousel-wrapper');
-  const track   = document.getElementById('projects-track');
-  if (track && wrapper) {
-    track.style.transform = `translateX(-${index * wrapper.offsetWidth}px)`;
-  }
-  document.querySelectorAll('.project-dot').forEach((dot, i) => {
-    dot.classList.toggle('active-dot', i === index);
+function updateProjectStack() {
+  const cards = document.querySelectorAll('.project-3d-card');
+  cards.forEach((card, i) => {
+    const pos = (i - projectIdx + PROJECT_COUNT) % PROJECT_COUNT;
+    card.dataset.stackPos = pos;
+    const video = card.querySelector('video');
+    if (video) {
+      if (pos === 0) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
+  });
+  document.querySelectorAll('.project-dot-3d').forEach((dot, i) => {
+    dot.classList.toggle('active', i === projectIdx);
   });
 }
 
-function changeProjectSlide(direction) {
-  goToProjectSlide((projectCurrentSlide + direction + PROJECT_TOTAL) % PROJECT_TOTAL);
+function goToProject(idx) {
+  if (projectTransitioning || idx === projectIdx) return;
+  const fwd = (idx - projectIdx + PROJECT_COUNT) % PROJECT_COUNT;
+  _doProjectTransition(fwd <= PROJECT_COUNT / 2 ? 1 : -1, idx);
 }
 
-function startProjectAutoPlay() {
-  if (projectAutoPlayTimer) return;
-  projectAutoPlayTimer = setInterval(() => changeProjectSlide(1), 5000);
+function changeProject(direction) {
+  if (projectTransitioning) return;
+  const newIdx = (projectIdx + direction + PROJECT_COUNT) % PROJECT_COUNT;
+  _doProjectTransition(direction, newIdx);
 }
 
-function stopProjectAutoPlay() {
-  clearInterval(projectAutoPlayTimer);
-  projectAutoPlayTimer = null;
+function _doProjectTransition(direction, newIdx) {
+  projectTransitioning = true;
+  const cards = document.querySelectorAll('.project-3d-card');
+  const exitCard = cards[projectIdx];
+  exitCard.style.transform = '';
+  exitCard.style.transition = '';
+  exitCard.classList.add(direction > 0 ? 'card-exit-right' : 'card-exit-left');
+  setTimeout(() => {
+    exitCard.classList.remove('card-exit-right', 'card-exit-left');
+    projectIdx = newIdx;
+    updateProjectStack();
+    projectTransitioning = false;
+  }, 440);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const wrapper = document.getElementById('projects-carousel-wrapper');
-  if (!wrapper) return;
-  goToProjectSlide(0);
-  startProjectAutoPlay();
-  // Re-snap on resize so the translate stays correct
-  window.addEventListener('resize', () => goToProjectSlide(projectCurrentSlide));
+function _initProjectTilt() {
+  const grid = document.getElementById('projects-stack-grid');
+  if (!grid) return;
+  grid.addEventListener('mousemove', (e) => {
+    const active = grid.querySelector('.project-3d-card[data-stack-pos="0"]');
+    if (!active || active.classList.contains('card-exit-right') || active.classList.contains('card-exit-left')) return;
+    const rect = active.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    active.style.transition = 'transform 0.12s ease';
+    active.style.transform = `perspective(1400px) rotateY(${x * 10}deg) rotateX(${-y * 7}deg) translateZ(14px) scale(1.01)`;
+  });
+  grid.addEventListener('mouseleave', () => {
+    const active = grid.querySelector('.project-3d-card[data-stack-pos="0"]');
+    if (!active) return;
+    active.style.transition = 'transform 0.55s cubic-bezier(0.23, 1, 0.32, 1)';
+    active.style.transform = '';
+  });
+}
+
+function _initProjectSwipe() {
+  const section = document.getElementById('projects');
+  if (!section) return;
+  let startX = 0;
+  let startY = 0;
+  section.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  section.addEventListener('touchend', (e) => {
+    const dx = startX - e.changedTouches[0].clientX;
+    const dy = startY - e.changedTouches[0].clientY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      changeProject(dx > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!document.getElementById('projects-stack-grid')) return;
+  updateProjectStack();
+  _initProjectTilt();
+  _initProjectSwipe();
 });
 
 // Animate on Scroll

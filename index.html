@@ -193,7 +193,6 @@
   <!-- HERO -->
   <section id="hero" aria-label="About Nathan Hor" class="min-h-screen pt-24 pb-16 flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-20 gap-14 md:gap-24 animate-fadeIn">
     <div class="flex flex-col items-center md:items-start max-w-2xl">
-      <p class="font-RobotoMono text-sm tracking-[0.3em] uppercase opacity-60 mb-10">Creative Technologist & Developer</p>
       <h1 class="font-AnthonyGilford text-8xl md:text-[10.5rem] leading-none mb-6 text-center md:text-left">Nathan Hor</h1>
       <div class="font-RobotoMono text-lg md:text-2xl mb-5 h-9">
         <span id="typewriter-text" class="opacity-80"></span>
@@ -228,144 +227,182 @@
       <h2 class="font-AnthonyGilford text-5xl md:text-7xl">Projects</h2>
     </div>
 
-    <!-- Carousel wrapper -->
-    <div id="projects-carousel-wrapper" class="relative overflow-hidden"
-         onmouseenter="stopProjectAutoPlay()" onmouseleave="startProjectAutoPlay()">
+    <div class="projects-stack-outer">
+      <button onclick="changeProject(-1)" class="project-nav-3d project-nav-3d-prev">❮</button>
 
-      <!-- Sliding track -->
-      <div id="projects-track" class="flex projects-track">
+      <div class="projects-perspective">
+        <div class="projects-stack-grid" id="projects-stack-grid">
 
-        <!-- 1. PostcardAR -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex flex-col gap-1">
-              <h3 class="font-RobotoMono font-bold text-base">PostcardAR</h3>
-              <span class="award-tag self-start">AR Track Winner · Pacific Portal XR</span>
+          <!-- 0: PostcardAR -->
+          <div class="project-3d-card" data-idx="0">
+            <div class="project-card-left">
+              <div class="flex flex-col gap-1">
+                <span class="award-tag self-start">AR Track Winner · Pacific Portal XR</span>
+                <h3 class="project-card-title">PostcardAR</h3>
+              </div>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Won the AR track at Pacific Portal XR, built using zapworks and three.js a WebAR where scanning a postcard triggers a live 3D digital overlay</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Blending physical print media with immersive AR</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>The experience is built seamleassly and with immersive intentions to hide its technology behind the magic</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">Unity</span>
+                <span class="tech-tag">AR / XR</span>
+                <span class="tech-tag">C#</span>
+              </div>
+              <a href="https://github.com/NathanHor22/postcardAR" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
             </div>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Won the AR track at Pacific Portal XR, deploying a WebAR experience where scanning a postcard triggers a live 3D digital overlay</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Blended physical print media with augmented reality, making the experience feel seamless rather than technical</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">Unity</span>
-              <span class="tech-tag">AR / XR</span>
-              <span class="tech-tag">C#</span>
-            </div>
-            <a href="https://github.com/NathanHor22/postcardAR" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- 2. Purrmit -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex flex-col gap-1">
-              <h3 class="font-RobotoMono font-bold text-base">Purrmit — Your GL Copilot</h3>
-              <span class="award-tag self-start">Top 3 Finalist · Healthcare Ops</span>
-            </div>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Top 3 finalist in the Healthcare Operations Automation hackathon, built and demoed within a single day</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Developed an AI copilot that automates GL reconciliation for healthcare finance teams, cutting manual paperwork</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">AI / ML</span>
-              <span class="tech-tag">Healthcare</span>
-              <span class="tech-tag">Automation</span>
-            </div>
-            <a href="https://github.com/NathanHor22/Purrmit_Your-GL-Copilot" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- 3. EmployableDashboard -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <h3 class="font-RobotoMono font-bold text-base">EmployableDashboard</h3>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Built a full-stack Next.js dashboard with Supabase auth, Google OAuth, resume uploads, assessments, and an admin panel</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Architected DB schema with Row Level Security and a middleware proxy for protected multi-role route guarding</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">Next.js</span>
-              <span class="tech-tag">Supabase</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">Tailwind</span>
-            </div>
-            <a href="https://github.com/NathanHor22/employabledashboard" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- 4. GameUX Summit FAQ Bot -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <h3 class="font-RobotoMono font-bold text-base">GameUX Summit FAQ Bot</h3>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Deployed an agentic AI chatbot at GameUX Summit that autonomously answered attendee FAQs with no human in the loop</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Used multi-step reasoning and context retrieval to deliver accurate, on-topic responses across hundreds of queries</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">Agentic AI</span>
-              <span class="tech-tag">LLM</span>
-            </div>
-            <a href="https://github.com/NathanHor22/gameUXsummitagenticFAQ" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- 5. Tenun -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex flex-col gap-1">
-              <h3 class="font-RobotoMono font-bold text-base">Tenun — TalentBank CareerOS</h3>
-              <span class="in-progress-tag self-start">In Progress</span>
-            </div>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Building a career platform for TalentBank with candidate profiles, job matching logic, and employer-facing dashboards</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Pre-production TypeScript application built for scalability, focused on clean UX and robust data handling</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">Full-Stack</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">CareerOS</span>
-            </div>
-            <a href="https://github.com/NathanHor22/tenun-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn mt-auto">View on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- 6. Synapze Website -->
-        <div class="min-w-full flex justify-center px-2 md:px-16">
-          <div class="glass-card p-6 flex flex-col gap-4 w-full max-w-2xl hover:scale-[1.02] transition-transform duration-300">
-            <h3 class="font-RobotoMono font-bold text-base">Synapze Website Rebuild</h3>
-            <ul class="flex flex-col gap-2">
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Rebuilt the company site with AEO (Answer Engine Optimisation) so content surfaces correctly in AI-powered search</span></li>
-              <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Integrated Waze and Google Maps APIs for location features alongside a full modern design overhaul</span></li>
-            </ul>
-            <div class="flex flex-wrap gap-2">
-              <span class="tech-tag">HTML/CSS/JS</span>
-              <span class="tech-tag">Maps API</span>
-              <span class="tech-tag">AEO</span>
-            </div>
-            <div class="flex gap-2 mt-auto">
-              <a href="https://www.synapzemy.com/" target="_blank" rel="noopener noreferrer" class="project-btn flex-1">Live Site →</a>
-              <a href="https://github.com/NathanHor22/Synapze-testing-site-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn-outline flex-1 text-center">GitHub</a>
+            <div class="project-card-right">
+              <div class="project-video-area">
+                <video src="./img/Presence Postcard.mp4" loop muted playsinline></video>
+              </div>
             </div>
           </div>
-        </div>
 
+          <!-- 1: Purrmit -->
+          <div class="project-3d-card" data-idx="1">
+            <div class="project-card-left">
+              <div class="flex flex-col gap-1">
+                <span class="award-tag self-start">Top 3 Finalist · Healthcare Ops</span>
+                <h3 class="project-card-title">Purrmit</h3>
+              </div>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Top 3 at the Healthcare Operations Automation hackathon, built and demoed by 6pm the same day</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>AI copilot that automates hospital GL reconciliation, one click and Purrmit clears the paperwork</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Agentic pipeline handles end-to-end clearing so patients stop waiting and clerks stop chasing</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">AI / ML</span>
+                <span class="tech-tag">Healthcare</span>
+                <span class="tech-tag">Automation</span>
+              </div>
+              <a href="https://github.com/NathanHor22/Purrmit_Your-GL-Copilot" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
+            </div>
+            <div class="project-card-right">
+              <div class="project-video-area">
+                <video src="./img/Purrmit.mp4" loop muted playsinline></video>
+              </div>
+            </div>
+          </div>
 
-      </div><!-- /projects-track -->
+          <!-- 2: EmployableDashboard -->
+          <div class="project-3d-card" data-idx="2">
+            <div class="project-card-left">
+              <h3 class="project-card-title">EmployableDashboard</h3>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Full-stack Next.js dashboard with Supabase auth, Google OAuth, resume uploads, and an admin panel</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Architected DB schema with Row Level Security and a middleware proxy for multi-role route guarding</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Built for a real client, candidate assessments, employer dashboards and full file management</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">Supabase</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Tailwind</span>
+              </div>
+              <a href="https://github.com/NathanHor22/employabledashboard" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
+            </div>
+            <div class="project-card-right">
+              <div class="project-arch-block">
+                <div style="color:rgba(100,220,200,0.85)">// architecture</div>
+                <div>App Router (Next.js 14) · Edge Middleware</div>
+                <div>Supabase PostgreSQL · Row Level Security</div>
+                <div>Google OAuth · File Storage · RBAC</div>
+                <div>Roles: admin · employer · candidate</div>
+                <div style="color:rgba(255,184,90,0.85);margin-top:8px">&#x26BF; client work · private repo</div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Arrow buttons -->
-      <button onclick="changeProjectSlide(-1)" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 btn btn-circle z-10">❮</button>
-      <button onclick="changeProjectSlide(1)"  class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 btn btn-circle z-10">❯</button>
-    </div><!-- /projects-carousel-wrapper -->
+          <!-- 3: GameUX Summit FAQ Bot -->
+          <div class="project-3d-card" data-idx="3">
+            <div class="project-card-left">
+              <h3 class="project-card-title">GameUX Summit FAQ Bot</h3>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Deployed an agentic AI chatbot live at GameUX Summit that answers attendee FAQs autonomously with no human in the loop</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Multi-step reasoning and context retrieval delivered accurate responses across hundreds of queries</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Fully autonomous event assistant, context-aware, on-topic and zero manual moderation</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Agentic AI</span>
+                <span class="tech-tag">LLM</span>
+              </div>
+              <a href="https://github.com/NathanHor22/gameUXsummitagenticFAQ" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
+            </div>
+            <div class="project-card-right">
+              <div class="project-video-placeholder">
+                <span class="font-RobotoMono text-xs opacity-40">Video coming soon</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4: Tenun -->
+          <div class="project-3d-card" data-idx="4">
+            <div class="project-card-left">
+              <div class="flex flex-col gap-1">
+                <span class="in-progress-tag self-start">In Progress</span>
+                <h3 class="project-card-title">Tenun — TalentBank CareerOS</h3>
+              </div>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Building a career platform for TalentBank — candidate profiles, job matching logic, and employer dashboards</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Pre-production TypeScript app designed for scalability and clean UX across multi-role user flows</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Full-stack with robust data handling — employer and candidate sides built in parallel</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">Full-Stack</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">CareerOS</span>
+              </div>
+              <a href="https://github.com/NathanHor22/tenun-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
+            </div>
+            <div class="project-card-right">
+              <div class="project-video-placeholder">
+                <span class="font-RobotoMono text-xs opacity-40">Video coming soon</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5: Synapze Website -->
+          <div class="project-3d-card" data-idx="5">
+            <div class="project-card-left">
+              <h3 class="project-card-title">Synapze Website Rebuild</h3>
+              <ul class="flex flex-col gap-2">
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Rebuilt Synapze's site with AEO so content surfaces correctly in AI-powered search engines</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Integrated Waze and Google Maps APIs for live location features alongside a full design overhaul</span></li>
+                <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Improved SEO score and visitor time-on-site with modern layout and structured data</span></li>
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                <span class="tech-tag">HTML/CSS/JS</span>
+                <span class="tech-tag">Maps API</span>
+                <span class="tech-tag">AEO</span>
+              </div>
+              <div class="flex gap-2">
+                <a href="https://www.synapzemy.com/" target="_blank" rel="noopener noreferrer" class="project-btn flex-1">Live Site →</a>
+                <a href="https://github.com/NathanHor22/Synapze-testing-site-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn-outline flex-1 text-center">GitHub</a>
+              </div>
+            </div>
+            <div class="project-card-right">
+              <div class="project-video-area">
+                <video src="./img/Synapze website.mp4" loop muted playsinline></video>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /projects-stack-grid -->
+      </div><!-- /projects-perspective -->
+
+      <button onclick="changeProject(1)" class="project-nav-3d project-nav-3d-next">❯</button>
+    </div><!-- /projects-stack-outer -->
 
     <!-- Dot indicators -->
-    <div class="flex justify-center gap-2 mt-6" id="project-dots">
-      <button onclick="goToProjectSlide(0)" class="project-dot active-dot"></button>
-      <button onclick="goToProjectSlide(1)" class="project-dot"></button>
-      <button onclick="goToProjectSlide(2)" class="project-dot"></button>
-      <button onclick="goToProjectSlide(3)" class="project-dot"></button>
-      <button onclick="goToProjectSlide(4)" class="project-dot"></button>
-      <button onclick="goToProjectSlide(5)" class="project-dot"></button>
+    <div class="flex justify-center gap-2 mt-8" id="project-dots-3d">
+      <button onclick="goToProject(0)" class="project-dot-3d active"></button>
+      <button onclick="goToProject(1)" class="project-dot-3d"></button>
+      <button onclick="goToProject(2)" class="project-dot-3d"></button>
+      <button onclick="goToProject(3)" class="project-dot-3d"></button>
+      <button onclick="goToProject(4)" class="project-dot-3d"></button>
+      <button onclick="goToProject(5)" class="project-dot-3d"></button>
     </div>
 
   </section>
