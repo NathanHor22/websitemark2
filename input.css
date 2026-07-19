@@ -141,6 +141,35 @@
       linear-gradient(rgba(36, 31, 24, 0.05) 1px, transparent 1px),
       linear-gradient(90deg, rgba(36, 31, 24, 0.05) 1px, transparent 1px);
     background-size: 26px 26px;
+    /* the engineering grid drifts very slowly, like paper sliding under glass */
+    animation: ibmGridDrift 22s linear infinite;
+  }
+  @keyframes ibmGridDrift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 52px 26px, 52px 26px; }
+  }
+
+  /* CRT-style light band that sweeps down the page, behind all content */
+  body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 42vh;
+    pointer-events: none;
+    z-index: -1;
+    background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+    animation: ibmScan 9s linear infinite;
+  }
+  @keyframes ibmScan {
+    from { transform: translateY(-42vh); }
+    to   { transform: translateY(100vh); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body { animation: none; }
+    body::after { display: none; }
   }
 
   /* Glassmorphism card */
@@ -340,26 +369,29 @@
     background-color: rgba(38, 36, 26, 0.72);
   }
 
-  /* Slim glass nav button for photo carousels */
+  /* Keycap nav button for photo carousels — matches the project arrows */
   .carousel-nav-btn {
-    width: 32px;
-    height: 32px;
-    background: rgba(0, 0, 0, 0.38);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    color: white;
+    width: 34px;
+    height: 34px;
+    background: #ddd5c1;
+    border: 1px solid rgba(60, 52, 38, 0.3);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 3px 5px rgba(30, 25, 15, 0.22);
+    color: #2a2418;
     font-size: 1.2rem;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
   }
   .carousel-nav-btn:hover {
-    background: rgba(0, 0, 0, 0.58);
+    background: #e6dfcd;
+  }
+  .carousel-nav-btn:active {
+    transform: translateY(calc(-50% + 2px));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.22);
   }
 
   /* Category label chip overlaid on photo */
@@ -369,7 +401,7 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
+    border-radius: 4px;
     padding: 3px 11px;
     font-size: 0.6rem;
     font-family: "RobotoMono", sans-serif;
@@ -384,7 +416,7 @@
     background: rgba(0, 0, 0, 0.38);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-radius: 999px;
+    border-radius: 4px;
     padding: 3px 11px;
     font-size: 0.6rem;
     font-family: "RobotoMono", sans-serif;
