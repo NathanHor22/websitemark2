@@ -14,11 +14,37 @@
   font-style: normal;
 }
 
+/* "RobotoMono" now resolves to IBM Plex Mono too, so components that reference
+   the family name directly render in Plex without touching every rule */
 @font-face {
   font-family: "RobotoMono";
-  src: url("./fonts/RobotoMono.ttf") format("truetype");
+  src: url("./fonts/IBMPlexMono-400.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono — IBM's own open-source typeface, self-hosted (weights 400/500/700) */
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("./fonts/IBMPlexMono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("./fonts/IBMPlexMono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("./fonts/IBMPlexMono-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @layer utilities {
@@ -28,8 +54,14 @@
   .font-AnthonyGilford {
     font-family: "AnthonyGilford", sans-serif;
   }
+  /* Site typeface switched to IBM Plex Mono for the 1980s IBM look.
+     The .font-RobotoMono class name is kept so existing markup needn't change;
+     it now renders IBM Plex Mono. (Will rename in the full overhaul pass.) */
   .font-RobotoMono {
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", "RobotoMono", ui-monospace, monospace;
+  }
+  .font-IBMPlexMono {
+    font-family: "IBMPlexMono", ui-monospace, monospace;
   }
 
   @keyframes fadeIn {
@@ -100,10 +132,15 @@
     scroll-behavior: smooth;
   }
 
+  /* ── 1980s IBM palette: creamy off-white + faint engineering grid ── */
   body {
-    background-color: rgb(143, 141, 121);
-    background-image: radial-gradient(rgba(255, 255, 255, 0.5) 10%, transparent 13%);
-    background-size: 11px 11px;
+    background-color: #e7e1d1; /* warm cream / greige "IBM beige" */
+    color: #241f18;            /* warm near-black terminal ink */
+    /* graph-paper grid, kept very subtle for a modern-retro balance */
+    background-image:
+      linear-gradient(rgba(36, 31, 24, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(36, 31, 24, 0.05) 1px, transparent 1px);
+    background-size: 26px 26px;
   }
 
   /* Glassmorphism card */
@@ -115,71 +152,98 @@
     border-radius: 16px;
   }
 
-  /* Sticky nav glass */
+  /* Sticky nav glass — cream tint over the IBM background */
   .nav-glass {
-    background: rgba(143, 141, 121, 0.8);
+    background: rgba(231, 225, 209, 0.82);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(36, 31, 24, 0.14);
   }
 
-  /* Tech stack tag pill */
+  /* Reusable IBM keycap surface (nav Menu button, etc.) */
+  .keycap {
+    background: #ddd5c1;
+    border: 1px solid rgba(60, 52, 38, 0.32);
+    border-radius: 6px;
+    color: #2a2418;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 3px 5px rgba(30, 25, 15, 0.14);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+  }
+  .keycap:hover {
+    background: #e6dfcd;
+  }
+  .keycap:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.15);
+  }
+
+  /* Tech stack tag — boxy IBM label chip */
   .tech-tag {
     display: inline-block;
-    background: rgba(0, 0, 0, 0.14);
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    border-radius: 999px;
-    padding: 2px 10px;
+    background: rgba(60, 52, 38, 0.1);
+    border: 1px solid rgba(60, 52, 38, 0.22);
+    border-radius: 4px;
+    padding: 3px 9px;
     font-size: 0.65rem;
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", ui-monospace, monospace;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
-  /* Award badge — gold tint */
+  /* Award badge — gold tint, boxy */
   .award-tag {
     display: inline-block;
     background: rgba(212, 175, 55, 0.28);
     border: 1px solid rgba(212, 175, 55, 0.6);
-    border-radius: 999px;
-    padding: 2px 10px;
+    border-radius: 4px;
+    padding: 3px 9px;
     font-size: 0.65rem;
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", ui-monospace, monospace;
     color: #5a4000;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
   }
 
-  /* In-progress badge — blue tint */
+  /* In-progress badge — blue tint, boxy */
   .in-progress-tag {
     display: inline-block;
     background: rgba(59, 130, 246, 0.2);
     border: 1px solid rgba(59, 130, 246, 0.45);
-    border-radius: 999px;
-    padding: 2px 10px;
+    border-radius: 4px;
+    padding: 3px 9px;
     font-size: 0.65rem;
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", ui-monospace, monospace;
     color: #1e3a5f;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
-  /* Project link button */
+  /* ── IBM keycap buttons ──────────────────────────────────────────
+     Beige key face, square-ish corners, top highlight + a chunky bottom
+     "key wall", and a press-down on :active */
   .project-btn {
     display: block;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(0, 0, 0, 0.22);
-    border-radius: 8px;
-    padding: 8px 14px;
+    background: #ddd5c1;
+    border: 1px solid rgba(60, 52, 38, 0.32);
+    border-radius: 6px;
+    padding: 9px 15px;
     font-size: 0.7rem;
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", ui-monospace, monospace;
     text-align: center;
     text-decoration: none;
-    color: inherit;
-    transition: background 0.2s ease;
+    color: #2a2418;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 4px 6px rgba(30, 25, 15, 0.15);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
   }
   .project-btn:hover {
-    background: rgba(0, 0, 0, 0.35);
+    background: #e6dfcd;
+  }
+  .project-btn:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.16);
   }
 
   /* ── LinkedIn-style activity cards ─────────────────────────── */
   .linkedin-card {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.07);
     overflow: hidden;
@@ -336,17 +400,42 @@
   }
 
   @media (max-width: 767px) {
+    /* Break out of the section's side padding so the card is nearly full-width;
+       arrows overlay the edges */
     .projects-stack-outer {
-      padding: 0 40px;
+      margin: 0 -16px;
+      padding: 0 4px;
     }
-    /* Restore card padding on mobile since desktop zeros it */
+    /* Restore card padding on mobile since desktop zeros it (kept tight) */
     .project-3d-card {
-      padding: 22px 18px;
-      gap: 16px;
+      padding: 16px 12px;
+      gap: 12px;
+      /* Size each card to its own content so a fixed-ratio video doesn't leave
+         a big empty frosted box below it (the deck would otherwise stretch
+         every card to the tallest one's height) */
+      align-self: start;
     }
     .project-card-left {
-      gap: 16px;
+      gap: 12px;
     }
+    /* Text on top; media is a fixed 16:9 box like desktop. The video breaks
+       past the card padding to be ~30% larger, keeping a small neat side margin */
+    .project-video-area,
+    .project-video-placeholder,
+    .project-arch-block {
+      width: auto;
+      margin-left: -6px;
+      margin-right: -6px;
+      aspect-ratio: 16 / 9;
+    }
+    /* Smaller nav arrows floated over the card's left/right edges */
+    .project-nav-3d {
+      width: 30px;
+      height: 30px;
+      font-size: 0.8rem;
+    }
+    .project-nav-3d-prev { left: 0; }
+    .project-nav-3d-next { right: 0; }
   }
 
   .projects-perspective {
@@ -360,6 +449,9 @@
   .projects-stack-grid {
     display: grid;
     grid-template-areas: "stack";
+    /* Clamp the single auto track to the container so cards can't grow to
+       max-content and overflow the viewport on narrow mobile screens */
+    grid-template-columns: minmax(0, 1fr);
     padding-bottom: 52px;
   }
 
@@ -369,9 +461,9 @@
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 24px;
+    border-radius: 14px;
     padding: 22px 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -513,6 +605,9 @@
     font-size: 1.8rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    /* Break long single-word titles (e.g. "EmployableDashboard") rather than
+       forcing the card wider than the viewport */
+    overflow-wrap: break-word;
   }
 
   @media (min-width: 768px) {
@@ -572,14 +667,14 @@
     transform: translateY(-50%);
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(0, 0, 0, 0.16);
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid rgba(60, 52, 38, 0.3);
+    background: #ddd5c1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 4px 6px rgba(30, 25, 15, 0.16);
+    color: #2a2418;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -587,7 +682,11 @@
   }
 
   .project-nav-3d:hover {
-    background: rgba(255, 255, 255, 0.85);
+    background: #e6dfcd;
+  }
+  .project-nav-3d:active {
+    transform: translateY(calc(-50% + 2px));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.16);
   }
 
   .project-nav-3d-prev { left: 4px; }
@@ -610,21 +709,26 @@
     background: rgba(0, 0, 0, 0.65);
   }
 
-  /* Outline button variant */
+  /* Outline keycap variant — lighter, hollow key face */
   .project-btn-outline {
     display: block;
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.28);
-    border-radius: 8px;
-    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(60, 52, 38, 0.3);
+    border-radius: 6px;
+    padding: 9px 15px;
     font-size: 0.7rem;
-    font-family: "RobotoMono", sans-serif;
+    font-family: "IBMPlexMono", ui-monospace, monospace;
     text-align: center;
     text-decoration: none;
-    color: inherit;
-    transition: background 0.2s ease;
+    color: #2a2418;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 0 rgba(60, 52, 38, 0.18), 0 4px 6px rgba(30, 25, 15, 0.1);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
   }
   .project-btn-outline:hover {
-    background: rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .project-btn-outline:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 0 rgba(60, 52, 38, 0.18), 0 2px 3px rgba(30, 25, 15, 0.12);
   }
 }
