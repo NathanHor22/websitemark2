@@ -14,7 +14,7 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nathanhor.com/">
-    <meta property="og:title" content="Nathan Hor — Creative Technologist & AR/AI Developer">
+    <meta property="og:title" content="Nathan Hor - Creative Technologist & AR/AI Developer">
     <meta property="og:description" content="Nathan Hor builds agentic AI systems, AR experiences, and full-stack products. AR Track Winner at Pacific Portal XR. Top 3 Finalist at multiple hackathons. Currently Creative Technologist at Synapze.">
     <meta property="og:image" content="https://nathanhor.com/img/hor.png">
     <meta property="og:site_name" content="Nathan Hor">
@@ -229,19 +229,23 @@
       <h2 class="font-IBMPlexMono font-bold uppercase tracking-tight text-4xl md:text-6xl">Projects</h2>
     </div>
 
-    <div class="projects-stack-outer">
-      <button onclick="changeProject(-1)" class="project-nav-3d project-nav-3d-prev">❮</button>
+    <div class="projects-carousel">
+      <button type="button" class="project-nav project-nav-prev" aria-label="Previous project" onclick="changeProject(-1)">❮</button>
+      <button type="button" class="project-nav project-nav-next" aria-label="Next project" onclick="changeProject(1)">❯</button>
 
-      <div class="projects-perspective">
-        <div class="projects-stack-grid" id="projects-stack-grid">
+      <div class="projects-viewport">
+        <div class="projects-track" id="projects-track">
 
-          <!-- 0: PostcardAR -->
-          <div class="project-3d-card" data-idx="0">
-            <div class="project-card-left">
-              <div class="flex flex-col gap-1">
-                <span class="award-tag self-start">AR Track Winner · Pacific Portal XR</span>
-                <h3 class="project-card-title">PostcardAR</h3>
-              </div>
+      <!-- 0: PostcardAR -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <span class="award-tag self-start">AR Track Winner · Pacific Portal XR</span>
+          <h3 class="project-card-title">PostcardAR</h3>
+          <p class="project-post-teaser">Scanning a postcard triggers a live 3D overlay — Zapworks + three.js.</p>
+        </div>
+        <div class="project-details" id="project-details-0">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Won the AR track at Pacific Portal XR, built using zapworks and three.js a WebAR where scanning a postcard triggers a live 3D digital overlay</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Blending physical print media with immersive AR</span></li>
@@ -254,20 +258,24 @@
               </div>
               <a href="https://github.com/NathanHor22/postcardAR" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Presence Postcard.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-0" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Presence Postcard.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-          <!-- 1: Purrmit -->
-          <div class="project-3d-card" data-idx="1">
-            <div class="project-card-left">
-              <div class="flex flex-col gap-1">
-                <span class="award-tag self-start">Top 3 Finalist · Healthcare Ops</span>
-                <h3 class="project-card-title">Purrmit</h3>
-              </div>
+      <!-- 1: Purrmit -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <span class="award-tag self-start">Top 3 Finalist · Healthcare Ops</span>
+          <h3 class="project-card-title">Purrmit</h3>
+          <p class="project-post-teaser">AI copilot that clears hospital GL paperwork in one click.</p>
+        </div>
+        <div class="project-details" id="project-details-1">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Top 3 at the Healthcare Operations Automation hackathon, built and demoed by 6pm the same day</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>AI copilot that automates hospital GL reconciliation, one click and Purrmit clears the paperwork</span></li>
@@ -280,20 +288,24 @@
               </div>
               <a href="https://github.com/NathanHor22/Purrmit_Your-GL-Copilot" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Purrmit.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-1" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Purrmit.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-          <!-- 2: Persephone -->
-          <div class="project-3d-card" data-idx="2">
-            <div class="project-card-left">
-              <div class="flex flex-col gap-1">
-                <span class="award-tag self-start">Top 5 · Robotics &amp; Physical AI</span>
-                <h3 class="project-card-title">Persephone</h3>
-              </div>
+      <!-- 2: Persephone -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <span class="award-tag self-start">Top 5 · Robotics &amp; Physical AI</span>
+          <h3 class="project-card-title">Persephone</h3>
+          <p class="project-post-teaser">A wearable e-lanyard that listens, speaks and guides you through an event.</p>
+        </div>
+        <div class="project-details" id="project-details-2">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>A wearable e-lanyard that listens, speaks and guides you through an event — no app, no phone, a voice you wear</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Speak a question and an agentic memory layer filters, sharpens and merges duplicates before it reaches the main stage</span></li>
@@ -306,20 +318,24 @@
                 <span class="tech-tag">Firmware</span>
               </div>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Persephone.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-2" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Persephone.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-          <!-- 3: Jaga -->
-          <div class="project-3d-card" data-idx="3">
-            <div class="project-card-left">
-              <div class="flex flex-col gap-1">
-                <span class="award-tag self-start">Top 3 · OpenAI Build Week</span>
-                <h3 class="project-card-title">Jaga</h3>
-              </div>
+      <!-- 3: Jaga -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <span class="award-tag self-start">Top 3 · OpenAI Build Week</span>
+          <h3 class="project-card-title">Jaga</h3>
+          <p class="project-post-teaser">Flags scam calls in real time across five Malaysian languages.</p>
+        </div>
+        <div class="project-details" id="project-details-3">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Flags scam calls and messages in real time across five languages (BM, English, Manglish, Mandarin, Tamil)</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>An ESP32-S3 companion lets elders dock their phone mid-call for a live voice assessment — no app, no screen</span></li>
@@ -333,20 +349,24 @@
               </div>
               <a href="https://github.com/NathanHor22/codex-hackathon" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Jaga.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-3" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Jaga.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-          <!-- 4: Tenun -->
-          <div class="project-3d-card" data-idx="4">
-            <div class="project-card-left">
-              <div class="flex flex-col gap-1">
-                <span class="in-progress-tag self-start">In Progress</span>
-                <h3 class="project-card-title">Tenun — TalentBank CareerOS</h3>
-              </div>
+      <!-- 4: Tenun -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <span class="in-progress-tag self-start">In Progress</span>
+          <h3 class="project-card-title">Tenun — TalentBank CareerOS</h3>
+          <p class="project-post-teaser">Career platform for TalentBank — profiles, matching, employer dashboards.</p>
+        </div>
+        <div class="project-details" id="project-details-4">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Building a career platform for TalentBank — candidate profiles, job matching logic, and employer dashboards</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Pre-production TypeScript app designed for scalability and clean UX across multi-role user flows</span></li>
@@ -359,17 +379,23 @@
               </div>
               <a href="https://github.com/NathanHor22/tenun-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn self-start">View on GitHub →</a>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Tenun.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-4" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Tenun.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-          <!-- 5: Synapze Website -->
-          <div class="project-3d-card" data-idx="5">
-            <div class="project-card-left">
-              <h3 class="project-card-title">Synapze Website Rebuild</h3>
+      <!-- 5: Synapze Website -->
+      <article class="project-post-card">
+        <div class="project-post-head">
+          <h3 class="project-card-title">Synapze Website Rebuild</h3>
+          <p class="project-post-teaser">Site rebuild with AEO, Waze + Maps APIs, and a full design overhaul.</p>
+        </div>
+        <div class="project-details" id="project-details-5">
+          <div>
+            <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Rebuilt Synapze's site with AEO so content surfaces correctly in AI-powered search engines</span></li>
                 <li class="font-RobotoMono text-sm opacity-70 flex gap-2"><span class="flex-shrink-0">—</span><span>Integrated Waze and Google Maps APIs for live location features alongside a full design overhaul</span></li>
@@ -385,28 +411,26 @@
                 <a href="https://github.com/NathanHor22/Synapze-testing-site-pre-prod" target="_blank" rel="noopener noreferrer" class="project-btn-outline flex-1 text-center">GitHub</a>
               </div>
             </div>
-            <div class="project-card-right">
-              <div class="project-video-area">
-                <video src="./img/Synapze website.mp4" loop muted playsinline></video>
-              </div>
-            </div>
           </div>
+        </div>
+        <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-5" onclick="toggleProject(this)">...see more</button>
+        <div class="project-post-media">
+          <video src="./img/Synapze website.mp4" loop muted playsinline preload="metadata"></video>
+        </div>
+      </article>
 
-        </div><!-- /projects-stack-grid -->
-      </div><!-- /projects-perspective -->
+        </div><!-- /projects-track -->
+      </div><!-- /projects-viewport -->
 
-      <button onclick="changeProject(1)" class="project-nav-3d project-nav-3d-next">❯</button>
-    </div><!-- /projects-stack-outer -->
-
-    <!-- Dot indicators -->
-    <div class="flex justify-center gap-2 mt-8" id="project-dots-3d">
-      <button onclick="goToProject(0)" class="project-dot-3d active"></button>
-      <button onclick="goToProject(1)" class="project-dot-3d"></button>
-      <button onclick="goToProject(2)" class="project-dot-3d"></button>
-      <button onclick="goToProject(3)" class="project-dot-3d"></button>
-      <button onclick="goToProject(4)" class="project-dot-3d"></button>
-      <button onclick="goToProject(5)" class="project-dot-3d"></button>
-    </div>
+      <div class="project-dots" id="project-dots" role="tablist" aria-label="Choose a project">
+        <button type="button" class="project-dot active" aria-label="Project 1" onclick="goToProject(0)"></button>
+        <button type="button" class="project-dot" aria-label="Project 2" onclick="goToProject(1)"></button>
+        <button type="button" class="project-dot" aria-label="Project 3" onclick="goToProject(2)"></button>
+        <button type="button" class="project-dot" aria-label="Project 4" onclick="goToProject(3)"></button>
+        <button type="button" class="project-dot" aria-label="Project 5" onclick="goToProject(4)"></button>
+        <button type="button" class="project-dot" aria-label="Project 6" onclick="goToProject(5)"></button>
+      </div>
+    </div><!-- /projects-carousel -->
 
   </section>
 

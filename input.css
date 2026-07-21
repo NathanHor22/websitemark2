@@ -424,212 +424,207 @@
     letter-spacing: 0.06em;
   }
 
-  /* ─── 3D Project Card Stack ─── */
-  .projects-stack-outer {
-    position: relative;
-    width: 100%;
-    padding: 0 52px;
+  /* ─── Project carousel ───
+     One card at a time on every screen size. A single CSS grid holds the
+     arrows, the viewport and the dots; only the grid areas change between
+     mobile and desktop, so the arrows are never duplicated in the markup.
+
+       desktop            mobile
+       ❮ [card] ❯         [   card   ]
+         • • •            ❮  • • •  ❯                                        */
+  .projects-carousel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "prev view next"
+      "dots dots dots";
+    align-items: center;
+    gap: 0 18px;
+    /* Card width = this minus the two 40px arrows and their gaps (~900px here) */
+    max-width: 1020px;
+    margin: 0 auto;
+  }
+  .project-nav-prev { grid-area: prev; }
+  .project-nav-next { grid-area: next; }
+  .projects-viewport { grid-area: view; }
+  .project-dots {
+    grid-area: dots;
+    justify-self: center;
+    display: flex;
+    gap: 8px;
+    margin-top: 22px;
   }
 
   @media (max-width: 767px) {
-    /* Break out of the section's side padding so the card is nearly full-width;
-       arrows overlay the edges */
-    .projects-stack-outer {
-      margin: 0 -16px;
-      padding: 0 4px;
+    /* Card takes the full width; arrows drop down beside the dots so they
+       aren't stealing ~110px from an already narrow screen */
+    .projects-carousel {
+      grid-template-areas:
+        "view view view"
+        "prev dots next";
+      gap: 0 10px;
     }
-    /* Restore card padding on mobile since desktop zeros it (kept tight) */
-    .project-3d-card {
-      padding: 16px 12px;
-      gap: 12px;
-      /* Size each card to its own content so a fixed-ratio video doesn't leave
-         a big empty frosted box below it (the deck would otherwise stretch
-         every card to the tallest one's height) */
-      align-self: start;
-    }
-    .project-card-left {
-      gap: 12px;
-    }
-    /* Text on top; media is a fixed 16:9 box like desktop. The video breaks
-       past the card padding to be ~30% larger, keeping a small neat side margin */
-    .project-video-area,
-    .project-video-placeholder,
-    .project-arch-block {
-      width: auto;
-      margin-left: -6px;
-      margin-right: -6px;
-      aspect-ratio: 16 / 9;
-    }
-    /* Smaller nav arrows floated over the card's left/right edges */
-    .project-nav-3d {
-      width: 30px;
-      height: 30px;
-      font-size: 0.8rem;
-    }
-    .project-nav-3d-prev { left: 0; }
-    .project-nav-3d-next { right: 0; }
+    .project-dots { margin-top: 18px; }
+    .project-nav { margin-top: 18px; }
   }
 
-  .projects-perspective {
-    perspective: 1400px;
-    perspective-origin: 50% 30%;
-    width: 100%;
-    max-width: 1014px;
-    margin: 0 auto;
+  .projects-viewport {
+    overflow: hidden;
+    /* Breathing room so the card's drop shadow isn't sheared off. Padding sits
+       inside the clip box, and the negative margin keeps the grid cell the same
+       size. The 8px of horizontal slack only ever exposes the track's gap,
+       never the neighbouring card — see the gap/translate pairing below. */
+    padding: 6px 8px;
+    margin: -6px -8px;
   }
 
-  .projects-stack-grid {
-    display: grid;
-    grid-template-areas: "stack";
-    /* Clamp the single auto track to the container so cards can't grow to
-       max-content and overflow the viewport on narrow mobile screens */
-    grid-template-columns: minmax(0, 1fr);
-    padding-bottom: 52px;
+  .projects-track {
+    display: flex;
+    align-items: flex-start;
+    /* Must stay in sync with PROJECT_SLIDE_GAP in app.js, which translates by
+       calc(-idx * (100% + gap)) */
+    gap: 24px;
+    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
   }
 
-  .project-3d-card {
-    grid-area: stack;
+  /* Cards are the flex items directly — no wrapper element */
+  .projects-track > .project-post-card {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  /* ─── Project post cards ───
+     Same layout and interaction as the LinkedIn posts in #activity (title +
+     teaser, "...see more" dropdown, media box last), but wearing the site's
+     frosted-glass skin and mono type rather than LinkedIn's white/system look. */
+  .project-post-card {
     background: rgba(255, 255, 255, 0.42);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 14px;
-    padding: 22px 18px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    border-radius: 6px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    will-change: transform, opacity;
-    transform-origin: center bottom;
-    transition: transform 0.55s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.45s ease, filter 0.55s ease;
   }
 
-  /* Left column: text content */
-  .project-card-left {
+  /* Keycap arrows, matching the site's other buttons */
+  .project-nav {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(60, 52, 38, 0.3);
+    background: #ddd5c1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 4px 6px rgba(30, 25, 15, 0.16);
+    color: #2a2418;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+  }
+  .project-nav:hover {
+    background: #e6dfcd;
+  }
+  .project-nav:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.16);
+  }
+
+  .project-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  .project-dot.active {
+    width: 22px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  /* Always-visible header: award tag, title, one-line teaser */
+  .project-post-head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 16px 0;
+  }
+
+  .project-post-teaser {
+    font-family: "IBMPlexMono", "RobotoMono", ui-monospace, monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+
+  /* Collapsible body. The 0fr → 1fr grid track animates the true content
+     height, so cards with different bullet lengths and button counts all
+     open correctly without hard-coding a max-height. */
+  .project-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    padding: 0 16px;
+    transition: grid-template-rows 0.35s ease;
+  }
+  .project-details > * {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .project-post-card.expanded .project-details {
+    grid-template-rows: 1fr;
+  }
+  .project-details-inner {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    min-width: 0;
+    padding-top: 12px;
   }
 
-  /* Right column: media */
-  .project-card-right {
-    display: flex;
-    flex-direction: column;
+  /* Mirrors .li-see-more-btn so both sections read identically */
+  .project-see-more {
+    align-self: flex-start;
+    margin: 8px 16px 0;
+    padding: 2px 0 0;
+    font-family: "IBMPlexMono", "RobotoMono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.45);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .project-see-more:hover {
+    color: rgba(0, 0, 0, 0.75);
   }
 
-  /* Desktop two-column layout */
-  @media (min-width: 768px) {
-    .project-3d-card {
-      flex-direction: row;
-      padding: 0;
-      gap: 0;
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-    }
-
-    .project-card-left {
-      flex: 0 0 30%;
-      padding: 22px 20px 22px 20px;
-      justify-content: center;
-    }
-
-    .project-card-right {
-      flex: 0 0 70%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .project-card-right .project-video-area,
-    .project-card-right .project-video-placeholder {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      margin: 0;
-      border-radius: 12px;
-      flex-shrink: 0;
-    }
-
-    .project-card-right .project-video-area video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .project-card-right .project-arch-block {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      margin: 0;
-      border-radius: 12px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .project-card-title {
-      font-size: 1.3rem;
-    }
+  /* The media box drives the card's height. 16:9 lets it grow with the card
+     instead of staying a fixed strip — on the ~900px desktop card that's a
+     ~500px frame showing the full recording rather than a cropped band.
+     min-height keeps the LinkedIn-parity 180px floor on narrow screens. */
+  .project-post-media {
+    margin: 12px 16px 16px;
+    aspect-ratio: 16 / 9;
+    min-height: 180px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #f3f2ef 0%, #e5e3dc 100%);
+    overflow: hidden;
   }
-
-  .project-3d-card:not([data-stack-pos]) {
-    opacity: 0;
-  }
-
-  .project-3d-card[data-stack-pos="0"] {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    z-index: 10;
-    pointer-events: auto;
-  }
-
-  .project-3d-card[data-stack-pos="1"] {
-    transform: translateY(18px) scale(0.965);
-    opacity: 1;
-    z-index: 9;
+  .project-post-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     pointer-events: none;
-    filter: brightness(0.97);
-  }
-
-  .project-3d-card[data-stack-pos="2"] {
-    transform: translateY(36px) scale(0.93);
-    opacity: 0.7;
-    z-index: 8;
-    pointer-events: none;
-    filter: brightness(0.94);
-  }
-
-  .project-3d-card[data-stack-pos="3"],
-  .project-3d-card[data-stack-pos="4"],
-  .project-3d-card[data-stack-pos="5"] {
-    transform: translateY(54px) scale(0.895);
-    opacity: 0;
-    z-index: 7;
-    pointer-events: none;
-  }
-
-  @keyframes cardExitRight {
-    to { transform: translateX(115%) rotateZ(16deg) scale(0.9); opacity: 0; }
-  }
-  @keyframes cardExitLeft {
-    to { transform: translateX(-115%) rotateZ(-16deg) scale(0.9); opacity: 0; }
-  }
-
-  .card-exit-right {
-    animation: cardExitRight 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
-    pointer-events: none !important;
-    z-index: 20 !important;
-    transition: none !important;
-  }
-
-  .card-exit-left {
-    animation: cardExitLeft 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
-    pointer-events: none !important;
-    z-index: 20 !important;
-    transition: none !important;
   }
 
   .project-card-title {
@@ -646,99 +641,6 @@
     .project-card-title {
       font-size: 1.3rem;
     }
-  }
-
-  .project-video-area {
-    width: 70%;
-    margin: 0 auto;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.08);
-    flex-shrink: 0;
-  }
-
-  .project-video-area video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-  }
-
-  .project-video-placeholder {
-    width: 70%;
-    margin: 0 auto;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.04);
-    border: 1.5px dashed rgba(0, 0, 0, 0.14);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .project-arch-block {
-    width: 100%;
-    border-radius: 14px;
-    background: rgba(12, 12, 10, 0.86);
-    padding: 18px 22px;
-    font-family: "RobotoMono", monospace;
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.72);
-    line-height: 1.85;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    flex-shrink: 0;
-  }
-
-  .project-nav-3d {
-    position: absolute;
-    top: calc(50% - 26px);
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    border: 1px solid rgba(60, 52, 38, 0.3);
-    background: #ddd5c1;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 0 #bcb298, 0 4px 6px rgba(30, 25, 15, 0.16);
-    color: #2a2418;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 30;
-  }
-
-  .project-nav-3d:hover {
-    background: #e6dfcd;
-  }
-  .project-nav-3d:active {
-    transform: translateY(calc(-50% + 2px));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.16);
-  }
-
-  .project-nav-3d-prev { left: 4px; }
-  .project-nav-3d-next { right: 4px; }
-
-  .project-dot-3d {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.3s ease;
-  }
-
-  .project-dot-3d.active {
-    width: 22px;
-    border-radius: 3px;
-    background: rgba(0, 0, 0, 0.65);
   }
 
   /* Outline keycap variant — lighter, hollow key face */

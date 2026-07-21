@@ -128,101 +128,124 @@ function togglePost(containerId, btn) {
   btn.textContent = isExpanded ? '...see more' : 'see less';
 }
 
-// ── 3D Project Stack ──────────────────────────────────────────────
-const PROJECT_COUNT = 6;
+// ── Project carousel ──────────────────────────────────────────────
+// One card visible at a time. Must match the `gap` on .projects-track in the CSS.
+const PROJECT_SLIDE_GAP = 24;
 let projectIdx = 0;
-let projectTransitioning = false;
+let projectSectionVisible = true;
 
-function updateProjectStack() {
-  const cards = document.querySelectorAll('.project-3d-card');
-  cards.forEach((card, i) => {
-    const pos = (i - projectIdx + PROJECT_COUNT) % PROJECT_COUNT;
-    card.dataset.stackPos = pos;
+function _projectCards() {
+  return document.querySelectorAll('#projects-track > .project-post-card');
+}
+
+// Only the card on screen should be playing — the other five are decoded video
+// we'd be downloading for nothing.
+function _syncProjectVideos() {
+  _projectCards().forEach((card, i) => {
     const video = card.querySelector('video');
-    if (video) {
-      if (pos === 0) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    }
+    if (!video) return;
+    if (i === projectIdx && projectSectionVisible) video.play().catch(() => {});
+    else video.pause();
   });
-  document.querySelectorAll('.project-dot-3d').forEach((dot, i) => {
+}
+
+// The track is sized to the active card so a collapsed card doesn't inherit
+// the height of an expanded one sitting off-screen.
+function _syncProjectHeight() {
+  const track = document.getElementById('projects-track');
+  const active = _projectCards()[projectIdx];
+  if (track && active) track.style.height = active.offsetHeight + 'px';
+}
+
+function updateProjectCarousel() {
+  const track = document.getElementById('projects-track');
+  if (!track) return;
+  track.style.transform =
+    `translateX(calc(${-projectIdx * 100}% - ${projectIdx * PROJECT_SLIDE_GAP}px))`;
+  document.querySelectorAll('.project-dot').forEach((dot, i) => {
     dot.classList.toggle('active', i === projectIdx);
   });
+  _projectCards().forEach((card, i) => {
+    // Keep off-screen cards out of the tab order and away from screen readers
+    card.setAttribute('aria-hidden', String(i !== projectIdx));
+    card.querySelectorAll('a, button').forEach((el) => {
+      el.tabIndex = i === projectIdx ? 0 : -1;
+    });
+  });
+  _syncProjectHeight();
+  _syncProjectVideos();
 }
 
 function goToProject(idx) {
-  if (projectTransitioning || idx === projectIdx) return;
-  const fwd = (idx - projectIdx + PROJECT_COUNT) % PROJECT_COUNT;
-  _doProjectTransition(fwd <= PROJECT_COUNT / 2 ? 1 : -1, idx);
+  const count = _projectCards().length;
+  if (!count) return;
+  projectIdx = (idx + count) % count;
+  updateProjectCarousel();
 }
 
 function changeProject(direction) {
-  if (projectTransitioning) return;
-  const newIdx = (projectIdx + direction + PROJECT_COUNT) % PROJECT_COUNT;
-  _doProjectTransition(direction, newIdx);
+  goToProject(projectIdx + direction);
 }
 
-function _doProjectTransition(direction, newIdx) {
-  projectTransitioning = true;
-  const cards = document.querySelectorAll('.project-3d-card');
-  const exitCard = cards[projectIdx];
-  exitCard.style.transform = '';
-  exitCard.style.transition = '';
-  exitCard.classList.add(direction > 0 ? 'card-exit-right' : 'card-exit-left');
-  setTimeout(() => {
-    exitCard.classList.remove('card-exit-right', 'card-exit-left');
-    projectIdx = newIdx;
-    updateProjectStack();
-    projectTransitioning = false;
-  }, 440);
+// "...see more" expands the active card's bullets/tags/links.
+function toggleProject(btn) {
+  const card = btn.closest('.project-post-card');
+  const expanded = !card.classList.contains('expanded');
+  card.classList.toggle('expanded', expanded);
+  btn.textContent = expanded ? 'see less' : '...see more';
+  btn.setAttribute('aria-expanded', String(expanded));
 }
 
-function _initProjectTilt() {
-  const grid = document.getElementById('projects-stack-grid');
-  if (!grid) return;
-  grid.addEventListener('mousemove', (e) => {
-    const active = grid.querySelector('.project-3d-card[data-stack-pos="0"]');
-    if (!active || active.classList.contains('card-exit-right') || active.classList.contains('card-exit-left')) return;
-    const rect = active.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    active.style.transition = 'transform 0.12s ease';
-    active.style.transform = `perspective(1400px) rotateY(${x * 10}deg) rotateX(${-y * 7}deg) translateZ(14px) scale(1.01)`;
-  });
-  grid.addEventListener('mouseleave', () => {
-    const active = grid.querySelector('.project-3d-card[data-stack-pos="0"]');
-    if (!active) return;
-    active.style.transition = 'transform 0.55s cubic-bezier(0.23, 1, 0.32, 1)';
-    active.style.transform = '';
-  });
-}
+function _initProjectCarousel() {
+  const track = document.getElementById('projects-track');
+  if (!track) return;
 
-function _initProjectSwipe() {
+  // A ResizeObserver rather than a one-shot measure: this fires on every frame
+  // of the see-more expansion, on window resize, and once webfonts land and
+  // reflow the titles — all of which change the active card's height.
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => _syncProjectHeight());
+    _projectCards().forEach((card) => ro.observe(card));
+  } else {
+    window.addEventListener('resize', _syncProjectHeight);
+  }
+
+  // Pause the video entirely while the section is scrolled away
   const section = document.getElementById('projects');
-  if (!section) return;
+  if (section && window.IntersectionObserver) {
+    new IntersectionObserver((entries) => {
+      projectSectionVisible = entries[0].isIntersecting;
+      _syncProjectVideos();
+    }, { threshold: 0.1 }).observe(section);
+  }
+
+  // Swipe
   let startX = 0;
   let startY = 0;
-  section.addEventListener('touchstart', (e) => {
+  track.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
   }, { passive: true });
-  section.addEventListener('touchend', (e) => {
+  track.addEventListener('touchend', (e) => {
     const dx = startX - e.changedTouches[0].clientX;
     const dy = startY - e.changedTouches[0].clientY;
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
       changeProject(dx > 0 ? 1 : -1);
     }
   }, { passive: true });
+
+  // Left/right arrow keys when focus is inside the carousel
+  document.querySelector('.projects-carousel')?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { changeProject(-1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { changeProject(1); e.preventDefault(); }
+  });
+
+  updateProjectCarousel();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (!document.getElementById('projects-stack-grid')) return;
-  updateProjectStack();
-  _initProjectTilt();
-  _initProjectSwipe();
-});
+document.addEventListener('DOMContentLoaded', _initProjectCarousel);
+// Videos and webfonts settle after DOMContentLoaded and can change card height
+window.addEventListener('load', _syncProjectHeight);
 
 // Animate on Scroll
 const observerOptions = {

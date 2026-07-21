@@ -36,8 +36,9 @@
     // Section intro blocks (eyebrow + heading)
     reveal(q('#projects > .mb-10, #activity > .mb-10, #creative > .mb-10'));
 
-    // The projects card stack as one unit (its inner cards manage their own transforms)
-    reveal(q('#projects .projects-stack-outer'));
+    // The project carousel as one unit — staggering the six cards would animate
+    // five that are off-screen inside the track
+    reveal(q('#projects .projects-carousel'));
 
     // LinkedIn activity cards — staggered
     reveal(q('#activity .linkedin-card'), 0.1);
