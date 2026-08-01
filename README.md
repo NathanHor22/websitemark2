@@ -12,15 +12,15 @@
 ## 💡 Overview  
 **WebsiteMark2** is a modern, responsive web project that showcases my front-end development skills and ability to integrate **interactive 3D models** using **Google’s Model Viewer API**.  
 
-The goal was to enhance a static HTML/CSS site with **immersive 3D visuals**, clean design, and mobile responsiveness — demonstrating both creativity and technical proficiency.
+The goal was to enhance a static HTML/CSS site with **immersive 3D visuals**, clean design and mobile responsiveness, demonstrating both creativity and technical proficiency.
 
 ---
 
 ## 🧠 Key Learnings  
 - Integrated 3D `.glb` / `.gltf` assets using **Google’s `<model-viewer>`** API  
-- Configured **lighting, camera controls**, and **AR support** for web-based 3D experiences  
-- Strengthened understanding of **HTML5 structure**, **CSS3 layouts (Flexbox/Grid)**, and **responsive design**  
-- Enhanced **UI/UX** through clean layouts, smooth animations, and lightweight performance  
+- Configured **lighting, camera controls** and **AR support** for web-based 3D experiences
+- Strengthened understanding of **HTML5 structure**, **CSS3 layouts (Flexbox/Grid)** and **responsive design**
+- Enhanced **UI/UX** through clean layouts, smooth animations and lightweight performance
 - Deployed and managed the site using **Vercel** / **GitHub Pages**
 
 ---

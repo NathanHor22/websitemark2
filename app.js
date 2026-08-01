@@ -138,7 +138,7 @@ function _projectCards() {
   return document.querySelectorAll('#projects-track > .project-post-card');
 }
 
-// Only the card on screen should be playing — the other five are decoded video
+// Only the card on screen should be playing; the other five are decoded video
 // we'd be downloading for nothing.
 function _syncProjectVideos() {
   _projectCards().forEach((card, i) => {
@@ -201,8 +201,8 @@ function _initProjectCarousel() {
   if (!track) return;
 
   // A ResizeObserver rather than a one-shot measure: this fires on every frame
-  // of the see-more expansion, on window resize, and once webfonts land and
-  // reflow the titles — all of which change the active card's height.
+  // of the see-more expansion, on window resize and once webfonts land and
+  // reflow the titles, all of which change the active card's height.
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(() => _syncProjectHeight());
     _projectCards().forEach((card) => ro.observe(card));

@@ -1,8 +1,8 @@
-// Motion One (motion.dev) — springy scroll-reveal entrances for the IBM redesign.
+// Motion One (motion.dev): springy scroll-reveal entrances for the IBM redesign.
 // Loaded after js/motion.min.js, which exposes window.Motion (UMD).
 (function () {
   if (!window.Motion) return;
-  // Respect users who prefer reduced motion — leave everything visible & static.
+  // Respect users who prefer reduced motion; leave everything visible & static.
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var Motion = window.Motion;
@@ -36,17 +36,17 @@
     // Section intro blocks (eyebrow + heading)
     reveal(q('#projects > .mb-10, #activity > .mb-10, #creative > .mb-10'));
 
-    // The project carousel as one unit — staggering the six cards would animate
+    // The project carousel as one unit; staggering the six cards would animate
     // five that are off-screen inside the track
     reveal(q('#projects .projects-carousel'));
 
-    // LinkedIn activity cards — staggered
+    // LinkedIn activity cards: staggered
     reveal(q('#activity .linkedin-card'), 0.1);
 
-    // Creative carousels — staggered
+    // Creative carousels: staggered
     reveal(q('#creative .grid > div, #creative #event-carousel'), 0.09);
 
-    // Contact block — staggered
+    // Contact block: staggered
     reveal(q('#contact > *'), 0.06);
   });
 })();

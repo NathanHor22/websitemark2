@@ -24,7 +24,7 @@
   font-display: swap;
 }
 
-/* IBM Plex Mono — IBM's own open-source typeface, self-hosted (weights 400/500/700) */
+/* IBM Plex Mono: IBM's own open-source typeface, self-hosted (weights 400/500/700) */
 @font-face {
   font-family: "IBMPlexMono";
   src: url("./fonts/IBMPlexMono-400.woff2") format("woff2");
@@ -181,7 +181,7 @@
     border-radius: 16px;
   }
 
-  /* Sticky nav glass — cream tint over the IBM background */
+  /* Sticky nav glass: cream tint over the IBM background */
   .nav-glass {
     background: rgba(231, 225, 209, 0.82);
     backdrop-filter: blur(18px);
@@ -206,7 +206,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 #bcb298, 0 2px 3px rgba(30, 25, 15, 0.15);
   }
 
-  /* Tech stack tag — boxy IBM label chip */
+  /* Tech stack tag: boxy IBM label chip */
   .tech-tag {
     display: inline-block;
     background: rgba(60, 52, 38, 0.1);
@@ -218,7 +218,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
-  /* Award badge — gold tint, boxy */
+  /* Award badge: gold tint, boxy */
   .award-tag {
     display: inline-block;
     background: rgba(212, 175, 55, 0.28);
@@ -231,7 +231,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
   }
 
-  /* In-progress badge — blue tint, boxy */
+  /* In-progress badge: blue tint, boxy */
   .in-progress-tag {
     display: inline-block;
     background: rgba(59, 130, 246, 0.2);
@@ -246,7 +246,7 @@
 
   /* ── IBM keycap buttons ──────────────────────────────────────────
      Beige key face, square-ish corners, top highlight + a chunky bottom
-     "key wall", and a press-down on :active */
+     "key wall" and a press-down on :active */
   .project-btn {
     display: block;
     background: #ddd5c1;
@@ -364,12 +364,12 @@
     color: #0a66c2;
   }
 
-  /* Portrait photo carousel background — fills letterbox areas with a warm dark tone */
+  /* Portrait photo carousel background: fills letterbox areas with a warm dark tone */
   .portrait-carousel-bg {
     background-color: rgba(38, 36, 26, 0.72);
   }
 
-  /* Keycap nav button for photo carousels — matches the project arrows */
+  /* Keycap nav button for photo carousels: matches the project arrows */
   .carousel-nav-btn {
     width: 34px;
     height: 34px;
@@ -471,9 +471,9 @@
   .projects-viewport {
     overflow: hidden;
     /* Breathing room so the card's drop shadow isn't sheared off. Padding sits
-       inside the clip box, and the negative margin keeps the grid cell the same
+       inside the clip box and the negative margin keeps the grid cell the same
        size. The 8px of horizontal slack only ever exposes the track's gap,
-       never the neighbouring card — see the gap/translate pairing below. */
+       never the neighbouring card; see the gap/translate pairing below. */
     padding: 6px 8px;
     margin: -6px -8px;
   }
@@ -488,7 +488,7 @@
     will-change: transform;
   }
 
-  /* Cards are the flex items directly — no wrapper element */
+  /* Cards are the flex items directly, with no wrapper element */
   .projects-track > .project-post-card {
     flex: 0 0 100%;
     min-width: 0;
@@ -608,7 +608,7 @@
   }
 
   /* The media box drives the card's height. 16:9 lets it grow with the card
-     instead of staying a fixed strip — on the ~900px desktop card that's a
+     instead of staying a fixed strip; on the ~900px desktop card that's a
      ~500px frame showing the full recording rather than a cropped band.
      min-height keeps the LinkedIn-parity 180px floor on narrow screens. */
   .project-post-media {
@@ -643,7 +643,7 @@
     }
   }
 
-  /* Outline keycap variant — lighter, hollow key face */
+  /* Outline keycap variant: lighter, hollow key face */
   .project-btn-outline {
     display: block;
     background: rgba(255, 255, 255, 0.28);
