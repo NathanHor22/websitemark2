@@ -1,1 +1,7 @@
 img/AR.gif
+node_modules/
+dist/
+.wrangler/
+.dev.vars*
+.claude/
+*.tgz

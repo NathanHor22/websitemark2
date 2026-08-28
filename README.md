@@ -1,49 +1,42 @@
-# WebsiteMark2  
-*Built by [Your Name]*  
+# Nathan Hor — Creative Technologist
 
-![HTML5](https://img.shields.io/badge/HTML5-%23E34F26?logo=html5&logoColor=white&style=flat)
-![CSS3](https://img.shields.io/badge/CSS3-%231572B6?logo=css3&logoColor=white&style=flat)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?logo=javascript&logoColor=white&style=flat)
-![Google%20Model%20Viewer](https://img.shields.io/badge/3D%20Models-Google%20API-orange?logo=google)
-![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=flat)
+A tactile portfolio interface inspired by modular IBM hardware, phosphor terminals, and low-fi industrial control rooms. The experience keeps the typography and layout modern while treating every section like a physical server module.
 
----
+## Interface
 
-## 💡 Overview  
-**WebsiteMark2** is a modern, responsive web project that showcases my front-end development skills and ability to integrate **interactive 3D models** using **Google’s Model Viewer API**.  
+- Mechanical section drive with drag, keyboard, wheel, and touch navigation
+- Recessed sections that mechanically pop forward as they become active
+- Canvas radar that transforms Nathan's portrait into a playable Snake game
+- Project carousel with six records and an expanding technical drawer
+- Photography arranged as clipped physical stacks with swipe and button controls
+- Reactive server backplane, status lights, phosphor glow, and restrained sound
+- Reduced-motion, forced-colors, keyboard, and screen-reader support
 
-The goal was to enhance a static HTML/CSS site with **immersive 3D visuals**, clean design and mobile responsiveness, demonstrating both creativity and technical proficiency.
+## Architecture
 
----
+The site deliberately uses a hybrid rendering approach:
 
-## 🧠 Key Learnings  
-- Integrated 3D `.glb` / `.gltf` assets using **Google’s `<model-viewer>`** API  
-- Configured **lighting, camera controls** and **AR support** for web-based 3D experiences
-- Strengthened understanding of **HTML5 structure**, **CSS3 layouts (Flexbox/Grid)** and **responsive design**
-- Enhanced **UI/UX** through clean layouts, smooth animations and lightweight performance
-- Deployed and managed the site using **Vercel** / **GitHub Pages**
+- HTML and CSS 3D transforms for readable, responsive interface panels
+- Canvas 2D for the radar, pixel portrait, and Snake game
+- Motion One for small interface transitions
+- Tailwind CSS for utilities and the compiled production stylesheet
 
----
+This keeps interaction smooth on laptops and phones without making the full site dependent on a WebGL scene.
 
-## ⚙️ Tech Stack  
-**Frontend:** HTML5, CSS3, JavaScript (ES6+)  
-**3D Integration:** Google Model Viewer API  
-**Deployment:** Vercel / GitHub Pages  
-**Version Control:** Git & GitHub  
+## Development
 
----
+```bash
+npm install
+npm run build
+npm test
+```
 
-## 🚀 Live Demo  
-🔗 [https://nathanhor.com/](https://nathanhor.com/)
+Open `index.html` through a local static server after building.
 
----
+## Live site
 
-## 🧩 Future Enhancements  
-- Add multiple 3D models with user-controlled switching  
-- Implement AR mode for mobile users  
-- Optimize 3D assets for faster load times  
+[nathanhor.com](https://nathanhor.com/)
 
----
+## License
 
-## 📜 License  
-MIT License © Nathan Hor, 2025
+MIT License, copyright 2026 Nathan Hor.

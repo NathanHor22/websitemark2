@@ -61,6 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const wait = 2500;
   
   if (txtElement) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      txtElement.textContent = words[0];
+      return;
+    }
     // Add a delay before starting the typing effect
     setTimeout(() => {
       new TypeWriter(txtElement, words, wait);
@@ -72,7 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Generic carousel functionality
 function showSlide(index, carouselId) {
+  if (window.photoStackControllers && window.photoStackControllers[carouselId]) {
+    window.photoStackControllers[carouselId].goTo(index);
+    return;
+  }
   const carousel = document.getElementById(carouselId);
+  if (!carousel) return;
   const slides = carousel.querySelectorAll('.carousel-slide');
 
   slides.forEach(slide => {
@@ -90,7 +99,12 @@ function showSlide(index, carouselId) {
 }
 
 function changeSlide(direction, carouselId) {
+  if (window.photoStackControllers && window.photoStackControllers[carouselId]) {
+    window.photoStackControllers[carouselId].move(direction);
+    return;
+  }
   const carousel = document.getElementById(carouselId);
+  if (!carousel) return;
   const slides = carousel.querySelectorAll('.carousel-slide');
   const totalSlides = slides.length;
   
@@ -113,11 +127,10 @@ function changeSlide(direction, carouselId) {
 
 // Initialize photo carousels when page loads
 document.addEventListener('DOMContentLoaded', function() {
-  const sportsCarousel = document.getElementById('sports-carousel');
-  if (sportsCarousel) showSlide(0, 'sports-carousel');
-
-  const postersCarousel = document.getElementById('posters-carousel');
-  if (postersCarousel) showSlide(0, 'posters-carousel');
+  ['sports-carousel', 'posters-carousel', 'street-carousel', 'event-carousel'].forEach((id) => {
+    const carousel = document.getElementById(id);
+    if (carousel && !carousel.classList.contains('photo-stack')) showSlide(0, id);
+  });
 });
 
 // ── LinkedIn post "see more / see less" toggle ────────────────────
@@ -163,13 +176,20 @@ function updateProjectCarousel() {
   track.style.transform =
     `translateX(calc(${-projectIdx * 100}% - ${projectIdx * PROJECT_SLIDE_GAP}px))`;
   document.querySelectorAll('.project-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === projectIdx);
+    const selected = i === projectIdx;
+    dot.classList.toggle('active', selected);
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-selected', String(selected));
+    dot.tabIndex = selected ? 0 : -1;
   });
   _projectCards().forEach((card, i) => {
     // Keep off-screen cards out of the tab order and away from screen readers
     card.setAttribute('aria-hidden', String(i !== projectIdx));
+    const details = card.querySelector('.project-details');
+    const expanded = card.classList.contains('expanded');
     card.querySelectorAll('a, button').forEach((el) => {
-      el.tabIndex = i === projectIdx ? 0 : -1;
+      const hiddenInDrawer = details && details.contains(el) && !expanded;
+      el.tabIndex = i === projectIdx && !hiddenInDrawer ? 0 : -1;
     });
   });
   _syncProjectHeight();
@@ -179,6 +199,20 @@ function updateProjectCarousel() {
 function goToProject(idx) {
   const count = _projectCards().length;
   if (!count) return;
+  const outgoing = _projectCards()[projectIdx];
+  if (outgoing) {
+    outgoing.classList.remove('expanded');
+    const outgoingButton = outgoing.querySelector('.project-see-more');
+    const outgoingDetails = outgoing.querySelector('.project-details');
+    if (outgoingButton) {
+      outgoingButton.textContent = 'OPEN RECORD';
+      outgoingButton.setAttribute('aria-expanded', 'false');
+    }
+    if (outgoingDetails) {
+      outgoingDetails.setAttribute('aria-hidden', 'true');
+      outgoingDetails.inert = true;
+    }
+  }
   projectIdx = (idx + count) % count;
   updateProjectCarousel();
 }
@@ -191,9 +225,15 @@ function changeProject(direction) {
 function toggleProject(btn) {
   const card = btn.closest('.project-post-card');
   const expanded = !card.classList.contains('expanded');
+  const details = card.querySelector('.project-details');
   card.classList.toggle('expanded', expanded);
-  btn.textContent = expanded ? 'see less' : '...see more';
+  btn.textContent = expanded ? 'CLOSE RECORD' : 'OPEN RECORD';
   btn.setAttribute('aria-expanded', String(expanded));
+  if (details) {
+    details.setAttribute('aria-hidden', String(!expanded));
+    details.inert = !expanded;
+  }
+  updateProjectCarousel();
 }
 
 function _initProjectCarousel() {
@@ -240,42 +280,20 @@ function _initProjectCarousel() {
     if (e.key === 'ArrowRight') { changeProject(1); e.preventDefault(); }
   });
 
+  _projectCards().forEach((card) => {
+    const btn = card.querySelector('.project-see-more');
+    const details = card.querySelector('.project-details');
+    if (btn) btn.textContent = 'OPEN RECORD';
+    if (details) {
+      details.setAttribute('aria-hidden', 'true');
+      details.inert = true;
+    }
+  });
+
   updateProjectCarousel();
 }
 
 document.addEventListener('DOMContentLoaded', _initProjectCarousel);
 // Videos and webfonts settle after DOMContentLoaded and can change card height
 window.addEventListener('load', _syncProjectHeight);
-
-// Animate on Scroll
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const animationType = entry.target.getAttribute('data-animate') || 'fadeIn';
-      entry.target.classList.add(`animate-${animationType}`);
-      entry.target.classList.remove('opacity-0');
-    }
-  });
-}, observerOptions);
-
-// Observe elements with data-animate attribute
-document.addEventListener('DOMContentLoaded', () => {
-  const animatableElements = document.querySelectorAll('[data-animate]');
-  animatableElements.forEach((element, index) => {
-    if (index === 0) {
-      // First element (first section content) fades in immediately
-      element.classList.add('animate-fadeIn');
-    } else {
-      // Other elements start hidden
-      element.classList.add('opacity-0');
-      observer.observe(element);
-    }
-  });
-});
-
 

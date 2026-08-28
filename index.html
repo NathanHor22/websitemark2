@@ -16,14 +16,18 @@
     <meta property="og:url" content="https://nathanhor.com/">
     <meta property="og:title" content="Nathan Hor - Creative Technologist & AR/AI Developer">
     <meta property="og:description" content="Nathan Hor builds agentic AI systems, AR experiences and full-stack products. AR Track Winner at Pacific Portal XR. Top 3 Finalist at multiple hackathons. Currently Creative Technologist at Synapze.">
-    <meta property="og:image" content="https://nathanhor.com/img/hor.png">
+    <meta property="og:image" content="https://nathanhor.com/img/og-nathan-console.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nathan Hor portfolio shown inside a retro-futurist beige server console">
     <meta property="og:site_name" content="Nathan Hor">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nathan Hor - Creative Technologist & AR/AI Developer">
     <meta name="twitter:description" content="Building agentic AI systems, AR experiences and full-stack products. Currently Creative Technologist at Synapze.">
-    <meta name="twitter:image" content="https://nathanhor.com/img/hor.png">
+    <meta name="twitter:image" content="https://nathanhor.com/img/og-nathan-console.jpg">
+    <meta name="twitter:image:alt" content="Nathan Hor portfolio shown inside a retro-futurist beige server console">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -168,7 +172,17 @@
     <link rel="icon" type="image/png" href="./img/logo.png">
     <link href="./output.css" rel="stylesheet">
 </head>
-<body>
+<body class="server-site">
+
+  <a class="skip-link" href="#hero">Skip to main interface</a>
+
+  <!-- Fixed machine backplane: the content modules sit above this layer. -->
+  <div class="server-backplane" aria-hidden="true">
+    <div class="server-backplane__grid"></div>
+    <div class="server-backplane__bus server-backplane__bus--a"></div>
+    <div class="server-backplane__bus server-backplane__bus--b"></div>
+    <div class="server-backplane__nodes"></div>
+  </div>
 
   <!-- NAV -->
   <nav id="navbar" class="nav-glass fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12">
@@ -179,7 +193,7 @@
       <a href="#creative" class="hover:opacity-60 transition-opacity">Creative</a>
       <a href="#contact" class="hover:opacity-60 transition-opacity">Contact</a>
     </div>
-    <button class="md:hidden keycap font-RobotoMono text-xs px-3 py-1.5" onclick="toggleMobileMenu()">Menu</button>
+    <button id="mobile-menu-button" type="button" class="md:hidden keycap font-RobotoMono text-xs px-3 py-1.5" aria-expanded="false" aria-controls="mobile-menu" onclick="toggleMobileMenu()">Menu</button>
   </nav>
 
   <!-- Mobile menu -->
@@ -190,10 +204,37 @@
     <a href="#contact" onclick="closeMobileMenu()" class="hover:opacity-60">Contact</a>
   </div>
 
+  <!-- Desktop section drive. Drag behavior and active-state syncing are added
+       after the first visual slice; the real anchors already work now. -->
+  <aside class="section-drive" aria-label="Section drive">
+    <p class="section-drive__title">SECT.SELECT</p>
+    <div class="section-drive__track">
+      <span class="section-drive__slot" aria-hidden="true"></span>
+      <button type="button" class="section-drive__handle" role="slider" aria-label="Current portfolio section" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" aria-valuetext="Core, section 1 of 5">
+        <span class="section-drive__grip"></span>
+        <span class="section-drive__readout"><span>00</span></span>
+      </button>
+    </div>
+    <nav class="section-drive__stops" aria-label="Portfolio sections">
+      <a class="section-drive__stop is-active" href="#hero" aria-current="location"><span>00</span>CORE</a>
+      <a class="section-drive__stop" href="#projects"><span>01</span>BUILD</a>
+      <a class="section-drive__stop" href="#activity"><span>02</span>LOG</a>
+      <a class="section-drive__stop" href="#creative"><span>03</span>MEMORY</a>
+      <a class="section-drive__stop" href="#contact"><span>04</span>COMMS</a>
+    </nav>
+    <p class="section-drive__status"><i></i> CORE READY</p>
+  </aside>
+
+  <nav class="mobile-drive" aria-label="Section controls">
+    <button type="button" class="mobile-drive__button" data-drive-step="-1" aria-label="Previous section">PREV</button>
+    <a class="mobile-drive__readout" href="#hero"><span>00</span> CORE</a>
+    <button type="button" class="mobile-drive__button" data-drive-step="1" aria-label="Next section">NEXT</button>
+  </nav>
+
   <main>
 
   <!-- HERO -->
-  <section id="hero" aria-label="About Nathan Hor" class="min-h-screen pt-24 pb-16 flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-20 gap-8 md:gap-24 animate-fadeIn">
+  <section id="hero" data-module="00" data-module-label="CORE" aria-label="About Nathan Hor" class="server-module server-module--hero is-active min-h-screen pt-24 pb-16 flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-20 gap-8 md:gap-24">
     <div class="flex flex-col items-center md:items-start max-w-2xl">
       <h1 class="font-AnthonyGilford text-6xl sm:text-8xl md:text-[10.5rem] leading-none mb-6 text-center md:text-left">Nathan Hor</h1>
       <div class="font-RobotoMono text-lg md:text-2xl mb-5 h-9">
@@ -217,21 +258,35 @@
         </a>
       </div>
     </div>
-    <div class="flex justify-center">
-      <img class="rounded-full h-64 w-64 md:h-96 md:w-96 object-cover shadow-2xl ring-4 ring-white/40" src="./img/hor.png" alt="Nathan Hor">
+    <div class="radar-console" data-radar-state="idle">
+      <div class="radar-console__bezel">
+        <canvas id="radar-canvas" width="480" height="480" tabindex="0" aria-label="Pixel radar portrait of Nathan Hor. Start Snake to play with arrow keys or WASD."></canvas>
+        <div class="radar-console__glass" aria-hidden="true"></div>
+        <span class="radar-console__label radar-console__label--top">BIO.SCAN / SUBJECT N.HOR</span>
+        <span class="radar-console__label radar-console__label--bottom" id="radar-status" aria-live="polite">SIGNAL LOCKED</span>
+        <noscript><img src="./img/hor.png" alt="Nathan Hor"></noscript>
+      </div>
+      <div class="radar-console__panel">
+        <div class="radar-console__metric"><span>MODE</span><strong id="radar-mode">PORTRAIT</strong></div>
+        <div class="radar-console__metric"><span>PACKETS</span><strong id="radar-score" aria-live="polite">000</strong></div>
+        <button type="button" class="machine-key machine-key--run" id="radar-start">EXEC SNAKE.BIN</button>
+        <button type="button" class="machine-key" id="radar-pause" disabled>PAUSE</button>
+        <button type="button" class="machine-key machine-key--sound" id="sound-toggle" aria-pressed="false">SND OFF</button>
+      </div>
+      <p class="radar-console__help">When active: Arrow keys / WASD to steer. Swipe on the radar on touch screens. Escape exits.</p>
     </div>
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects" aria-label="Projects by Nathan Hor" class="py-5 px-6 md:px-16 animate-fadeIn">
+  <section id="projects" data-module="01" data-module-label="BUILD" aria-label="Projects by Nathan Hor" class="server-module py-14 md:py-20 px-6 md:px-16">
     <div class="mb-10">
       <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-5">What I've built</p>
       <h2 class="font-IBMPlexMono font-bold uppercase tracking-tight text-4xl md:text-6xl">Projects</h2>
     </div>
 
     <div class="projects-carousel">
-      <button type="button" class="project-nav project-nav-prev" aria-label="Previous project" onclick="changeProject(-1)">❮</button>
-      <button type="button" class="project-nav project-nav-next" aria-label="Next project" onclick="changeProject(1)">❯</button>
+      <button type="button" class="project-nav project-nav-prev" aria-label="Previous project" onclick="changeProject(-1)">PREV</button>
+      <button type="button" class="project-nav project-nav-next" aria-label="Next project" onclick="changeProject(1)">NEXT</button>
 
       <div class="projects-viewport">
         <div class="projects-track" id="projects-track">
@@ -243,7 +298,7 @@
           <h3 class="project-card-title">PostcardAR</h3>
           <p class="project-post-teaser">Scanning a postcard triggers a live 3D overlay using Zapworks + three.js.</p>
         </div>
-        <div class="project-details" id="project-details-0">
+        <div class="project-details" id="project-details-0" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -262,7 +317,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-0" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Presence Postcard.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Presence Postcard.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -273,7 +328,7 @@
           <h3 class="project-card-title">Purrmit</h3>
           <p class="project-post-teaser">AI copilot that clears hospital GL paperwork in one click.</p>
         </div>
-        <div class="project-details" id="project-details-1">
+        <div class="project-details" id="project-details-1" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -292,7 +347,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-1" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Purrmit.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Purrmit.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -303,7 +358,7 @@
           <h3 class="project-card-title">Persephone</h3>
           <p class="project-post-teaser">A wearable e-lanyard that listens, speaks and guides you through an event.</p>
         </div>
-        <div class="project-details" id="project-details-2">
+        <div class="project-details" id="project-details-2" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -322,7 +377,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-2" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Persephone.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Persephone.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -333,7 +388,7 @@
           <h3 class="project-card-title">Jaga</h3>
           <p class="project-post-teaser">Flags scam calls in real time across five Malaysian languages.</p>
         </div>
-        <div class="project-details" id="project-details-3">
+        <div class="project-details" id="project-details-3" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -353,7 +408,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-3" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Jaga.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Jaga.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -364,7 +419,7 @@
           <h3 class="project-card-title">Tenun: TalentBank CareerOS</h3>
           <p class="project-post-teaser">Career platform for TalentBank: profiles, matching and employer dashboards.</p>
         </div>
-        <div class="project-details" id="project-details-4">
+        <div class="project-details" id="project-details-4" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -383,7 +438,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-4" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Tenun.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Tenun.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -393,7 +448,7 @@
           <h3 class="project-card-title">Synapze Website Rebuild</h3>
           <p class="project-post-teaser">Site rebuild with AEO, Waze + Maps APIs and a full design overhaul.</p>
         </div>
-        <div class="project-details" id="project-details-5">
+        <div class="project-details" id="project-details-5" aria-hidden="true" inert>
           <div>
             <div class="project-details-inner">
               <ul class="flex flex-col gap-2">
@@ -415,7 +470,7 @@
         </div>
         <button type="button" class="project-see-more" aria-expanded="false" aria-controls="project-details-5" onclick="toggleProject(this)">...see more</button>
         <div class="project-post-media">
-          <video src="./img/Synapze website.mp4" loop muted playsinline preload="metadata"></video>
+          <video src="./img/web/video/Synapze website.mp4" loop muted playsinline preload="metadata"></video>
         </div>
       </article>
 
@@ -435,7 +490,7 @@
   </section>
 
   <!-- LINKEDIN ACTIVITY -->
-  <section id="activity" aria-label="LinkedIn Activity" class="py-14 md:py-20 px-6 md:px-16 animate-fadeIn">
+  <section id="activity" data-module="02" data-module-label="LOG" aria-label="Activity log" class="server-module py-14 md:py-20 px-6 md:px-16">
     <div class="mb-10">
       <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-5">What I'm up to</p>
       <h2 class="font-IBMPlexMono font-bold uppercase tracking-tight text-4xl md:text-6xl mb-5">Activity</h2>
@@ -482,7 +537,7 @@
         </div>
         <div class="px-4 pb-4">
           <div class="li-post-image">
-            <video src="./img/AR.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+            <video src="./img/web/video/AR.mp4" autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover"></video>
           </div>
         </div>
       </div>
@@ -513,80 +568,80 @@
   </section>
 
   <!-- CREATIVE WORKS -->
-  <section id="creative" aria-label="Creative Works: Photography and Design" class="py-14 md:py-20 px-6 md:px-16 animate-fadeIn">
+  <section id="creative" data-module="03" data-module-label="MEMORY" aria-label="Creative Works: Photography and Design" class="server-module server-module--memory py-14 md:py-20 px-6 md:px-16">
     <div class="mb-10">
       <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-1">Photography & design</p>
       <h2 class="font-IBMPlexMono font-bold uppercase tracking-tight text-4xl md:text-6xl">Creative Works</h2>
     </div>
 
-    <!-- Portrait row: Sports / Posters / Streets; aspect-[3/4] so portrait images sit perfectly -->
+    <!-- Physical memory stacks: portraits retain their native 2:3 ratio. -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
 
       <!-- Sports -->
       <div class="px-[5px]">
-      <div id="sports-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
-        <div class="carousel-slide active absolute inset-0"><img src="./img/Sports/sports1.jpg" class="w-full h-full object-contain" alt="Sports 1"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Sports/sports2.jpg" class="w-full h-full object-contain" alt="Sports 2"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Sports/sports3.jpg" class="w-full h-full object-contain" alt="Sports 3"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Sports/sports4.jpg" class="w-full h-full object-contain" alt="Sports 4"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Sports/sports5.jpg" class="w-full h-full object-contain" alt="Sports 5"/></div>
+      <div id="sports-carousel" class="photo-stack photo-stack--portrait relative aspect-[2/3]" data-current-slide="0">
+        <div class="carousel-slide active absolute inset-0"><img src="./img/web/Sports/sports1.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Sports photography frame 1"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Sports/sports2.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Sports photography frame 2"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Sports/sports3.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Sports photography frame 3"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Sports/sports4.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Sports photography frame 4"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Sports/sports5.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Sports photography frame 5"/></div>
         <div class="absolute top-3 left-3 z-10 category-chip">Sports</div>
         <div class="absolute bottom-3 right-3 z-10 slide-counter" id="sports-carousel-counter">1 / 5</div>
-        <button onclick="changeSlide(-1,'sports-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
-        <button onclick="changeSlide(1,'sports-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
+        <button type="button" aria-label="Previous sports photograph" onclick="changeSlide(-1,'sports-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">PREV</button>
+        <button type="button" aria-label="Next sports photograph" onclick="changeSlide(1,'sports-carousel')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">NEXT</button>
       </div>
       </div>
 
       <!-- Graphic Posters -->
       <div class="px-[5px]">
-      <div id="posters-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
-        <div class="carousel-slide active absolute inset-0"><img src="./img/Posters/poster1.png" class="w-full h-full object-contain" alt="Poster 1"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Posters/posters2.png" class="w-full h-full object-contain" alt="Poster 2"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Posters/posters3.png" class="w-full h-full object-contain" alt="Poster 3"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Posters/posters4.png" class="w-full h-full object-contain" alt="Poster 4"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Posters/posters5.png" class="w-full h-full object-contain" alt="Poster 5"/></div>
+      <div id="posters-carousel" class="photo-stack photo-stack--portrait relative aspect-[2/3]" data-current-slide="0">
+        <div class="carousel-slide active absolute inset-0"><img src="./img/web/Posters/poster1.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Graphic poster frame 1"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Posters/posters2.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Graphic poster frame 2"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Posters/posters3.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Graphic poster frame 3"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Posters/posters4.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Graphic poster frame 4"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Posters/posters5.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Graphic poster frame 5"/></div>
         <div class="absolute top-3 left-3 z-10 category-chip">Graphic Posters</div>
         <div class="absolute bottom-3 right-3 z-10 slide-counter" id="posters-carousel-counter">1 / 5</div>
-        <button onclick="changeSlide(-1,'posters-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
-        <button onclick="changeSlide(1,'posters-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
+        <button type="button" aria-label="Previous poster" onclick="changeSlide(-1,'posters-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">PREV</button>
+        <button type="button" aria-label="Next poster" onclick="changeSlide(1,'posters-carousel')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">NEXT</button>
       </div>
       </div>
 
       <!-- Streets -->
       <div class="px-[5px]">
-      <div id="street-carousel" class="relative aspect-[3/4] overflow-hidden rounded-2xl portrait-carousel-bg" data-current-slide="0">
-        <div class="carousel-slide active absolute inset-0"><img src="./img/Street/street1.jpg" class="w-full h-full object-contain" alt="Street 1"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Street/street2.jpg" class="w-full h-full object-contain" alt="Street 2"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Street/street3.jpg" class="w-full h-full object-contain" alt="Street 3"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Street/street4.jpg" class="w-full h-full object-contain" alt="Street 4"/></div>
-        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Street/street5.jpg" class="w-full h-full object-contain" alt="Street 5"/></div>
+      <div id="street-carousel" class="photo-stack photo-stack--portrait relative aspect-[2/3]" data-current-slide="0">
+        <div class="carousel-slide active absolute inset-0"><img src="./img/web/Street/street1.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Street photography frame 1"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Street/street2.jpg" class="w-full h-full object-contain" loading="eager" decoding="async" alt="Street photography frame 2"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Street/street3.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Street photography frame 3"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Street/street4.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Street photography frame 4"/></div>
+        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Street/street5.jpg" class="w-full h-full object-contain" loading="lazy" decoding="async" alt="Street photography frame 5"/></div>
         <div class="absolute top-3 left-3 z-10 category-chip">Streets</div>
         <div class="absolute bottom-3 right-3 z-10 slide-counter" id="street-carousel-counter">1 / 5</div>
-        <button onclick="changeSlide(-1,'street-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">‹</button>
-        <button onclick="changeSlide(1,'street-carousel')"  class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">›</button>
+        <button type="button" aria-label="Previous street photograph" onclick="changeSlide(-1,'street-carousel')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10">PREV</button>
+        <button type="button" aria-label="Next street photograph" onclick="changeSlide(1,'street-carousel')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10">NEXT</button>
       </div>
       </div>
 
     </div>
 
-    <!-- Events: landscape, full width -->
-    <div id="event-carousel" class="relative w-full aspect-video overflow-hidden rounded-2xl" data-current-slide="0">
-      <div class="carousel-slide active absolute inset-0"><img src="./img/Events/events1.jpg" class="w-full h-full object-cover" alt="Event 1"/></div>
-      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Events/events2.jpg" class="w-full h-full object-cover" alt="Event 2"/></div>
-      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Events/events3.jpg" class="w-full h-full object-cover" alt="Event 3"/></div>
-      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Events/events4.jpg" class="w-full h-full object-cover" alt="Event 4"/></div>
-      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/Events/events5.jpg" class="w-full h-full object-cover" alt="Event 5"/></div>
+    <!-- Events: native 3:2 landscape stack. -->
+    <div id="event-carousel" class="photo-stack photo-stack--landscape relative w-full aspect-[3/2]" data-current-slide="0">
+      <div class="carousel-slide active absolute inset-0"><img src="./img/web/Events/events1.jpg" class="w-full h-full object-cover" loading="eager" decoding="async" alt="Event photography frame 1"/></div>
+      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Events/events2.jpg" class="w-full h-full object-cover" loading="eager" decoding="async" alt="Event photography frame 2"/></div>
+      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Events/events3.jpg" class="w-full h-full object-cover" loading="lazy" decoding="async" alt="Event photography frame 3"/></div>
+      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Events/events4.jpg" class="w-full h-full object-cover" loading="lazy" decoding="async" alt="Event photography frame 4"/></div>
+      <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-300"><img src="./img/web/Events/events5.jpg" class="w-full h-full object-cover" loading="lazy" decoding="async" alt="Event photography frame 5"/></div>
       <div class="absolute top-3 left-3 z-10 category-chip">Events</div>
       <div class="absolute bottom-3 right-3 z-10 slide-counter" id="event-carousel-counter">1 / 5</div>
-      <button onclick="changeSlide(-1,'event-carousel')" class="carousel-nav-btn absolute left-3 top-1/2 -translate-y-1/2 z-10">‹</button>
-      <button onclick="changeSlide(1,'event-carousel')"  class="carousel-nav-btn absolute right-3 top-1/2 -translate-y-1/2 z-10">›</button>
+      <button type="button" aria-label="Previous event photograph" onclick="changeSlide(-1,'event-carousel')" class="carousel-nav-btn absolute left-3 top-1/2 -translate-y-1/2 z-10">PREV</button>
+      <button type="button" aria-label="Next event photograph" onclick="changeSlide(1,'event-carousel')" class="carousel-nav-btn absolute right-3 top-1/2 -translate-y-1/2 z-10">NEXT</button>
     </div>
 
     <p class="font-RobotoMono text-xs opacity-50 text-center mt-4">More on <a href="https://www.instagram.com/nathanhor22/" target="_blank" rel="noopener noreferrer" class="underline">Instagram</a></p>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" aria-label="Contact Nathan Hor" class="py-14 md:py-20 px-6 md:px-16 flex flex-col items-center text-center animate-fadeIn">
+  <section id="contact" data-module="04" data-module-label="COMMS" aria-label="Contact Nathan Hor" class="server-module server-module--contact py-14 md:py-20 px-6 md:px-16 flex flex-col items-center text-center">
     <p class="font-RobotoMono text-xs tracking-[0.3em] uppercase opacity-60 mb-2">Say hello</p>
     <h2 class="font-IBMPlexMono font-bold uppercase tracking-tight text-4xl md:text-6xl mb-4">Let's Talk</h2>
     <p class="font-RobotoMono text-sm opacity-70 max-w-sm mb-8">Have a project in mind, want to collaborate, or just want to connect?</p>
@@ -604,7 +659,7 @@
         <img class="h-7 w-8 md:h-9 md:w-10 hover:opacity-60 transition-opacity" src="img/mail-icon.png" alt="Email">
       </a>
     </div>
-    <p class="font-RobotoMono text-xs opacity-30">© 2025 Nathan Hor. All rights reserved.</p>
+    <p class="font-RobotoMono text-xs opacity-30">© 2026 Nathan Hor. All rights reserved.</p>
   </section>
 
   </main>
@@ -612,16 +667,21 @@
   <script src="./app.js"></script>
   <script src="./js/motion.min.js"></script>
   <script src="./js/app-motion.js"></script>
+  <script src="./js/machine-interface.js"></script>
+  <script src="./js/photo-stack.js"></script>
+  <script src="./js/radar-snake.js"></script>
   <script>
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
       menu.classList.toggle('flex');
+      document.getElementById('mobile-menu-button')?.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
     }
     function closeMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.add('hidden');
       menu.classList.remove('flex');
+      document.getElementById('mobile-menu-button')?.setAttribute('aria-expanded', 'false');
     }
   </script>
 </body>
