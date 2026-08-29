@@ -3,14 +3,14 @@
 
   var modules = Array.prototype.slice.call(document.querySelectorAll('.server-module'));
   var stops = Array.prototype.slice.call(document.querySelectorAll('.section-drive__stop'));
-  var drive = document.querySelector('.section-drive');
   var track = document.querySelector('.section-drive__track');
   var handle = document.querySelector('.section-drive__handle');
   var readout = document.querySelector('.section-drive__readout span');
   var status = document.querySelector('.section-drive__status');
   var mobileReadout = document.querySelector('.mobile-drive__readout');
   var mobileStepButtons = document.querySelectorAll('[data-drive-step]');
-  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reducedMotion = Boolean(motionQuery && motionQuery.matches);
 
   if (!modules.length) return;
 
@@ -24,6 +24,11 @@
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
+  }
+
+  function smoothstep(start, end, value) {
+    var amount = clamp((value - start) / Math.max(0.0001, end - start), 0, 1);
+    return amount * amount * (3 - 2 * amount);
   }
 
   function moduleLabel(index) {
@@ -91,7 +96,6 @@
       module.classList.toggle('is-active', moduleIndex === index);
       module.classList.toggle('is-before', moduleIndex < index);
       module.classList.toggle('is-after', moduleIndex > index);
-      module.setAttribute('data-module-state', moduleIndex === index ? 'ready' : 'standby');
     });
 
     stops.forEach(function (stop, stopIndex) {
@@ -101,7 +105,7 @@
       else stop.removeAttribute('aria-current');
     });
 
-    if (!dragging || options.forceHandle) setHandleY(handleYForIndex(index), false);
+    if (((!dragging && !options.skipHandle) || options.forceHandle)) setHandleY(handleYForIndex(index), false);
     turnReadout(code);
 
     if (handle) {
@@ -127,9 +131,10 @@
   function navigateTo(index, focusSection) {
     index = clamp(index, 0, modules.length - 1);
     updateMachineState(index, { forceHandle: true });
-    modules[index].scrollIntoView({
+    var moduleTop = window.scrollY + modules[index].getBoundingClientRect().top;
+    window.scrollTo({
+      top: Math.max(0, moduleTop),
       behavior: reducedMotion ? 'auto' : 'smooth',
-      block: 'start'
     });
     if (window.history && history.replaceState) history.replaceState(null, '', '#' + modules[index].id);
     if (focusSection) {
@@ -207,24 +212,93 @@
     handle.addEventListener('pointercancel', endDrag);
   }
 
+  function updateBayMechanics(module, rect, focusY, moduleIndex) {
+    var inside = Math.min(focusY - rect.top, rect.bottom - focusY);
+    var ramp = Math.max(120, Math.min(340, window.innerHeight * 0.3, rect.height * 0.22));
+    var progress = reducedMotion ? 1 : smoothstep(0, ramp, inside);
+    var latch = smoothstep(0.02, 0.16, progress);
+    var seam = smoothstep(0.1, 0.3, progress);
+    var extraction = smoothstep(0.22, 0.68, progress);
+    var deployment = smoothstep(0.56, 0.9, progress);
+    var power = smoothstep(0.82, 1, progress);
+    var closedAngle = module.classList.contains('server-module--hero') ? -64 : -9;
+    var mechanicalState = 'locked';
+
+    if (power > 0.96) mechanicalState = 'ready';
+    else if (progress > 0.02) mechanicalState = rect.top + rect.height * 0.5 >= focusY ? 'deploying' : 'retracting';
+
+    module.style.setProperty('--bay-p', progress.toFixed(4));
+    module.style.setProperty('--latch-p', latch.toFixed(4));
+    module.style.setProperty('--seam-p', seam.toFixed(4));
+    module.style.setProperty('--extract-p', extraction.toFixed(4));
+    module.style.setProperty('--deploy-p', deployment.toFixed(4));
+    module.style.setProperty('--power-p', power.toFixed(4));
+    module.style.setProperty('--tray-y', (extraction * 7).toFixed(2) + 'px');
+    module.style.setProperty('--tray-z', (extraction * 34).toFixed(2) + 'px');
+    module.style.setProperty('--screen-angle', (closedAngle * (1 - deployment)).toFixed(2) + 'deg');
+    module.style.setProperty('--screen-y', (-8 * (1 - deployment)).toFixed(2) + 'px');
+    module.style.setProperty('--keyboard-y', (-34 * (1 - deployment)).toFixed(2) + 'px');
+    module.style.setProperty('--keyboard-z', (-18 + 46 * deployment).toFixed(2) + 'px');
+    module.style.setProperty('--shutter-y', (-104 * deployment).toFixed(2) + '%');
+    module.style.setProperty('--shutter-opacity', (1 - deployment).toFixed(4));
+    module.style.setProperty('--screen-content-opacity', (0.24 + power * 0.76).toFixed(4));
+    module.style.setProperty('--cavity-alpha', (0.08 + seam * 0.92).toFixed(4));
+    module.style.setProperty('--latch-left', (-12 * latch).toFixed(2) + 'px');
+    module.style.setProperty('--latch-right', (12 * latch).toFixed(2) + 'px');
+    module.classList.toggle('is-mechanically-active', progress > 0.02 && progress < 0.999);
+    module.classList.toggle('is-deployed', progress >= 0.999);
+    module.setAttribute('data-module-state', mechanicalState);
+
+    var bayReadout = module.querySelector('[data-bay-readout]');
+    var readoutText = moduleLabel(moduleIndex) + ' ' + mechanicalState.toUpperCase();
+    if (bayReadout && bayReadout.textContent !== readoutText) bayReadout.textContent = readoutText;
+
+    return progress;
+  }
+
   function updateFromScroll() {
     scrollQueued = false;
     if (dragging) return;
-    var target = window.innerHeight * 0.46;
+    var target = window.innerHeight * 0.52;
+    var rects = modules.map(function (module) { return module.getBoundingClientRect(); });
     var closest = 0;
     var closestDistance = Infinity;
-    modules.forEach(function (module, index) {
-      var rect = module.getBoundingClientRect();
-      var center = rect.top + Math.min(rect.height, window.innerHeight) * 0.5;
-      var distance = Math.abs(center - target);
+    rects.forEach(function (rect, index) {
+      var distance = rect.top > target ? rect.top - target : (rect.bottom < target ? target - rect.bottom : 0);
       if (distance < closestDistance) {
         closestDistance = distance;
         closest = index;
       }
     });
-    updateMachineState(closest);
+
+    if (closest !== activeIndex && rects[activeIndex]) {
+      var activeRect = rects[activeIndex];
+      var activeDistance = activeRect.top > target ? activeRect.top - target : (activeRect.bottom < target ? target - activeRect.bottom : 0);
+      if (closestDistance + 24 >= activeDistance) closest = activeIndex;
+    }
+
+    updateMachineState(closest, { skipHandle: true });
+    modules.forEach(function (module, index) {
+      updateBayMechanics(module, rects[index], target, index);
+    });
     var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    document.documentElement.style.setProperty('--scroll-progress', (window.scrollY / maxScroll).toFixed(4));
+    var scrollProgress = window.scrollY / maxScroll;
+    document.documentElement.style.setProperty('--scroll-progress', scrollProgress.toFixed(4));
+    document.documentElement.style.setProperty('--rack-offset', reducedMotion ? '0px' : (-((window.scrollY * 0.14) % 164)).toFixed(1) + 'px');
+    if (handle) {
+      var focusDocumentY = window.scrollY + target;
+      var centers = rects.map(function (rect) { return window.scrollY + rect.top + rect.height * 0.5; });
+      var driveIndex = 0;
+      if (focusDocumentY >= centers[centers.length - 1]) driveIndex = centers.length - 1;
+      else {
+        for (var centerIndex = 0; centerIndex < centers.length - 1; centerIndex += 1) {
+          if (focusDocumentY < centers[centerIndex] || focusDocumentY > centers[centerIndex + 1]) continue;
+          driveIndex = centerIndex + ((focusDocumentY - centers[centerIndex]) / Math.max(1, centers[centerIndex + 1] - centers[centerIndex]));
+          break;
+        }
+      }
+      setHandleY(driveTravel() * (driveIndex / Math.max(1, modules.length - 1)), true);
+    }
   }
 
   window.addEventListener('scroll', function () {
@@ -238,6 +312,15 @@
     setHandleY(handleYForIndex(activeIndex), true);
     updateFromScroll();
   });
+
+  if (motionQuery) {
+    var onMotionPreferenceChange = function (event) {
+      reducedMotion = event.matches;
+      updateFromScroll();
+    };
+    if (motionQuery.addEventListener) motionQuery.addEventListener('change', onMotionPreferenceChange);
+    else if (motionQuery.addListener) motionQuery.addListener(onMotionPreferenceChange);
+  }
 
   window.addEventListener('pointermove', function (event) {
     if (event.pointerType === 'touch') return;

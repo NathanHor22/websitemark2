@@ -8,6 +8,7 @@
   var consoleRoot = canvas.closest('.radar-console');
   var startButton = document.getElementById('radar-start');
   var pauseButton = document.getElementById('radar-pause');
+  var exitButton = document.getElementById('radar-exit');
   var soundButton = document.getElementById('sound-toggle');
   var statusNode = document.getElementById('radar-status');
   var modeNode = document.getElementById('radar-mode');
@@ -16,7 +17,7 @@
   var size = canvas.width;
   var center = size / 2;
   var radius = size * 0.43;
-  var sampleSize = 64;
+  var sampleSize = 96;
   var state = 'idle';
   var visible = true;
   var frameId = 0;
@@ -26,6 +27,12 @@
   var transitionDuration = 680;
   var portraitReady = false;
   var portraitPixels = [];
+  var portraitPalette = ['#12391e', '#1b5c2a', '#2f9544', '#65dd76', '#b9ffbb'];
+  var portraitLayer = document.createElement('canvas');
+  portraitLayer.width = size;
+  portraitLayer.height = size;
+  var portraitLayerCtx = portraitLayer.getContext('2d');
+  var portraitLayerReady = false;
   var audioContext = null;
   var soundEnabled = false;
   var score = 0;
@@ -36,6 +43,8 @@
   var snake = [];
   var food = { x: 17, y: 12 };
   var touchStart = null;
+  var touchPointerId = null;
+  var returnFocusAfterExit = false;
 
   try {
     soundEnabled = localStorage.getItem('nh-machine-sound') === 'on';
@@ -64,7 +73,10 @@
     if (state === 'idle') {
       setText(modeNode, 'PORTRAIT');
       setText(statusNode, portraitReady ? 'SIGNAL LOCKED' : 'SCANNING');
-      if (startButton) startButton.textContent = 'EXEC SNAKE.BIN';
+      if (startButton) {
+        startButton.textContent = 'EXEC SNAKE.BIN';
+        startButton.disabled = false;
+      }
       if (pauseButton) {
         pauseButton.textContent = 'PAUSE';
         pauseButton.disabled = true;
@@ -72,12 +84,18 @@
     } else if (state === 'morph-in') {
       setText(modeNode, 'MOUNTING');
       setText(statusNode, 'REWRITING PIXELS');
-      if (startButton) startButton.textContent = 'CANCEL';
+      if (startButton) {
+        startButton.textContent = 'ABORT LOAD';
+        startButton.disabled = false;
+      }
       if (pauseButton) pauseButton.disabled = true;
     } else if (state === 'running') {
       setText(modeNode, 'SNAKE');
       setText(statusNode, 'CHANNEL OPEN');
-      if (startButton) startButton.textContent = 'EXIT SNAKE';
+      if (startButton) {
+        startButton.textContent = 'RESTART SNAKE';
+        startButton.disabled = false;
+      }
       if (pauseButton) {
         pauseButton.textContent = 'PAUSE';
         pauseButton.disabled = false;
@@ -85,7 +103,10 @@
     } else if (state === 'paused') {
       setText(modeNode, 'PAUSED');
       setText(statusNode, 'CLOCK HALTED');
-      if (startButton) startButton.textContent = 'EXIT SNAKE';
+      if (startButton) {
+        startButton.textContent = 'RESTART SNAKE';
+        startButton.disabled = false;
+      }
       if (pauseButton) {
         pauseButton.textContent = 'RESUME';
         pauseButton.disabled = false;
@@ -93,14 +114,25 @@
     } else if (state === 'gameover') {
       setText(modeNode, 'FAULT');
       setText(statusNode, 'SIGNAL LOST');
-      if (startButton) startButton.textContent = 'REBOOT SNAKE';
+      if (startButton) {
+        startButton.textContent = 'REBOOT SNAKE';
+        startButton.disabled = false;
+      }
       if (pauseButton) pauseButton.disabled = true;
     } else if (state === 'morph-out') {
       setText(modeNode, 'RESTORING');
       setText(statusNode, 'REASSEMBLING BIO.SCAN');
-      if (startButton) startButton.textContent = 'WAIT';
+      if (startButton) {
+        startButton.textContent = 'RESTORING';
+        startButton.disabled = true;
+      }
       if (pauseButton) pauseButton.disabled = true;
     }
+    if (exitButton) exitButton.disabled = state === 'idle' || state === 'morph-out';
+    canvas.tabIndex = state === 'idle' ? -1 : 0;
+    canvas.setAttribute('aria-label', state === 'idle'
+      ? 'Detailed pixel radar portrait of Nathan Hor. Use the Execute Snake button to start the game.'
+      : 'Snake game. Use arrow keys or WASD to steer, and Escape or Return Portrait to close the program.');
     setText(scoreNode, String(score).padStart(3, '0'));
   }
 
@@ -216,47 +248,80 @@
     source.width = sampleSize;
     source.height = sampleSize;
     var sourceCtx = source.getContext('2d', { willReadFrequently: true });
-    var imageRatio = image.naturalWidth / image.naturalHeight;
-    var sx = 0;
-    var sy = 0;
-    var sw = image.naturalWidth;
-    var sh = image.naturalHeight;
-    if (imageRatio > 1) {
-      sw = image.naturalHeight;
-      sx = (image.naturalWidth - sw) / 2;
-    } else {
-      sh = image.naturalWidth;
-      sy = Math.max(0, (image.naturalHeight - sh) * 0.26);
-    }
-    sourceCtx.drawImage(image, sx, sy, sw, sh, 0, 0, sampleSize, sampleSize);
+    var crop = Math.min(image.naturalWidth, image.naturalHeight * 0.76);
+    var sx = (image.naturalWidth - crop) / 2;
+    var sy = Math.max(0, image.naturalHeight * 0.012);
+    sourceCtx.imageSmoothingEnabled = true;
+    sourceCtx.imageSmoothingQuality = 'high';
+    sourceCtx.clearRect(0, 0, sampleSize, sampleSize);
+    sourceCtx.drawImage(image, sx, sy, crop, crop, 0, 0, sampleSize, sampleSize);
     var data = sourceCtx.getImageData(0, 0, sampleSize, sampleSize).data;
     var bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+    var luminanceMap = new Float32Array(sampleSize * sampleSize);
+    var subjectMap = new Uint8Array(sampleSize * sampleSize);
     portraitPixels = [];
-    var span = radius * 1.48;
+    var span = radius * 1.62;
     var origin = center - span / 2;
     var pixelSize = span / sampleSize;
+
+    for (var mapY = 0; mapY < sampleSize; mapY += 1) {
+      for (var mapX = 0; mapX < sampleSize; mapX += 1) {
+        var mapIndex = mapY * sampleSize + mapX;
+        var mapOffset = mapIndex * 4;
+        var red = data[mapOffset];
+        var green = data[mapOffset + 1];
+        var blue = data[mapOffset + 2];
+        var alpha = data[mapOffset + 3];
+        var nearWhite = red > 248 && green > 248 && blue > 248;
+        luminanceMap[mapIndex] = (red * 0.299 + green * 0.587 + blue * 0.114) / 255;
+        subjectMap[mapIndex] = alpha > 18 && !nearWhite ? 1 : 0;
+      }
+    }
+
+    function sampledLuminance(x, y, fallback) {
+      if (x < 0 || y < 0 || x >= sampleSize || y >= sampleSize) return fallback;
+      var mapIndex = y * sampleSize + x;
+      return subjectMap[mapIndex] ? luminanceMap[mapIndex] : fallback;
+    }
 
     for (var y = 0; y < sampleSize; y += 1) {
       for (var x = 0; x < sampleSize; x += 1) {
         var dx = x - sampleSize / 2;
         var dy = y - sampleSize / 2;
         if (Math.sqrt(dx * dx + dy * dy) > sampleSize * 0.49) continue;
-        var offset = (y * sampleSize + x) * 4;
-        var luminance = data[offset] * 0.299 + data[offset + 1] * 0.587 + data[offset + 2] * 0.114;
-        var threshold = (bayer[y % 4][x % 4] - 7.5) * 4.2;
-        var level = Math.floor(clamp((luminance + threshold) / 64, 0, 3));
-        if (level < 1) continue;
+        var subjectIndex = y * sampleSize + x;
+        if (!subjectMap[subjectIndex]) continue;
+        var luminance = luminanceMap[subjectIndex];
+        var edge = Math.abs(sampledLuminance(x + 1, y, luminance) - sampledLuminance(x - 1, y, luminance))
+          + Math.abs(sampledLuminance(x, y + 1, luminance) - sampledLuminance(x, y - 1, luminance));
+        var dither = (bayer[y % 4][x % 4] - 7.5) / 15;
+        var signal = 0.14 + luminance * 0.58 + Math.min(0.3, edge * 0.72) + dither * 0.08;
+        var level = Math.floor(clamp(signal, 0, 0.999) * portraitPalette.length);
         portraitPixels.push({
           x: origin + x * pixelSize,
           y: origin + y * pixelSize,
-          size: Math.max(2, pixelSize * 0.82),
-          level: level
+          size: Math.max(2, pixelSize * 0.84),
+          level: level,
+          seed: ((x * 73 + y * 151) % 997) / 997
         });
       }
     }
+    renderPortraitLayer();
     portraitReady = true;
     syncControls();
     requestRender();
+  }
+
+  function renderPortraitLayer() {
+    if (!portraitLayerCtx) return;
+    portraitLayerCtx.clearRect(0, 0, size, size);
+    portraitPixels.forEach(function (pixel) {
+      portraitLayerCtx.globalAlpha = 0.9;
+      portraitLayerCtx.fillStyle = portraitPalette[pixel.level];
+      portraitLayerCtx.fillRect(pixel.x, pixel.y, pixel.size, pixel.size);
+    });
+    portraitLayerCtx.globalAlpha = 1;
+    portraitLayerReady = true;
   }
 
   function targetForPixel(index) {
@@ -279,14 +344,18 @@
       return;
     }
     var amount = clamp(morphAmount || 0, 0, 1);
+    if (amount === 0 && portraitLayerReady) {
+      ctx.drawImage(portraitLayer, 0, 0);
+      return;
+    }
     portraitPixels.forEach(function (pixel, index) {
       var target = targetForPixel(index);
       var x = pixel.x + (target.x - pixel.x) * amount;
       var y = pixel.y + (target.y - pixel.y) * amount;
-      var alpha = amount > 0.72 && index >= snake.length * 8 ? 1 - ((amount - 0.72) / 0.28) : 1;
-      var greens = ['#1b642d', '#35a64c', '#70eb7d', '#b6ffb8'];
+      var fadeStart = 0.5 + pixel.seed * 0.3;
+      var alpha = amount > fadeStart ? 1 - ((amount - fadeStart) / (1 - fadeStart)) : 1;
       ctx.globalAlpha = clamp(alpha, 0, 1) * 0.82;
-      ctx.fillStyle = greens[pixel.level];
+      ctx.fillStyle = portraitPalette[pixel.level];
       ctx.fillRect(x, y, Math.max(2, pixel.size * (1 - amount * 0.38)), Math.max(2, pixel.size * (1 - amount * 0.38)));
     });
     ctx.globalAlpha = 1;
@@ -320,11 +389,13 @@
   }
 
   function startGame() {
+    var shouldMount = state === 'idle' || state === 'morph-out';
     unlockAudio();
     resetSnake();
-    state = reducedMotion ? 'running' : 'morph-in';
+    state = reducedMotion || !shouldMount ? 'running' : 'morph-in';
     transitionStart = performance.now();
     lastTick = transitionStart;
+    returnFocusAfterExit = false;
     syncControls();
     beep(180, 0.08, 0.03, 'sawtooth');
     window.setTimeout(function () { beep(360, 0.08, 0.025, 'square'); }, 85);
@@ -332,11 +403,20 @@
     requestRender();
   }
 
-  function exitGame() {
-    state = reducedMotion ? 'idle' : 'morph-out';
+  function exitGame(options) {
+    options = options || {};
+    if (state === 'idle' || (state === 'morph-out' && !options.immediate)) return;
+    touchStart = null;
+    touchPointerId = null;
+    returnFocusAfterExit = Boolean(options.restoreFocus);
+    state = reducedMotion || options.immediate ? 'idle' : 'morph-out';
     transitionStart = performance.now();
     syncControls();
-    beep(220, 0.06, 0.02, 'square');
+    if (!options.silent) beep(220, 0.06, 0.02, 'square');
+    if (state === 'idle' && returnFocusAfterExit && startButton) {
+      returnFocusAfterExit = false;
+      startButton.focus({ preventScroll: true });
+    }
     requestRender();
   }
 
@@ -392,13 +472,18 @@
 
     if (state === 'paused' || state === 'gameover') {
       ctx.fillStyle = 'rgba(1,10,4,0.74)';
-      ctx.fillRect(92, center - 34, size - 184, 68);
+      ctx.fillRect(82, center - 42, size - 164, 84);
       ctx.strokeStyle = state === 'gameover' ? '#c85d42' : '#f1b64a';
-      ctx.strokeRect(92, center - 34, size - 184, 68);
+      ctx.strokeRect(82, center - 42, size - 164, 84);
       ctx.fillStyle = state === 'gameover' ? '#ff896d' : '#f1c977';
       ctx.font = '700 21px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(state === 'gameover' ? 'SIGNAL LOST' : 'CLOCK HALTED', center, center + 7);
+      ctx.fillText(state === 'gameover' ? 'SIGNAL LOST' : 'CLOCK HALTED', center, center + 1);
+      if (state === 'gameover') {
+        ctx.fillStyle = '#b7d9b9';
+        ctx.font = '700 10px monospace';
+        ctx.fillText('RETURN PORTRAIT / ESC TO CLOSE', center, center + 24);
+      }
     }
   }
 
@@ -424,6 +509,10 @@
       if (outAmount <= 0) {
         state = 'idle';
         syncControls();
+        if (returnFocusAfterExit && startButton) {
+          returnFocusAfterExit = false;
+          startButton.focus({ preventScroll: true });
+        }
       }
     } else {
       if (state === 'running') tickGame(time);
@@ -444,31 +533,58 @@
   }
 
   canvas.addEventListener('keydown', function (event) {
-    var handled = true;
-    if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') setDirection(0, -1);
-    else if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') setDirection(0, 1);
-    else if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') setDirection(-1, 0);
-    else if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') setDirection(1, 0);
-    else if (event.key === 'Escape' && state !== 'idle') exitGame();
-    else if (event.key === ' ' && (state === 'running' || state === 'paused')) togglePause();
-    else handled = false;
+    var handled = false;
+    var key = event.key.toLowerCase();
+    if (state === 'running' && (event.key === 'ArrowUp' || key === 'w')) {
+      setDirection(0, -1);
+      handled = true;
+    } else if (state === 'running' && (event.key === 'ArrowDown' || key === 's')) {
+      setDirection(0, 1);
+      handled = true;
+    } else if (state === 'running' && (event.key === 'ArrowLeft' || key === 'a')) {
+      setDirection(-1, 0);
+      handled = true;
+    } else if (state === 'running' && (event.key === 'ArrowRight' || key === 'd')) {
+      setDirection(1, 0);
+      handled = true;
+    } else if (event.key === ' ' && (state === 'running' || state === 'paused')) {
+      togglePause();
+      handled = true;
+    }
     if (handled) event.preventDefault();
   });
 
   canvas.addEventListener('pointerdown', function (event) {
+    if (state !== 'running' || (event.pointerType === 'mouse' && event.button !== 0)) return;
     touchStart = { x: event.clientX, y: event.clientY };
+    touchPointerId = event.pointerId;
+    canvas.setPointerCapture(event.pointerId);
     canvas.focus();
-  }, { passive: true });
+    event.preventDefault();
+  }, { passive: false });
 
   canvas.addEventListener('pointerup', function (event) {
-    if (!touchStart || state !== 'running') return;
-    var dx = event.clientX - touchStart.x;
-    var dy = event.clientY - touchStart.y;
+    if (event.pointerId !== touchPointerId) return;
+    var start = touchStart;
     touchStart = null;
+    touchPointerId = null;
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    if (!start || state !== 'running') return;
+    var dx = event.clientX - start.x;
+    var dy = event.clientY - start.y;
     if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
     if (Math.abs(dx) > Math.abs(dy)) setDirection(dx > 0 ? 1 : -1, 0);
     else setDirection(0, dy > 0 ? 1 : -1);
   }, { passive: true });
+
+  function clearPointer(event) {
+    if (touchPointerId === null || (event && event.pointerId !== touchPointerId)) return;
+    touchStart = null;
+    touchPointerId = null;
+  }
+
+  canvas.addEventListener('pointercancel', clearPointer);
+  canvas.addEventListener('lostpointercapture', clearPointer);
 
   function togglePause() {
     if (state === 'running') state = 'paused';
@@ -483,13 +599,17 @@
 
   if (startButton) {
     startButton.addEventListener('click', function () {
-      if (state === 'idle' || state === 'gameover') startGame();
-      else if (state === 'morph-out') return;
-      else exitGame();
+      if (state === 'morph-in') exitGame({ restoreFocus: true });
+      else if (state !== 'morph-out') startGame();
     });
   }
 
   if (pauseButton) pauseButton.addEventListener('click', togglePause);
+  if (exitButton) {
+    exitButton.addEventListener('click', function () {
+      exitGame({ restoreFocus: true });
+    });
+  }
 
   if (soundButton) {
     soundButton.addEventListener('click', function () {
@@ -505,6 +625,13 @@
 
   document.addEventListener('machine:sectionchange', function (event) {
     if (soundEnabled) beep(260 + event.detail.index * 56, 0.045, 0.014, 'square');
+    if (event.detail.index !== 0 && state !== 'idle') exitGame({ immediate: true, silent: true });
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || state === 'idle') return;
+    event.preventDefault();
+    exitGame({ restoreFocus: true });
   });
 
   document.addEventListener('visibilitychange', function () {
@@ -523,10 +650,7 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
-      if (!visible && state === 'running') {
-        state = 'paused';
-        syncControls();
-      }
+      if (!visible && state !== 'idle') exitGame({ immediate: true, silent: true });
       if (visible) requestRender();
       else if (frameId) {
         cancelAnimationFrame(frameId);

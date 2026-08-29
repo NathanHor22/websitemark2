@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const root = process.cwd();
@@ -6,29 +6,30 @@ const dist = join(root, 'dist');
 const client = join(dist, 'client');
 const server = join(dist, 'server');
 
-await mkdir(join(client, 'js'), { recursive: true });
 await mkdir(join(client, 'img'), { recursive: true });
-
-for (const file of [
-  'motion.min.js',
-  'app-motion.js',
-  'machine-interface.js',
-  'photo-stack.js',
-  'radar-snake.js',
-]) {
-  await copyFile(join(root, 'js', file), join(client, 'js', file));
-}
 
 for (const file of ['robots.txt', 'sitemap.xml', 'CNAME']) {
   await copyFile(join(root, file), join(client, file));
 }
 
-await copyFile(join(root, 'app.js'), join(client, 'app.js'));
-await copyFile(join(root, 'img', 'hor.png'), join(client, 'img', 'hor.png'));
-await copyFile(
-  join(root, 'img', 'og-nathan-console.jpg'),
-  join(client, 'img', 'og-nathan-console.jpg'),
-);
+// Runtime-selected media use stable /img paths. Copy the optimized web archive,
+// not the much larger source exports stored beside it.
+await cp(join(root, 'img', 'web'), join(client, 'img', 'web'), { recursive: true });
+
+for (const file of [
+  'logo.png',
+  'hor.png',
+  'aws.jpeg',
+  'carousel.jpeg',
+  'purrmit.png',
+  'Persephone.mp4',
+  'Tenun.png',
+  'employable.png',
+  'Presence postcard.jpg',
+  'og-nathan-console.png',
+]) {
+  await copyFile(join(root, 'img', file), join(client, 'img', file));
+}
 
 await copyFile(join(server, 'index.mjs'), join(server, 'index.js'));
 
