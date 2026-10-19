@@ -8,6 +8,11 @@ export default defineConfig(() => {
   process.env.MINIFLARE_REGISTRY_PATH ??= '.wrangler/registry';
 
   return {
+    server: {
+      host: '127.0.0.1',
+      port: 5186,
+      strictPort: true,
+    },
     plugins: [
       sites(),
       cloudflare({

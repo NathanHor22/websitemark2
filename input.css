@@ -79,10 +79,7 @@ body {
   min-height: 100dvh;
   overflow: hidden;
   color: var(--ink);
-  background:
-    linear-gradient(90deg, transparent 0 2.5%, rgba(41, 40, 36, 0.12) 2.5% 2.65%, transparent 2.65% 97.35%, rgba(41, 40, 36, 0.12) 97.35% 97.5%, transparent 97.5%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.028) 0 1px, rgba(41, 40, 36, 0.018) 1px 2px, transparent 2px 6px),
-    var(--paper-warm);
+  background: var(--paper-warm);
   font-family: "Sergio UI", "Segoe UI", Arial, sans-serif;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
@@ -366,7 +363,7 @@ textarea {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.72;
+  opacity: 1;
   pointer-events: none;
 }
 
@@ -374,7 +371,7 @@ textarea {
   position: fixed;
   z-index: 60;
   inset: 0;
-  opacity: 0.08;
+  opacity: 0.025;
   pointer-events: none;
   mix-blend-mode: multiply;
   background:
@@ -405,9 +402,7 @@ textarea {
   bottom: 0;
   width: 22px;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 24px, var(--panel-deep) 0 2px, var(--ink-soft) 2.5px 3.5px, transparent 4px) 50% 0 / 100% 96px repeat-y,
-    linear-gradient(90deg, var(--panel-dark), var(--paper-light) 38%, var(--panel-dark) 42% 100%);
+  background: linear-gradient(90deg, var(--panel), var(--paper) 72%, var(--panel-dark));
   box-shadow:
     inset -1px 0 var(--line),
     inset 2px 0 rgba(255, 255, 255, 0.25);
@@ -421,6 +416,21 @@ textarea {
   right: 0;
   transform: scaleX(-1);
 }
+
+.machine-shell__rail::before,
+.machine-shell__rail::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--ink-muted);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--panel) 43%, var(--ink-muted) 44% 56%, var(--panel) 57%);
+}
+
+.machine-shell__rail::before { top: calc(var(--status-height) - 3px); }
+.machine-shell__rail::after { bottom: 18px; }
 
 .machine-status {
   position: relative;
@@ -438,7 +448,6 @@ textarea {
   box-shadow:
     0 7px 14px rgba(41, 40, 36, 0.08),
     inset 0 -3px 0 rgba(41, 40, 36, 0.06);
-  backdrop-filter: blur(12px);
 }
 
 .machine-status__mark {
@@ -451,13 +460,24 @@ textarea {
   font-family: "IBM Plex Mono", monospace;
 }
 
-.machine-status__mark span {
-  padding: 5px 7px;
-  color: var(--paper-light);
-  background: var(--ink);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: -0.08em;
+.maker-mark {
+  display: block;
+  flex: none;
+  width: 28px;
+  height: 32px;
+  color: var(--ink);
+}
+
+.boot-terminal__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.maker-mark--boot {
+  width: 20px;
+  height: 25px;
+  color: currentColor;
 }
 
 .machine-status__mark small {
@@ -587,10 +607,14 @@ textarea {
 
 .control-key {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
   width: 70px;
-  min-height: 64px;
+  min-height: 72px;
+  padding: 8px 6px 6px;
   border: 1px solid rgba(41, 40, 36, 0.45);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.48), transparent 34%),
@@ -612,13 +636,32 @@ textarea {
   transform: translateY(-1px);
 }
 
+.control-key::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 10px;
+  height: 3px;
+  border-block: 1px solid var(--ink-muted);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 90ms linear 70ms;
+}
+
+.control-key:is(:hover, :focus-visible)::before {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
 .control-key:active,
-.control-key.is-active {
+.control-key.is-active,
+.control-key.is-requested {
   box-shadow:
     inset 2px 3px 5px rgba(41, 40, 36, 0.18),
     inset -1px -1px 0 rgba(255, 255, 255, 0.24),
     0 1px 0 var(--panel-deep);
-  transform: translateY(3px);
+  transform: translateY(2px);
 }
 
 .control-key__lamp {
@@ -632,7 +675,8 @@ textarea {
   background: var(--panel-deep);
 }
 
-.control-key.is-active .control-key__lamp {
+.control-key.is-active .control-key__lamp,
+.control-key.is-requested .control-key__lamp {
   background: var(--amber-bright);
   box-shadow: 0 0 5px rgba(154, 93, 63, 0.56);
 }
@@ -640,140 +684,79 @@ textarea {
 .control-key__tooltip {
   position: absolute;
   top: 50%;
-  right: calc(100% + 13px);
-  padding: 6px 9px;
+  right: calc(100% + 9px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 13px 10px 16px;
   color: var(--paper-light);
-  background: var(--ink);
+  background: linear-gradient(90deg, var(--amber-bright) 0 5px, var(--ink) 5px);
+  clip-path: polygon(7px 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%, 0 7px);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.58rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transform: translate(8px, -50%);
-  transition: opacity 120ms ease, transform 120ms ease;
+  transform: translate(18px, -50%);
+  transition: transform 140ms cubic-bezier(0.55, 0, 0.85, 0.4), opacity 90ms linear, visibility 0s linear 140ms;
   white-space: nowrap;
+}
+
+.control-key__tooltip::before {
+  content: "OPEN";
+  color: #d8a17a;
+  font-size: 0.42rem;
+  letter-spacing: 0.13em;
 }
 
 .control-key:hover .control-key__tooltip,
 .control-key:focus-visible .control-key__tooltip {
   opacity: 1;
+  visibility: visible;
   transform: translate(0, -50%);
+  transition: transform 270ms cubic-bezier(0.16, 1.35, 0.34, 1), opacity 80ms linear, visibility 0s;
 }
 
 .control-icon {
   position: relative;
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   color: var(--ink-soft);
 }
 
-.control-icon--bird {
-  width: 34px;
-  height: 25px;
-  background: currentColor;
-  clip-path: polygon(0 50%, 26% 34%, 40% 0, 52% 33%, 100% 19%, 76% 51%, 100% 74%, 55% 64%, 42% 100%, 30% 65%);
+.control-icon__drawing {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.control-icon--bird i {
+.control-key__index {
   position: absolute;
-  top: 7px;
-  left: 17px;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--paper);
+  top: 6px;
+  left: 6px;
+  color: var(--ink-muted);
+  font: 500 0.4rem "IBM Plex Mono", monospace;
+  letter-spacing: 0.04em;
 }
 
-.control-icon--projects::before,
-.control-icon--projects::after {
-  content: "";
-  position: absolute;
-  width: 19px;
-  height: 24px;
-  border: 2px solid currentColor;
-  background: var(--paper);
+.control-key__label {
+  font: 500 0.45rem "IBM Plex Mono", monospace;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.control-icon--projects::before {
-  top: 1px;
-  left: 2px;
+.control-bank:has(.is-requested) .control-key.is-active:not(.is-requested) {
+  transform: translateY(0);
+  box-shadow: inset 1px 1px 0 var(--highlight), inset -2px -2px 0 rgba(41, 40, 36, 0.09), 0 4px 0 var(--panel-deep), 0 6px 8px rgba(41, 40, 36, 0.19);
 }
 
-.control-icon--projects::after {
-  right: 1px;
-  bottom: 0;
-  box-shadow: inset 0 5px 0 var(--paper), inset 0 7px 0 currentColor, inset 0 12px 0 var(--paper), inset 0 14px 0 currentColor;
-}
-
-.control-icon--log {
-  border: 2px solid currentColor;
-  background: repeating-linear-gradient(0deg, transparent 0 4px, currentColor 4px 6px);
-  box-shadow: inset 5px 0 var(--paper), inset 7px 0 currentColor;
-}
-
-.control-icon--log::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: 5px;
-  width: 2px;
-  height: 5px;
-  background: currentColor;
-  box-shadow: 8px 0 currentColor, 16px 0 currentColor;
-}
-
-.control-icon--camera {
-  border: 2px solid currentColor;
-}
-
-.control-icon--camera::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 3px var(--paper);
-  background: currentColor;
-}
-
-.control-icon--camera::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border:
-    4px solid transparent;
-  border-top-color: currentColor;
-  border-bottom-color: currentColor;
-}
-
-.control-icon--contact {
-  height: 23px;
-  margin-top: 3px;
-  border: 2px solid currentColor;
-}
-
-.control-icon--contact::before,
-.control-icon--contact::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  width: 18px;
-  height: 2px;
-  background: currentColor;
-}
-
-.control-icon--contact::before {
-  left: 0;
-  transform: rotate(34deg);
-  transform-origin: left center;
-}
-
-.control-icon--contact::after {
-  right: 0;
-  transform: rotate(-34deg);
-  transform-origin: right center;
+.control-bank:has(.is-requested) .control-key.is-active:not(.is-requested) .control-key__lamp {
+  background: var(--panel-deep);
+  box-shadow: none;
 }
 
 .control-bank__progress {
@@ -798,9 +781,9 @@ textarea {
   width: 7px;
   height: 22px;
   border: 1px solid var(--ink-soft);
-  background: var(--paper-light);
+  background: linear-gradient(90deg, var(--paper-light) 0 3px, var(--amber-bright) 3px);
   box-shadow: 1px 2px 3px var(--shadow);
-  transition: top 90ms linear;
+  transition: top 190ms cubic-bezier(0.2, 0.82, 0.28, 1);
 }
 
 .sound-key {
@@ -839,6 +822,8 @@ textarea {
   height: calc(100dvh - 74px);
   margin: 0 22px;
   overflow: hidden;
+  background: var(--panel-dark);
+  box-shadow: inset 0 4px 9px rgba(41, 40, 36, 0.18);
 }
 
 .rack-section {
@@ -859,11 +844,8 @@ textarea {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(0, 10px, 0) scale(0.995);
-  transition:
-    opacity 130ms linear,
-    transform 320ms cubic-bezier(0.18, 0.86, 0.22, 1),
-    visibility 0s linear 320ms;
+  transform: none;
+  transition: none;
 }
 
 .rack-section.is-active {
@@ -871,8 +853,12 @@ textarea {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-  transform: translate3d(0, 0, 0) scale(1);
-  transition-delay: 115ms, 115ms, 0s;
+  transform: none;
+  transition: none;
+}
+
+.is-switching-section .rack-section.is-active {
+  pointer-events: none;
 }
 
 .rack-section::before {
@@ -882,10 +868,6 @@ textarea {
   inset: 46px 16px 40px;
   border-block: 1px solid transparent;
   pointer-events: none;
-  transition:
-    border-color 360ms ease,
-    box-shadow 360ms ease,
-    transform 360ms cubic-bezier(0.2, 0.92, 0.22, 1);
 }
 
 .rack-section.is-active::before {
@@ -894,7 +876,6 @@ textarea {
     0 13px 17px rgba(41, 40, 36, 0.075),
     inset 0 1px var(--highlight),
     inset 0 -1px rgba(41, 40, 36, 0.05);
-  transform: translateY(-4px);
 }
 
 .rack-section__seam {
@@ -2034,69 +2015,6 @@ textarea {
   text-align: right;
 }
 
-/* Servo transition between icon-controlled sections */
-
-.section-transition {
-  position: fixed;
-  z-index: 45;
-  top: 74px;
-  right: max(153px, calc((100vw - min(1260px, calc(100vw - 188px))) / 2 + 22px));
-  bottom: 0;
-  left: max(22px, calc((100vw - min(1260px, calc(100vw - 188px))) / 2 + 22px));
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.section-transition i {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 51%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 11px, rgba(41, 40, 36, 0.04) 11px 12px),
-    var(--panel);
-  transition: transform 250ms cubic-bezier(0.74, 0, 0.22, 1);
-}
-
-.section-transition i:first-child {
-  top: 0;
-  border-bottom: 1px solid var(--line);
-  transform: translateY(-105%);
-}
-
-.section-transition i:last-child {
-  bottom: 0;
-  border-top: 1px solid var(--line);
-  transform: translateY(105%);
-}
-
-.section-transition.is-closing {
-  visibility: visible;
-}
-
-.section-transition.is-closing i {
-  animation: section-shutter 500ms cubic-bezier(0.74, 0, 0.22, 1) both;
-}
-
-.section-transition.is-closing i:last-child {
-  animation-name: section-shutter-bottom;
-}
-
-@keyframes section-shutter {
-  0%,
-  100% { transform: translateY(-105%); }
-  42%,
-  58% { transform: translateY(0); }
-}
-
-@keyframes section-shutter-bottom {
-  0%,
-  100% { transform: translateY(105%); }
-  42%,
-  58% { transform: translateY(0); }
-}
-
 /* Responsive */
 
 @media (max-width: 1180px) {
@@ -2183,19 +2101,50 @@ textarea {
   }
 
   .control-icon {
-    transform: scale(0.82);
+    width: 25px;
+    height: 25px;
+  }
+
+  .control-key__index { display: none; }
+
+  .control-key { padding: 5px 4px; }
+
+  .control-key::before {
+    top: auto;
+    bottom: 100%;
+    right: calc(50% - 1px);
+    width: 3px;
+    height: 12px;
+    border-block: 0;
+    border-inline: 1px solid var(--ink-muted);
   }
 
   .control-key__tooltip {
     top: auto;
     right: 50%;
     bottom: calc(100% + 11px);
-    transform: translate(50%, 7px);
+    transform: translate(50%, 12px);
   }
 
   .control-key:hover .control-key__tooltip,
   .control-key:focus-visible .control-key__tooltip {
     transform: translate(50%, 0);
+  }
+
+  .control-key:first-child .control-key__tooltip {
+    right: auto;
+    left: 0;
+    transform: translate(0, 12px);
+  }
+
+  .control-key:last-child .control-key__tooltip {
+    right: 0;
+    transform: translate(0, 12px);
+  }
+
+  .control-key:first-child:is(:hover, :focus-visible) .control-key__tooltip,
+  .control-key:last-child:is(:hover, :focus-visible) .control-key__tooltip {
+    transform: translate(0, 0);
   }
 
   .sound-key {
@@ -2239,11 +2188,6 @@ textarea {
     margin-top: 0;
   }
 
-  .section-transition {
-    right: 0;
-    bottom: 69px;
-    left: 22px;
-  }
 }
 
 @media (max-width: 680px) {
@@ -2458,10 +2402,6 @@ textarea {
     min-width: 44px;
   }
 
-  .section-transition {
-    top: 62px;
-    left: 12px;
-  }
 }
 
 @media (max-width: 420px) {
@@ -2478,7 +2418,8 @@ textarea {
   }
 
   .control-icon {
-    transform: scale(0.72);
+    width: 24px;
+    height: 24px;
   }
 
   .project-index {
@@ -2507,6 +2448,22 @@ textarea {
 }
 
 @media (forced-colors: active) {
+  .machine-environment,
+  .machine-grain {
+    display: none;
+  }
+
+  .control-key__tooltip {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+    clip-path: none;
+  }
+
+  .control-key__tooltip::before {
+    color: CanvasText;
+  }
+
   .control-key,
   .machine-button,
   .service-key,
@@ -2517,9 +2474,17 @@ textarea {
   }
 
   .control-key.is-active,
+  .control-key.is-requested,
   .project-index__item.is-selected,
   .photo-console__categories button.is-selected {
     outline: 3px solid Highlight;
+  }
+}
+
+@media (hover: none) {
+  .control-key:hover:not(:focus-visible) .control-key__tooltip {
+    visibility: hidden;
+    opacity: 0;
   }
 }
 
@@ -2541,15 +2506,7 @@ body {
   grid-template-rows: var(--status-height) minmax(0, 1fr);
 }
 
-.machine-shell__rail {
-  width: 22px;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 13px, rgba(41, 40, 36, 0.56) 13px 16px, transparent 16px 24px),
-    linear-gradient(90deg, var(--panel-dark), var(--paper-light) 38%, var(--panel-dark) 42% 100%);
-  background-position: center, 0 0;
-  background-size: 8px 100%, auto;
-  background-repeat: repeat-y, no-repeat;
-}
+
 
 .machine-status {
   height: var(--status-height);
@@ -3349,9 +3306,6 @@ body {
   to { top: calc(100% + 20px); }
 }
 
-.section-transition {
-  top: var(--status-height);
-}
 
 /* Keep three-column consoles through laptop widths. */
 
@@ -3527,10 +3481,6 @@ body {
     width: 100%;
   }
 
-  .section-transition {
-    right: 0;
-    bottom: 69px;
-  }
 }
 
 @media (max-width: 680px) {
@@ -3649,9 +3599,6 @@ body {
     text-align: left;
   }
 
-  .section-transition {
-    top: var(--status-height);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5321,7 +5268,38 @@ body {
   }
 
   .control-icon {
-    transform: scale(0.64);
+    width: 21px;
+    height: 21px;
+  }
+
+  .control-key__label {
+    font-size: 0.38rem;
+  }
+
+  .control-key::before {
+    top: 50%;
+    bottom: auto;
+    right: 100%;
+    width: 10px;
+    height: 3px;
+    border-inline: 0;
+    border-block: 1px solid var(--ink-muted);
+  }
+
+  .control-key .control-key__tooltip,
+  .control-key:first-child .control-key__tooltip,
+  .control-key:last-child .control-key__tooltip {
+    top: 50%;
+    bottom: auto;
+    right: calc(100% + 9px);
+    left: auto;
+    transform: translate(12px, -50%);
+  }
+
+  .control-key:is(:hover, :focus-visible) .control-key__tooltip,
+  .control-key:first-child:is(:hover, :focus-visible) .control-key__tooltip,
+  .control-key:last-child:is(:hover, :focus-visible) .control-key__tooltip {
+    transform: translate(0, -50%);
   }
 
   .sound-key {
@@ -5332,10 +5310,6 @@ body {
     min-height: 34px;
   }
 
-  .section-transition {
-    right: 62px;
-    bottom: 0;
-  }
 
   .rack-section,
   .rack-section--hero {

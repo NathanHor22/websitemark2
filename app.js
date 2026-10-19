@@ -310,13 +310,53 @@ function initSectionController(sound) {
   const currentLabel = qs('[data-current-section]');
   const srStatus = qs('[data-sr-status]');
   const root = document.documentElement;
-  const transition = qs('.section-transition');
   let currentIndex = -1;
   let pendingIndex = -1;
-  let swapTimer = 0;
-  let finishTimer = 0;
+  let navigationVersion = 0;
+  let plateAnimation = null;
 
   if (!sections.length) return;
+
+  const selectDestination = index => {
+    controls.forEach(control => {
+      control.classList.toggle('is-requested', control.dataset.sectionTarget === sections[index]?.id);
+    });
+    root.style.setProperty('--section-index', index);
+    root.style.setProperty('--screen-progress', String(index / Math.max(1, sections.length - 1)));
+  };
+
+  const readPlatePose = section => {
+    const style = window.getComputedStyle(section);
+    return { transform: style.transform, opacity: style.opacity };
+  };
+
+  // A new request samples the moving plate before cancelling its previous path.
+  // Version checks keep an interrupted withdrawal from activating an old target.
+  const movePlate = async (section, keyframes, options, version) => {
+    const animation = section.animate(keyframes, { fill: 'both', ...options });
+    plateAnimation = animation;
+    try {
+      await animation.finished;
+    } catch {
+      return false;
+    }
+    return version === navigationVersion;
+  };
+
+  const clearPlateAnimation = () => {
+    plateAnimation?.cancel();
+    plateAnimation = null;
+  };
+
+  const finishNavigation = (index, version) => {
+    if (version !== navigationVersion) return;
+    clearPlateAnimation();
+    pendingIndex = -1;
+    document.body.classList.remove('is-switching-section');
+    document.dispatchEvent(new CustomEvent('machine:navigationend', {
+      detail: { id: sections[index].id }
+    }));
+  };
 
   const activate = (index, source = 'navigation') => {
     const next = sections[index];
@@ -350,14 +390,13 @@ function initSectionController(sound) {
     if (currentLabel) currentLabel.textContent = label;
     if (source !== 'initial' && srStatus) srStatus.textContent = label + ' section';
 
-    root.style.setProperty('--section-index', index);
-    root.style.setProperty('--screen-progress', String(index / Math.max(1, sections.length - 1)));
+    selectDestination(index);
     document.dispatchEvent(new CustomEvent('machine:sectionchange', {
       detail: { index, id: next.id, label, code }
     }));
   };
 
-  const navigate = (id, historyMode = 'push') => {
+  const navigate = async (id, historyMode = 'push') => {
     const target = qs('#' + CSS.escape(id));
     if (!target) return;
     const targetIndex = sections.indexOf(target);
@@ -367,47 +406,61 @@ function initSectionController(sound) {
     if (historyMode === 'push' && window.location.hash !== href) history.pushState({ section: id }, '', href);
     if (historyMode === 'replace') history.replaceState({ section: id }, '', href);
 
-    if (targetIndex === pendingIndex) {
-      return;
-    }
-
-    window.clearTimeout(swapTimer);
-    window.clearTimeout(finishTimer);
-
-    if (targetIndex === currentIndex) {
-      pendingIndex = -1;
-      transition?.classList.remove('is-closing');
-      document.body.classList.remove('is-switching-section');
+    if (targetIndex === pendingIndex) return;
+    if (targetIndex === currentIndex && pendingIndex < 0) {
       if (historyMode !== 'none') sound.tick(62, 0.025, 0.015);
       return;
     }
 
+    const version = ++navigationVersion;
+    const current = sections[currentIndex];
+    const pose = current ? readPlatePose(current) : null;
+    clearPlateAnimation();
     pendingIndex = targetIndex;
+    selectDestination(targetIndex);
 
     sound.tick(76, 0.045, 0.025);
     document.dispatchEvent(new CustomEvent('machine:navigationstart', { detail: { id } }));
 
-    const perform = () => {
-      pendingIndex = -1;
+    if (reducedMotion.matches || !current || typeof current.animate !== 'function') {
       activate(targetIndex);
-    };
-
-    if (reducedMotion.matches || !transition) {
-      perform();
-      document.dispatchEvent(new CustomEvent('machine:navigationend', { detail: { id } }));
+      finishNavigation(targetIndex, version);
       return;
     }
 
-    transition.classList.remove('is-closing');
-    void transition.offsetWidth;
-    transition.classList.add('is-closing');
     document.body.classList.add('is-switching-section');
-    swapTimer = window.setTimeout(perform, 250);
-    finishTimer = window.setTimeout(() => {
-      transition.classList.remove('is-closing');
-      document.body.classList.remove('is-switching-section');
-      document.dispatchEvent(new CustomEvent('machine:navigationend', { detail: { id } }));
-    }, 560);
+
+    // Returning to the visible section simply docks it from its current pose.
+    if (targetIndex === currentIndex) {
+      const docked = await movePlate(current, [pose, { transform: 'translateY(0)', opacity: 1 }], {
+        duration: 180,
+        easing: 'cubic-bezier(0.2, 0.8, 0.25, 1)'
+      }, version);
+      if (docked) finishNavigation(targetIndex, version);
+      return;
+    }
+
+    const direction = targetIndex > currentIndex ? 1 : -1;
+    const withdrawn = await movePlate(current, [pose, {
+      transform: `translateY(${-direction * 14}px)`,
+      opacity: 0
+    }], {
+      duration: Math.max(55, 145 * Number(pose.opacity)),
+      easing: 'cubic-bezier(0.55, 0.05, 0.8, 0.45)'
+    }, version);
+    if (!withdrawn) return;
+
+    clearPlateAnimation();
+    activate(targetIndex);
+    const docked = await movePlate(target, [
+      { transform: `translateY(${direction * 20}px)`, opacity: 0, offset: 0 },
+      { transform: `translateY(${-direction * 1}px)`, opacity: 1, offset: 0.84 },
+      { transform: 'translateY(0)', opacity: 1, offset: 1 }
+    ], {
+      duration: 255,
+      easing: 'cubic-bezier(0.16, 0.72, 0.25, 1)'
+    }, version);
+    if (docked) finishNavigation(targetIndex, version);
   };
 
   controls.forEach(control => {
@@ -442,6 +495,15 @@ function initSectionController(sound) {
 
   window.addEventListener('popstate', syncFromLocation);
   window.addEventListener('hashchange', syncFromLocation);
+
+  reducedMotion.addEventListener?.('change', event => {
+    if (!event.matches || pendingIndex < 0) return;
+    const targetIndex = pendingIndex;
+    const version = ++navigationVersion;
+    clearPlateAnimation();
+    activate(targetIndex);
+    finishNavigation(targetIndex, version);
+  });
 
   const initialId = window.location.hash.slice(1);
   const initialIndex = sections.findIndex(section => section.id === initialId);
@@ -684,6 +746,7 @@ function initProjects(sound) {
       configureLink(fields.repository, record.repository, 'Open repository');
       configureViewer(record);
       sound.tick(128 + normalized * 9, 0.03, 0.018);
+      document.dispatchEvent(new CustomEvent('machine:projectchange', { detail: { key, index: normalized } }));
     };
 
     if (immediate || reducedMotion.matches) {
@@ -1220,8 +1283,6 @@ function initDiagnosticPlaceholder(sound) {
 }
 
 function initProgressiveEnhancements() {
-  if (reducedMotion.matches) return;
-
   const load = async () => {
     try {
       const [{ initMachineScene }, { initInterfaceMotion }] = await Promise.all([
@@ -1229,13 +1290,13 @@ function initProgressiveEnhancements() {
         import('./js/interface-motion.js')
       ]);
       const activate = () => {
-        initMachineScene({ reducedMotion: false });
-        initInterfaceMotion({ reducedMotion: false });
+        initMachineScene({ reducedMotion: reducedMotion.matches });
+        initInterfaceMotion({ reducedMotion: reducedMotion.matches });
       };
       if (document.body.classList.contains('is-booted')) activate();
       else document.addEventListener('machine:bootcomplete', activate, { once: true });
     } catch {
-      // The complete HTML interface remains usable if WebGL or animation modules fail.
+      // The complete HTML interface remains usable if enhancement modules fail.
     }
   };
 

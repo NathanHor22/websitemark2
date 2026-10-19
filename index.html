@@ -168,7 +168,7 @@
   }
   </script>
 
-  <link rel="icon" type="image/png" href="./img/logo.png">
+  <link rel="icon" type="image/svg+xml" href="./img/maker-mark.svg">
   <link rel="stylesheet" href="./output.css">
 </head>
 <body class="machine-site is-booting">
@@ -180,7 +180,10 @@
       <h1 id="boot-title" class="sr-only">Portfolio terminal starting</h1>
       <section class="boot-terminal" data-boot-terminal aria-hidden="true">
         <header class="boot-terminal__header">
-          <span>NH PERSONAL COMPUTING SYSTEM</span>
+          <span class="boot-terminal__identity">
+            <svg class="maker-mark maker-mark--boot" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.1 25.5C5.9 23.8 11.6 4.9 12.5 4.5C13 4.2 13.3 5.1 13.5 7.3C14.4 16.9 13.8 27.3 16.1 28.5C17.8 29.4 21.6 7.4 24.4 3.5C25.1 2.4 25.5 2.6 26.1 2.9"/></svg>
+            <span>NATHAN HOR / PERSONAL WORKSTATION</span>
+          </span>
           <small>TERM/02-01 / ISA BUS</small>
         </header>
         <p class="boot-terminal__command"><span>C:\NH_SYS&gt;&nbsp;</span><b data-boot-command></b><i aria-hidden="true">_</i></p>
@@ -202,27 +205,47 @@
     <nav class="control-bank__keys">
       <a class="control-key is-active" href="#hero" data-section-target="hero" aria-controls="hero" aria-label="Home and about" aria-current="location">
         <span class="control-key__lamp" aria-hidden="true"></span>
-        <span class="control-icon control-icon--bird" aria-hidden="true"><i></i></span>
-        <span class="control-key__tooltip">Home</span>
+        <span class="control-key__index" aria-hidden="true">00</span>
+        <span class="control-icon control-icon--bird control-icon--home" aria-hidden="true">
+          <svg class="control-icon__drawing" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M6.1 25.5C5.9 23.8 11.6 4.9 12.5 4.5C13 4.2 13.3 5.1 13.5 7.3C14.4 16.9 13.8 27.3 16.1 28.5C17.8 29.4 21.6 7.4 24.4 3.5C25.1 2.4 25.5 2.6 26.1 2.9"/></svg>
+        </span>
+        <span class="control-key__label" aria-hidden="true">Home</span>
+        <span class="control-key__tooltip">Home / identity</span>
       </a>
       <a class="control-key" href="#projects" data-section-target="projects" aria-controls="projects" aria-label="Projects">
         <span class="control-key__lamp" aria-hidden="true"></span>
-        <span class="control-icon control-icon--projects" aria-hidden="true"><i></i></span>
+        <span class="control-key__index" aria-hidden="true">01</span>
+        <span class="control-icon control-icon--projects" aria-hidden="true">
+          <svg class="control-icon__drawing" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M7 5H25V25H21V28H11V25H7Z"/><path d="M11 9H21V16H11ZM13 22V25M16 22V25M19 22V25"/></svg>
+        </span>
+        <span class="control-key__label" aria-hidden="true">Work</span>
         <span class="control-key__tooltip">Projects</span>
       </a>
       <a class="control-key" href="#activity" data-section-target="activity" aria-controls="activity" aria-label="Field archive">
         <span class="control-key__lamp" aria-hidden="true"></span>
-        <span class="control-icon control-icon--log" aria-hidden="true"><i></i></span>
+        <span class="control-key__index" aria-hidden="true">02</span>
+        <span class="control-icon control-icon--log" aria-hidden="true">
+          <svg class="control-icon__drawing" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8 5H25V27H8ZM12 5V27M5 9H10M5 16H10M5 23H10M16 11H21M16 15H20"/></svg>
+        </span>
+        <span class="control-key__label" aria-hidden="true">Field</span>
         <span class="control-key__tooltip">Field archive</span>
       </a>
       <a class="control-key" href="#creative" data-section-target="creative" aria-controls="creative" aria-label="Photography">
         <span class="control-key__lamp" aria-hidden="true"></span>
-        <span class="control-icon control-icon--camera" aria-hidden="true"><i></i></span>
+        <span class="control-key__index" aria-hidden="true">03</span>
+        <span class="control-icon control-icon--camera" aria-hidden="true">
+          <svg class="control-icon__drawing" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4.5 10H9L11 6H21L23 10H27.5V26H4.5Z"/><circle cx="16" cy="18" r="5.5"/><path d="M23.5 13H24.5"/></svg>
+        </span>
+        <span class="control-key__label" aria-hidden="true">Photo</span>
         <span class="control-key__tooltip">Photography</span>
       </a>
       <a class="control-key" href="#contact" data-section-target="contact" aria-controls="contact" aria-label="Contact">
         <span class="control-key__lamp" aria-hidden="true"></span>
-        <span class="control-icon control-icon--contact" aria-hidden="true"><i></i></span>
+        <span class="control-key__index" aria-hidden="true">04</span>
+        <span class="control-icon control-icon--contact" aria-hidden="true">
+          <svg class="control-icon__drawing" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8 7.5H27V24.5H8ZM8 7.5L17.5 16L27 7.5M3 12H8M3 20H8"/></svg>
+        </span>
+        <span class="control-key__label" aria-hidden="true">Mail</span>
         <span class="control-key__tooltip">Contact</span>
       </a>
     </nav>
@@ -242,7 +265,7 @@
 
     <header class="machine-status" aria-label="System status">
       <div class="machine-status__mark" aria-label="Nathan Hor system mark">
-        <span>NH</span>
+        <svg class="maker-mark maker-mark--header" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.1 25.5C5.9 23.8 11.6 4.9 12.5 4.5C13 4.2 13.3 5.1 13.5 7.3C14.4 16.9 13.8 27.3 16.1 28.5C17.8 29.4 21.6 7.4 24.4 3.5C25.1 2.4 25.5 2.6 26.1 2.9"/></svg>
         <small>02—01</small>
       </div>
       <div class="machine-status__readout">
@@ -533,7 +556,6 @@
     </main>
   </div>
 
-  <div class="section-transition" aria-hidden="true"><i></i><i></i></div>
   <div class="sr-status" data-sr-status aria-live="polite"></div>
 
   <script type="module" src="./app.js"></script>

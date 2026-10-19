@@ -39,7 +39,9 @@ serverConfig.main = 'index.js';
 await writeFile(serverConfigPath, `${JSON.stringify(serverConfig)}\n`);
 
 const rootConfigPath = join(dist, 'wrangler.json');
-const rootConfig = JSON.parse(await readFile(rootConfigPath, 'utf8'));
+// Vite emits the server config on every build; the root config may not exist
+// in a clean checkout. Derive it from this build rather than a previous one.
+const rootConfig = { ...serverConfig };
 rootConfig.main = 'server/index.js';
 rootConfig.rules = [
   { type: 'ESModule', globs: ['server/**/*.js', 'server/**/*.mjs'] },
